@@ -1,3 +1,6 @@
+#include <stdio.h>
+#include <stdlib.h>
+
 //Interface                          -----------------------------------
 typedef struct {
     int admin; //1
@@ -44,3 +47,25 @@ typedef struct {
     int concert[10];
 // Tableau qui contient tout les concerts
 } Festival;
+
+int main (){
+    int co1, co2, codemanag;
+    printf("Choisir votre interface de connexion :\n1 pour manager\n2 pour festivalier\n");
+    scanf("%d", &co1);
+    //A faire éventuellement dans smartrobusnest mais potentiellement à voir la gestion d'erreur
+    if(co1==1) {
+        printf("Vous avez choisi manager\nSaisir le code\n");
+        scanf("%d", &codemanag);
+        //A voir pour les appels de fonctions croisés entre les fichiers
+    }
+    else if (co1==2) {
+        printf("Vous avez choisi festivalier.\nQuelle est votre situation ?\n1 : créer un compte\n2 : Connexion\n");
+        scanf("%d", &co2);
+        //A voir pour les appels de fonctions
+    }
+    else {
+        printf("Erreur de saisie\n");
+        exit(EXIT_FAILURE);
+    }
+    return 0;
+}
