@@ -48,24 +48,70 @@ typedef struct {
 // Tableau qui contient tout les concerts
 } Festival;
 
-int main (){
-    int co1, co2, codemanag;
-    printf("Choisir votre interface de connexion :\n1 pour manager\n2 pour festivalier\n");
+void choixCoFestivalier (int co2) {
+    printf("\033[31mVous pouvez revenir en arrière à chaque étape ou interrompre le programme en saisissant 0\033[00m\n");    printf("Vous avez choisi festivalier.\nQuelle est votre situation ?\n1 pour créer un compte\n2 pour se connecter\n");
+    scanf("%d", &co2);
+    switch(co2){
+        case 0:
+            choixUtilisateur(-1);
+            break;
+        case 1:
+            printf("ok pour creation compte festivalier\n");
+            //constrCompteFestivalier();
+            break;
+        case 2:
+            printf("okprêtpourconnexionfetivalier\n");
+            //connexionFestivalier();
+            break;
+        default:
+            printf("Erreur de saisie\n");
+            choixCoFestivalier(co2);
+        break;
+    }
+}
+
+void connexionManager(){
+    int codemanag;
+    printf("\033[31mVous pouvez revenir en arrière à chaque étape ou interrompre le programme en saisissant 0\033[00m\n");
+    printf("Vous avez choisi manager\nSaisir le code\n");
+    scanf("%d", &codemanag);
+        switch(codemanag){
+        case 0:
+            choixUtilisateur(-1);
+            break;
+        case 1:
+            printf("Code bon\n");
+            break;
+        default:
+            printf("Erreur de saisie\n");
+            connexionManager();
+            break;
+    }
+
+}
+
+void choixUtilisateur (int co1){
+    printf("\033[31mVous pouvez revenir en arrière à chaque étape ou interrompre le programme en saisissant 0\033[00m\n");    printf("Vous avez choisi festivalier.\nQuelle est votre situation ?\n1 pour créer un compte\n2 pour se connecter\n");
+    printf("Choisir votre interface de connexion :\n1 pour festivalier\n2 pour manager\n");
     scanf("%d", &co1);
-    //A faire éventuellement dans smartrobusnest mais potentiellement à voir la gestion d'erreur
-    if(co1==1) {
-        printf("Vous avez choisi manager\nSaisir le code\n");
-        scanf("%d", &codemanag);
-        //A voir pour les appels de fonctions croisés entre les fichiers
+    switch(co1){
+        case 0:
+            exit(EXIT_FAILURE);
+            break;
+        case 1:
+            choixCoFestivalier(-1);
+            break;
+        case 2:
+            connexionManager();
+            break;
+        default:
+            printf("Erreur de saisie\n");
+            choixUtilisateur(co1);
+            break;
     }
-    else if (co1==2) {
-        printf("Vous avez choisi festivalier.\nQuelle est votre situation ?\n1 : créer un compte\n2 : Connexion\n");
-        scanf("%d", &co2);
-        //A voir pour les appels de fonctions
-    }
-    else {
-        printf("Erreur de saisie\n");
-        exit(EXIT_FAILURE);
-    }
+}
+
+int main (){
+    choixUtilisateur(-1);
     return 0;
 }

@@ -29,7 +29,7 @@
     } Siege;
 
     typedef struct {
-        int** siege[10]; // double tableau qui va contenir  
+        Siege** siege[10]; // double tableau qui va contenir  
         int nb_range;
         int nb_siege_range;
         int nb_cat_par_ranger;
