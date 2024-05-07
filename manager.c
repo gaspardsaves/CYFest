@@ -1,5 +1,5 @@
 #include <stdio.h>
-#include "interface.h"
+#include "structures.h"
 
 int main (){
     Manager m;

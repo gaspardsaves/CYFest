@@ -1,5 +1,6 @@
 #include <stdio.h>
 #include <stdlib.h>
+#include <string.h>
 
 //Interface                          -----------------------------------
 typedef struct {
@@ -48,12 +49,31 @@ typedef struct {
 // Tableau qui contient tout les concerts
 } Festival;
 
-void choixCoFestivalier (int co2) {
-    printf("\033[31mVous pouvez revenir en arrière à chaque étape ou interrompre le programme en saisissant 0\033[00m\n");    printf("Vous avez choisi festivalier.\nQuelle est votre situation ?\n1 pour créer un compte\n2 pour se connecter\n");
+void checkPasswordFest
+
+void connexionFestivalier (){
+    char password[30];
+    int retour1, retour2;
+    //printf("\033[31mVous pouvez revenir en arrière à chaque étape ou interrompre le programme en saisissant 0\033[00m\n");
+    //Voir pour revenir en arrière
+    printf("Heureux de vous revoir\nSaisir votre identifiant");
+
+    printf("")
+    scanf("%s",&password);
+    //Voir pour bidouillage du double tableau idem pour identifiant
+    retour2=strcmp(password,tabpassword[i]);
+    
+
+}
+
+void choixCoFestivalier () {
+    unsigned co2=-3;
+    printf("\033[31mVous pouvez revenir en arrière à chaque étape ou interrompre le programme en saisissant 0\033[00m\n");
+    printf("Vous avez choisi festivalier.\nQuelle est votre situation ?\n1 pour créer un compte\n2 pour se connecter\n");
     scanf("%d", &co2);
     switch(co2){
         case 0:
-            choixUtilisateur(-1);
+            choixUtilisateur();
             break;
         case 1:
             printf("ok pour creation compte festivalier\n");
@@ -65,7 +85,7 @@ void choixCoFestivalier (int co2) {
             break;
         default:
             printf("Erreur de saisie\n");
-            choixCoFestivalier(co2);
+            choixCoFestivalier();
         break;
     }
 }
@@ -77,41 +97,43 @@ void connexionManager(){
     scanf("%d", &codemanag);
         switch(codemanag){
         case 0:
-            choixUtilisateur(-1);
+            choixUtilisateur();
             break;
         case 1:
             printf("Code bon\n");
+            //interfaceManager();
             break;
         default:
-            printf("Erreur de saisie\n");
+            printf("\033[33mErreur de saisie\033[00m\n");
             connexionManager();
             break;
     }
 
 }
 
-void choixUtilisateur (int co1){
-    printf("\033[31mVous pouvez revenir en arrière à chaque étape ou interrompre le programme en saisissant 0\033[00m\n");    printf("Vous avez choisi festivalier.\nQuelle est votre situation ?\n1 pour créer un compte\n2 pour se connecter\n");
-    printf("Choisir votre interface de connexion :\n1 pour festivalier\n2 pour manager\n");
+void choixUtilisateur (){
+    unsigned co1=-3;
+    printf("\033[31mVous pouvez revenir en arrière à chaque étape ou interrompre le programme en saisissant 0\033[00m\n");
+    printf("Choisir votre interface de connexion :\n1 pour Festivalier\n2 pour Manager\n");
     scanf("%d", &co1);
     switch(co1){
         case 0:
             exit(EXIT_FAILURE);
             break;
         case 1:
-            choixCoFestivalier(-1);
+            choixCoFestivalier();
             break;
         case 2:
             connexionManager();
             break;
         default:
             printf("Erreur de saisie\n");
-            choixUtilisateur(co1);
+            choixUtilisateur();
             break;
     }
 }
 
 int main (){
-    choixUtilisateur(-1);
+    choixUtilisateur();
     return 0;
 }
