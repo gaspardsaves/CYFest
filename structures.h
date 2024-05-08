@@ -20,8 +20,8 @@
 
     // Concert                           --------------------------------
     typedef struct {
-        int etat_salle; 
-        int categorie;
+        int etat_siege; 
+        int categorie; // 1 : classe A et fosse; 2 : classe B; 3 : classe C
         int prix;
         int nombre_personne;
         int fosse; // fosse ou pas f?1:0
@@ -29,11 +29,15 @@
     } Siege;
 
     typedef struct {
-        Siege** siege[10]; // double tableau qui va contenir  
+        Siege** siege; // double tableau qui va contenir  
         int nb_range;
         int nb_siege_range;
-        int nb_cat_par_ranger;
-    //déterminer le la catégorie C
+        char* nom[100];
+        int arange;
+        int brange;
+        int prixa;
+        int prixb;
+        int prixc;
     // malloc les sièges
     } Salle; 
 
@@ -47,7 +51,7 @@
 
 
     typedef struct {
-        int concert[10];
+        Concert concert[10];
     // Tableau qui contient tout les concerts
     } Festival;
 
