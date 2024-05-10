@@ -11,7 +11,7 @@ void getPrintHourDate () {
     time_t now;
     // Renvoie l'heure actuelle
     time(&now);
-    // Conversion du retour de ctime en heure locale
+    // Conversion en heure locale
     //printf("Aujourd'hui est : %s", ctime(&now));
     struct tm *local = localtime(&now);
     h = local->tm_hour;        
@@ -22,6 +22,11 @@ void getPrintHourDate () {
     an = local->tm_year + 1900;  
     printf("L'heure : %02d:%02d:%02d\n", h, min, s);
     printf("La date : %02d/%02d/%d\n", day, mois, an);
+}
+
+void compareDate () {
+    getPrintHourDate();
+    
 }
 
 int main (){
