@@ -1,14 +1,17 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <time.h>
-#include "interface.h"
+#include "structures.h"
 
 void verifIdentifiant(){}
 
+
+
 Utilisateur* constrUtilisateur (){
     srand(time(NULL));
-    Utilisateur.id
+    Utilisateur a;
+    Utilisateur a.id
     
-    
+   return a; 
 }
 

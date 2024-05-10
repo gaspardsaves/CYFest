@@ -1,11 +1,12 @@
 #include <stdio.h>
 #include <stdlib.h>
-#include "structures.h"
 #include <string.h>
 #include "couleur.h"
+#include "structures.h"
+#include "interface.h"
 
 
-Siege ConstructSiege(int cat, int price, int f){
+Siege constructSiege(int cat, int price, int f){
     Siege s;
     s.etat_siege = 0;
     s.categorie = cat;
@@ -42,7 +43,7 @@ Date getdate(){
     return d;
 }
 
-Salle ConstructSalle(){
+Salle constructSalle(){
     Salle S;
     int i = 0;
     int j = 0;
@@ -68,13 +69,13 @@ Salle ConstructSalle(){
         S.siege[i] = malloc(S.nb_siege_range*sizeof(Siege));
         while(j<S.nb_siege_range){
             if(a>0){
-                S.siege[i][j] = ConstructSiege(1, S.prixa, 0);
+                S.siege[i][j] = constructSiege(1, S.prixa, 0);
             }
             else if(b>0){
-                S.siege[i][j] = ConstructSiege(2, S.prixb, 0);
+                S.siege[i][j] = constructSiege(2, S.prixb, 0);
             }
             else{
-                S.siege[i][j] = ConstructSiege(3, S.prixc, 0);
+                S.siege[i][j] = constructSiege(3, S.prixc, 0);
             }
             
             j++;
@@ -147,14 +148,11 @@ Salle* creetabSalle(int n){
     return tab;
 }
 
-Salle* CreationPlusieursSalle(){
-    int n;
-    printf("Vous voulez créer combien de salle ?");
-    scanf("%d", &n);
-    Salle* S = creetabSalle(n);
+Salle* creationPlusieursSalles(int numberRoom){
+    Salle* S = creetabSalle(numberRoom);
     int i = 0;
-    while(i<n){
-        S[i] = ConstructSalle();
+    while(i<numberRoom){
+        S[i] = constructSalle();
         i++;
     }
     return S;
@@ -167,10 +165,55 @@ Salle* CreationPlusieursSalle(){
     //return tab;
 //}
 
-//void interface()
+void numberRoom(){
+    int numberRoom;
+    printf("\033[31mVous pouvez revenir en arrière à chaque étape ou interrompre en saisissant 0\033[00m\n");
+    printf("Combien de salles souhaitez-vous créer (10 maximum)?\n");
+    scanf("%d", &numberRoom);
+        switch(numberRoom){
+        case 0:
+            interfaceManager();
+            break;
+        case 1:
+            constructSalle();
+            break;
+        case 2 3 4 5 6 7 8 9 10:
+            creationPlusieursSalles(numberRoom);
+            break;
+        default:
+            printf("Erreur de saisie\n");
+            interfaceManager();
+            break;
+    }
+
+
+}
+
+void interfaceManager (){
+    int choiceAction;
+    printf("Bonjour Admin 👋\nQue souhaitez vous faire ?\n0 pour se déconnecter\n1 pour créer une/des salle\n");
+    printf("2 pour créer un concert\n");
+    scanf("%d", &choiceAction);
+    switch(choiceAction){
+        case 0:
+            choixUtilisateur();
+            break;
+        case 1:
+            numberRoom();
+            break;
+        case 2:
+            creerconcert();
+            break;
+        default:
+            printf("Erreur de saisie\n");
+            interfaceManager();
+            break;
+    }
+}
+
 
 int main (){
-    Salle s = ConstructSalle();
+    Salle s = constructSalle();
     affichesalle(s);
     Salle* tab;
     return 0;

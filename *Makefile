@@ -1,12 +1,22 @@
 all: exec
 
-interface.o : interface.c interface.h
-    gcc -c interface.c -o interface.h
+interface.o : interface.c interface.h structures.h
+    gcc -c interface.c -o interface.o
+
+manager.o : manager.c manager.h structures.h
+    gcc -c manager.c -o manager.o
+
+festivalgoers.o : festivalgoers.c festivalgoers.h structures.h
+    gcc -c festivalgoers.c -o festivalgoers.o
 
 smartrobusnest.o : smartrobusnest.c smartrobusnest.h
-    gcc -c smartrobusnest.c -o smartrobusnest.h
+    gcc -c smartrobusnest.c -o smartrobusnest.o
 
+backupfile.o : backupfile.c backupfile.h
+    gcc -c backupfile.c -o backupfile.o
 
+hour.o : hour.c hour.h
+    gcc -c hour.c -o hour.o
 
 exec : interface.o smartrobusnest.o manager.o festivalgoers.o hour.o backupfile.o
     gcc interface.o smartrobusnest.o manager.o festivalgoers.o hour.o backupfile.o -o execdef

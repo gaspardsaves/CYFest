@@ -49,17 +49,42 @@ typedef struct {
 // Tableau qui contient tout les concerts
 } Festival;
 
-void checkPasswordFest
+int checkIdFest (char idco[30], char** tabid[]){
+    int retour strcmp(idco, tabid);
+    if {
+        printf("Identifiant correct\n");
+    }
+    else {
+        printf("Cet identifiant n'existe pas\n");
+    }
+}
+
+int checkPasswordFest (password, char** tabpassword[30]){
+    int retour = strcmp(password,tabpassword[id][2]);
+    if(retour==NULL){
+        printf("Mot de passe correct\n");
+        return 1;
+    }
+    else {
+        printf("Erreur de saisie\n");
+        return 0;
+    }
+}
 
 void connexionFestivalier (){
     char password[30];
+    char idco[30];
     int retour1, retour2;
     //printf("\033[31mVous pouvez revenir en arrière à chaque étape ou interrompre le programme en saisissant 0\033[00m\n");
     //Voir pour revenir en arrière
     printf("Heureux de vous revoir\nSaisir votre identifiant");
+    scanf("%s", &idco);
+    if (idco==0){
+        choixCoFestivalier();
+    }
+    checkIdFest();
 
-    printf("")
-    scanf("%s",&password);
+    scanf("%s",&passwordco);
     //Voir pour bidouillage du double tableau idem pour identifiant
     retour2=strcmp(password,tabpassword[i]);
     
@@ -81,7 +106,7 @@ void choixCoFestivalier () {
             break;
         case 2:
             printf("okprêtpourconnexionfetivalier\n");
-            //connexionFestivalier();
+            connexionFestivalier();
             break;
         default:
             printf("Erreur de saisie\n");
