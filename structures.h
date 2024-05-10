@@ -3,6 +3,14 @@
 
     #include <stddef.h>
 
+    typedef struct{
+        int year;
+        int month;
+        int day;
+        int hour;
+        int minut;
+    }Date;
+    
     //utilisateur
     typedef struct {
         int admin; //1
@@ -43,13 +51,16 @@
 
 
     typedef struct {
-        char guest;
-        int horaire_d;
-        int horaire_f;
+        char guest[100];
+        Date horaired;
+        Date horairef;
         Salle salle;
     } Concert;
 
-
+    typedef struct{
+        Salle* tab;
+    } Tabdesalle;
+    
     typedef struct {
         Concert concert[10];
     // Tableau qui contient tout les concerts
