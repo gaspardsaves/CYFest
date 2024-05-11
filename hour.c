@@ -24,9 +24,16 @@ void getPrintHourDate () {
     printf("La date : %02d/%02d/%d\n", day, mois, an);
 }
 
-void compareDate () {
+void compareDate(){}
+
+
+void checkDate (concert) {
     getPrintHourDate();
-    
+    int retourDate = compareDate();
+    if (retourDate==1){
+        //freeSalle()
+    }
+
 }
 
 int main (){

@@ -1,6 +1,8 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
+#include "manager.h"
+//#include "festivalgoers.h"
 
 //Interface                          -----------------------------------
 typedef struct {
@@ -50,44 +52,56 @@ typedef struct {
 } Festival;
 
 int checkIdFest (char idco[30], char** tabid[]){
-    int retour strcmp(idco, tabid);
-    if {
+    int retour = strcmp(idco, tabid);
+    if (retour==0) {
         printf("Identifiant correct\n");
+        return 1;
     }
     else {
         printf("Cet identifiant n'existe pas\n");
+        return -1;
     }
 }
 
-int checkPasswordFest (password, char** tabpassword[30]){
-    int retour = strcmp(password,tabpassword[id][2]);
+int checkPasswordFest (int idco, char passwordco[30], char** tabpassword[30]){
+    int retour = strcmp(passwordco,tabpassword[id][2]);
     if(retour==NULL){
         printf("Mot de passe correct\n");
         return 1;
     }
     else {
         printf("Erreur de saisie\n");
-        return 0;
+        return -1;
     }
 }
 
 void connexionFestivalier (){
-    char password[30];
+    char passwordco[30];
     char idco[30];
-    int retour1, retour2;
-    //printf("\033[31mVous pouvez revenir en arrière à chaque étape ou interrompre le programme en saisissant 0\033[00m\n");
-    //Voir pour revenir en arrière
+    printf("\033[31mVous pouvez revenir en arrière à chaque étape ou interrompre le programme en saisissant 0\033[00m\n");
     printf("Heureux de vous revoir\nSaisir votre identifiant");
     scanf("%s", &idco);
     if (idco==0){
         choixCoFestivalier();
     }
-    checkIdFest();
-
+    int retour1 = checkIdFest(idco, tabid);
+    if (retour1==-1){
+        connexionFestivalier();
+    }
+    printf("Saisir votre mot de passe\n");
     scanf("%s",&passwordco);
+    if (passwordco==0){
+        choixCoFestivalier();
+    }
     //Voir pour bidouillage du double tableau idem pour identifiant
-    retour2=strcmp(password,tabpassword[i]);
-    
+    int retour2 = checkPasswordFest (idco, passwordco, tabpassword); 
+    if (retour2==1) {
+        interfaceFestivalier(idco);
+    }
+    else {
+        printf("Erreur de connexion, merci de réassayer\n");
+        choixCoFestivalier();
+    }
 
 }
 
@@ -124,9 +138,9 @@ void connexionManager(){
         case 0:
             choixUtilisateur();
             break;
-        case 1:
+        case 2000:
             printf("Code bon\n");
-            //interfaceManager();
+            interfaceManager();
             break;
         default:
             printf("\033[33mErreur de saisie\033[00m\n");

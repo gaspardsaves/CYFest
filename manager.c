@@ -29,7 +29,6 @@ void affiche_siege(char* color, Siege s){
 
 Date getdate(){
     Date d;
-    printf("Donnez la date exacte du concert \n");
     printf("L'année\n");
     scanf("%d", &d.year);
     printf("Le mois\n");
@@ -47,16 +46,16 @@ Salle constructSalle(){
     Salle S;
     int i = 0;
     int j = 0;
-    printf("Choississez le nombre de rangé\n");
+    printf("Choississez le nombre de rangée\n");
     scanf("%d", &S.nb_range);
     
-    printf("Choississez le nombre de siege par rangé\n");
+    printf("Choississez le nombre de siege par rangée\n");
     scanf("%d", &S.nb_siege_range);
-    printf("Combien de catégorie A par range\n");
+    printf("Combien de rangées en catégorie A\n");
     scanf("%d", &S.arange);
     printf("Donnez le prix de la catégorie A\n");
     scanf("%d", &S.prixa);
-    printf("Combien de catégorie B par range\n");
+    printf("Combien de rangées en catégorie B\n");
     scanf("%d", &S.brange);
     printf("Donnez le prix de la catégorie B\n");
     scanf("%d", &S.prixb);
@@ -192,7 +191,7 @@ void numberRoom(){
 void interfaceManager (){
     int choiceAction;
     printf("Bonjour Admin 👋\nQue souhaitez vous faire ?\n0 pour se déconnecter\n1 pour créer une/des salle\n");
-    printf("2 pour créer un concert\n");
+    printf("2 pour créer un concert\n3 pour créer un festival\n4 pour obtenir un rapport sur un concert\n");
     scanf("%d", &choiceAction);
     switch(choiceAction){
         case 0:
@@ -202,7 +201,7 @@ void interfaceManager (){
             numberRoom();
             break;
         case 2:
-            creerconcert();
+            creerconcert(tabdesalle);
             break;
         default:
             printf("Erreur de saisie\n");
