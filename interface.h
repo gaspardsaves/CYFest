@@ -3,6 +3,7 @@
 
     #include "structures.h"
     #include "manager.h"
+    #include "smartrobusnest.h"
 
     int checkIdFest (char idco[30], char** tabid[]);
     int checkPasswordFest (int idco, char passwordco[30], char** tabpassword[30]);

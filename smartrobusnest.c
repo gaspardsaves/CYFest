@@ -10,6 +10,30 @@ void verifmalloc(void* p){
     }
 }
 
+int better_scan(char * message){
+    int ret_var = 0;
+    int value = 1;
+  while (ret_var != 1 || value < 0)
+    {   
+        printf("%s", message);
+        ret_var = scanf("%d", &value);
+        while(getchar()!='\n'){} // Ligne facultative de sécurisation
+    }
+    return value;
+}
+
+unsigned better_scan(char * message){
+    int ret_var = 0;
+    unsigned value = 1;
+  while (ret_var != 1 || value < 0)
+    {   
+        printf("%s", message);
+        ret_var = scanf("%d", &value);
+        while(getchar()!='\n'){} // Ligne facultative de sécurisation
+    }
+    return value;
+}
+
 int main (){
     int* p = NULL;
     verifmalloc(p);

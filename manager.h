@@ -13,6 +13,6 @@
     Salle* creetabSalle(int n);
     Salle* creationPlusieursSalles(int numberRoom);
     void numberRoom();
-    void interfaceManager ();
+    void interfaceManager();
 
 #endif

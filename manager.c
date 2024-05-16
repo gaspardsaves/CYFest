@@ -4,6 +4,7 @@
 #include "couleur.h"
 #include "structures.h"
 #include "interface.h"
+#include "manager.h"
 
 
 Siege constructSiege(int cat, int price, int f){
@@ -202,6 +203,11 @@ Salle* creetabSalle(int n){
     return tab;
 }
 
+Concert* creetabConcert(int n){
+    Concert* tab = malloc(n*sizeof(Concert));
+    return tab;
+}
+
 Salle* creationPlusieursSalles(int numberRoom){
     Salle* S = creetabSalle(numberRoom);
     int i = 0;
@@ -290,7 +296,15 @@ void numberRoom(){
         case 1:
             constructSalle();
             break;
-        case 2 3 4 5 6 7 8 9 10:
+        case 2:
+        case 3:
+        case 4:
+        case 5:
+        case 6:
+        case 7:
+        case 8:
+        case 9:
+        case 10:
             creationPlusieursSalles(numberRoom);
             break;
         default:
@@ -318,7 +332,7 @@ void interfaceManager (){
             numberRoom();
             break;
         case 2:
-            creerconcert(tabdesalle);
+            //creerconcert(tabdesalle);
             break;
         default:
             printf("Erreur de saisie\n");

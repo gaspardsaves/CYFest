@@ -1,13 +1,15 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <time.h>
+#include "structures.h"
+#include "manager.h"
 
 //typedef struct {} Heure;
 //typedef struct {} Date;
-//A voir pour stockage comparaison jour et mois en anglais mais on s'en branle
+
 
 void getPrintHourDate () {
-    int h, min, s, day, mois, an;
+    int h, min, s, day, month, year;
     time_t now;
     // Renvoie l'heure actuelle
     time(&now);
@@ -18,17 +20,22 @@ void getPrintHourDate () {
     min = local->tm_min;       
     s = local->tm_sec;       
     day = local->tm_mday;          
-    mois = local->tm_mon + 1;     
-    an = local->tm_year + 1900;  
+    month = local->tm_mon + 1;     
+    year = local->tm_year + 1900;  
     printf("L'heure : %02d:%02d:%02d\n", h, min, s);
-    printf("La date : %02d/%02d/%d\n", day, mois, an);
+    printf("La date : %02d/%02d/%d\n", day, month, year);
 }
 
-void compareDate(){}
+int compareDate(Concert* tab){
+    int max = sizeof(tab)/sizeof(Concert);
+    for(int i=0; i<max; i++){
+        tab[i].horaired.day==h
+    }
+    getPrintHourDate ();
+}
 
 
 void checkDate (concert) {
-    getPrintHourDate();
     int retourDate = compareDate();
     if (retourDate==1){
         //freeSalle()
