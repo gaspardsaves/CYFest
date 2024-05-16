@@ -18,63 +18,118 @@ Siege constructSiege(int cat, int price, int f){
 
 void affiche_siege(char* color, Siege s){
     couleur(color);
-    if (s.etat_siege){
-        printf("X ");
+    if((s.categorie==1)&&(s.fosse==1)){
+        if(s.nombre_personne==0){
+            printf("oo\t");
+        }
+        else if (s.nombre_personne==1){
+            printf("xo\t");
+        }
+        else if(s.nombre_personne==2){
+            printf("xx\t");
+        }
+    }
+    else if (s.etat_siege){
+        printf("X\t");
     }
     else if(!(s.etat_siege)){
-        printf("O ");
+        printf("O\t");
     }
     couleur("0");
 }
 
 Date getdate(){
     Date d;
+    printf("Donnez la date exacte du concert \n");
     printf("L'année\n");
     scanf("%d", &d.year);
+    while(d.year<2024){
+        printf("Mauvaise saisi, recommencer\n");
+        scanf("%d", &d.year);
+    }
     printf("Le mois\n");
     scanf("%d", &d.month);
+    while((d.month<1)||(d.month>12)){
+        printf("Mauvaise saisi, recommencer\n");
+        scanf("%d", &d.month);
+    }
     printf("Le jour\n");
     scanf("%d", &d.day);
     printf("L'heure\n");
     scanf("%d", &d.hour);
+    while((d.hour<0)||(d.hour>23)){
+        printf("Mauvaise saisi, recommencer\n");
+        scanf("%d", &d.hour);
+    }
     printf("La minute\n");
     scanf("%d", &d.minut);
+    while((d.minut<0)||(d.minut>59)){
+        printf("Mauvaise saisi, recommencer\n");
+        scanf("%d", &d.minut);
+    }
     return d;
 }
 
-Salle constructSalle(){
-    Salle S;
+Salle ConstructSalle(){
+    Salle s;
     int i = 0;
     int j = 0;
-    printf("Choississez le nombre de rangée\n");
-    scanf("%d", &S.nb_range);
-    
-    printf("Choississez le nombre de siege par rangée\n");
-    scanf("%d", &S.nb_siege_range);
-    printf("Combien de rangées en catégorie A\n");
-    scanf("%d", &S.arange);
+    printf("Choississez le nombre de rangé\n");
+    scanf("%d", &s.nb_range);
+    while(s.nb_range<1){
+        printf("Mauvaise saisi, recommencer\n");
+        scanf("%d", &s.nb_range);
+    }
+    printf("Choississez le nombre de siege par rangé\n");
+    scanf("%d", &s.nb_siege_range);
+    while(s.nb_siege_range<1){
+        printf("Mauvaise saisi, recommencer\n");
+        scanf("%d", &s.nb_siege_range);
+    }
+    printf("Combien de catégorie A par range\n");
+    scanf("%d", &s.arange);
+    while((s.arange<0)&&(s.arange>s.nb_range)){
+        printf("Mauvaise saisi, recommencer\n");
+        scanf("%d", &s.arange);
+    }
     printf("Donnez le prix de la catégorie A\n");
-    scanf("%d", &S.prixa);
-    printf("Combien de rangées en catégorie B\n");
-    scanf("%d", &S.brange);
+    scanf("%f", &s.prixa);
+    while(s.prixa<0){
+        printf("Mauvaise saisi, recommencer\n");
+        scanf("%f", &s.prixa);
+    }
+    printf("Combien de catégorie B par range\n");
+    scanf("%d", &s.brange);
+    while((s.brange<0)||((s.arange+s.brange)>s.nb_range)){
+        printf("Mauvaise saisi, recommencer\n");
+        scanf("%d", &s.brange);
+    }
     printf("Donnez le prix de la catégorie B\n");
-    scanf("%d", &S.prixb);
+    scanf("%f", &s.prixb);
+    while(s.prixb<0){
+        printf("Mauvaise saisi, recommencer\n");
+        scanf("%f", &s.prixb);
+    }
     printf("Donnez le prix de la catégorie C\n");
-    scanf("%d", &S.prixc);
-    int a = S.arange;
-    int b = S.brange;
-    S.siege = malloc(S.nb_range*sizeof(Siege*));
-    while(i<S.nb_range){
-        S.siege[i] = malloc(S.nb_siege_range*sizeof(Siege));
-        while(j<S.nb_siege_range){
+    scanf("%f", &s.prixc);
+    while(s.prixc<0){
+        printf("Mauvaise saisi, recommencer\n");
+        scanf("%f", &s.prixc);
+    }
+    int a = s.arange;
+    int b = s.brange;
+    s.siege = malloc(s.nb_range*sizeof(Siege));
+    while(i<s.nb_range){
+        s.siege[i] = malloc(s.nb_siege_range*sizeof(Siege));
+        while(j<s.nb_siege_range){
             if(a>0){
-                S.siege[i][j] = constructSiege(1, S.prixa, 0);
+                s.siege[i][j] = ConstructSiege(1, s.prixa, 0);
             }
             else if(b>0){
-                S.siege[i][j] = constructSiege(2, S.prixb, 0);
+                s.siege[i][j] = ConstructSiege(2, s.prixb, 0);
             }
             else{
-                S.siege[i][j] = constructSiege(3, S.prixc, 0);
+                s.siege[i][j] = ConstructSiege(3, s.prixc, 0);
             }
             
             j++;
@@ -88,7 +143,7 @@ Salle constructSalle(){
         j=0;
         i++;
     }
-    return S;
+    return s;
 }
 
 void affichesalle(Salle S){
@@ -164,6 +219,65 @@ Salle* creationPlusieursSalles(int numberRoom){
     //return tab;
 //}
 
+Salle ClasseAetFosse(Salle s, int n){
+    int i = 0;
+    int j = 0;
+    while(i<s.arange){
+        while(j<s.nb_siege_range){
+            s.siege[i][j].fosse= n;
+            j++;
+        }
+        j=0;
+        i++;
+    }
+    return s;
+}
+
+Salle modifsalle(Salle s){
+    int b = 0;
+    printf("\nVoulez vous changer le prix de la categorie A ?\n");
+    scanf("%d", &b);
+    if(b==1){
+        printf("Quelle est le nouveau prix de la catégorie A ?\n");
+        scanf("%f", &s.prixa);
+    }
+    b=0;
+    printf("\nVoulez vous changer le prix de la categorie B ?\n");
+    scanf("%d", &b);
+    if(b==1){
+        printf("Quelle est le nouveau prix de la catégorie B ?\n");
+        scanf("%f", &s.prixb);
+    }
+    b=0;
+    printf("\nVoulez vous changer le prix de la categorie C ?\n");
+    scanf("%d", &b);
+    if(b==1){
+        printf("Quelle est le nouveau prix de la catégorie C ?\n");
+        scanf("%f", &s.prixc);
+    }
+    b=0;
+    printf("Voulez-vous une fosse \n");
+    printf("1 pour oui \n");
+    printf("2 pour non \n");
+    scanf("%d", &b);
+    ClasseAetFosse(s, b);
+    b=0;
+    return s;
+}
+
+void SauvegardeSalleFichier(Salle* s){
+    FILE* f1 = fopen("SaveScene.bin", "wb");
+    fwrite(s, sizeof(Salle), 1, f1);
+     fclose(f1);
+}
+
+Salle LireSallefichier(Salle* s2){
+    FILE* f1 = fopen("SaveScene.bin", "rb");
+    fread(s2, sizeof(Salle),1,f1);
+    fclose(f1);
+    return *s2;
+}
+
 void numberRoom(){
     int numberRoom;
     printf("\033[31mVous pouvez revenir en arrière à chaque étape ou interrompre en saisissant 0\033[00m\n");
@@ -184,6 +298,9 @@ void numberRoom(){
             interfaceManager();
             break;
     }
+
+
+
 
 
 }
