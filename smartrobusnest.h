@@ -3,5 +3,5 @@
     #include <stddef.h>
     void verifmalloc(void* p);
     int better_scan(char * message);
-    unsigned better_scan(char * message);
+    unsigned better_scanUn(char * message);
 #endif

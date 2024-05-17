@@ -71,7 +71,7 @@ Date getdate(){
     return d;
 }
 
-Salle ConstructSalle(){
+Salle constructSalle(){
     Salle s;
     int i = 0;
     int j = 0;
@@ -124,13 +124,13 @@ Salle ConstructSalle(){
         s.siege[i] = malloc(s.nb_siege_range*sizeof(Siege));
         while(j<s.nb_siege_range){
             if(a>0){
-                s.siege[i][j] = ConstructSiege(1, s.prixa, 0);
+                s.siege[i][j] = constructSiege(1, s.prixa, 0);
             }
             else if(b>0){
-                s.siege[i][j] = ConstructSiege(2, s.prixb, 0);
+                s.siege[i][j] = constructSiege(2, s.prixb, 0);
             }
             else{
-                s.siege[i][j] = ConstructSiege(3, s.prixc, 0);
+                s.siege[i][j] = constructSiege(3, s.prixc, 0);
             }
             
             j++;
@@ -326,7 +326,7 @@ void interfaceManager (){
     scanf("%d", &choiceAction);
     switch(choiceAction){
         case 0:
-            choixUtilisateur();
+            choiceUser();
             break;
         case 1:
             numberRoom();
@@ -339,12 +339,4 @@ void interfaceManager (){
             interfaceManager();
             break;
     }
-}
-
-
-int main (){
-    Salle s = constructSalle();
-    affichesalle(s);
-    Salle* tab;
-    return 0;
 }

@@ -10,7 +10,7 @@
     void connexionFestivalier ();
     void choixCoFestivalier ();
     void connexionManager();
-    void choixUtilisateur ();
-    int main ();
+    void choiceUser();
+    int main();
 
 #endif

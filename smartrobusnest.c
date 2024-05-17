@@ -22,7 +22,7 @@ int better_scan(char * message){
     return value;
 }
 
-unsigned better_scan(char * message){
+unsigned better_scanUn(char * message){
     int ret_var = 0;
     unsigned value = 1;
   while (ret_var != 1 || value < 0)
@@ -32,10 +32,4 @@ unsigned better_scan(char * message){
         while(getchar()!='\n'){} // Ligne facultative de sécurisation
     }
     return value;
-}
-
-int main (){
-    int* p = NULL;
-    verifmalloc(p);
-    return 0;
 }

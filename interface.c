@@ -6,7 +6,31 @@
 #include "manager.h"
 //#include "festivalgoers.h"
 
-int checkIdFest (char idco[30], char* tabid[]){
+/*unsigned better_scanUn(char * message){
+    int ret_var = 0;
+    unsigned value = 1;
+  while (ret_var != 1 || value < 0)
+    {   
+        printf("%s", message);
+        ret_var = scanf("%d", &value);
+        while(getchar()!='\n'){} // Ligne facultative de sécurisation
+    }
+    return value;
+}
+
+int better_scan(char * message){
+    int ret_var = 0;
+    int value = 1;
+  while (ret_var != 1 || value < 0)
+    {   
+        printf("%s", message);
+        ret_var = scanf("%d", &value);
+        while(getchar()!='\n'){} // Ligne facultative de sécurisation
+    }
+    return value;
+}*/
+
+/*int checkIdFest (char idco[30], char* tabid[]){
     int retour = strcmp(idco, tabid);
     if (retour==0) {
         printf("Identifiant correct\n");
@@ -28,16 +52,16 @@ int checkPasswordFest (int idco, char passwordco[30], ){
         printf("Erreur de saisie\n");
         return -1;
     }
-}
+}*/
 
-void connexionFestivalier (){
+/*void connectionFestivalgoers (){
     char passwordco[30];
     char idco[30];
     printf("\033[31mVous pouvez revenir en arrière à chaque étape ou interrompre le programme en saisissant 0\033[00m\n");
     printf("Heureux de vous revoir\nSaisir votre identifiant");
     scanf("%s", idco);
     if (idco==0){
-        choixCoFestivalier();
+        choiceCoFestivalGoers();
     }
     //int retour1 = checkIdFest(idco, tabid);
     //if (retour1==-1){
@@ -46,7 +70,7 @@ void connexionFestivalier (){
     printf("Saisir votre mot de passe\n");
     scanf("%s",passwordco);
     if (passwordco==0){
-        choixCoFestivalier();
+        choiceCoFestivalGoers();
     }
     //Voir pour bidouillage du double tableau idem pour identifiant
     //int retour2 = checkPasswordFest (idco, passwordco, tabpassword); 
@@ -55,19 +79,17 @@ void connexionFestivalier (){
     //}
     else {
         printf("Erreur de connexion, merci de réassayer\n");
-        choixCoFestivalier();
+        choiceCoFestivalGoers();
     }
+}*/
 
-}
-
-void choixCoFestivalier () {
+void choiceCoFestivalGoers () {
     unsigned co2=-3;
     printf("\033[31mVous pouvez revenir en arrière à chaque étape ou interrompre le programme en saisissant 0\033[00m\n");
-    printf("Vous avez choisi festivalier.\nQuelle est votre situation ?\n1 pour créer un compte\n2 pour se connecter\n");
-    scanf("%d", &co2);
+    co2=better_scanUn("Vous avez choisi festivalier.\nQuelle est votre situation ?\n1 pour créer un compte\n2 pour se connecter\n");
     switch(co2){
         case 0:
-            choixUtilisateur();
+            choiceUser();
             break;
         case 1:
             printf("ok pour creation compte festivalier\n");
@@ -75,59 +97,57 @@ void choixCoFestivalier () {
             break;
         case 2:
             printf("okprêtpourconnexionfetivalier\n");
-            //connexionFestivalier();
+            //connectionFestivalGoers();
             break;
         default:
             printf("Erreur de saisie\n");
-            choixCoFestivalier();
+            choiceCoFestivalGoers();
         break;
     }
 }
 
-void connexionManager(){
+void connectionManager(){
     int codemanag;
     printf("\033[31mVous pouvez revenir en arrière à chaque étape ou interrompre le programme en saisissant 0\033[00m\n");
-    printf("Vous avez choisi manager\nSaisir le code\n");
-    scanf("%d", &codemanag);
+    codemanag=better_scan("Vous avez choisi manager\nSaisir le code\n");
         switch(codemanag){
         case 0:
-            choixUtilisateur();
+            choiceUser();
             break;
         case 2000:
             printf("Code bon\n");
-            //interfaceManager();
+            interfaceManager();
             break;
         default:
             printf("\033[33mErreur de saisie\033[00m\n");
-            connexionManager();
+            connectionManager();
             break;
     }
 
 }
 
-void choixUtilisateur (){
+void choiceUser (){
     unsigned co1=-3;
     printf("\033[31mVous pouvez revenir en arrière à chaque étape ou interrompre le programme en saisissant 0\033[00m\n");
-    printf("Choisir votre interface de connexion :\n1 pour Festivalier\n2 pour Manager\n");
-    scanf("%d", &co1);
+    co1=better_scanUn("Choisir votre interface de connexion :\n1 pour Festivalier\n2 pour Manager\n");
     switch(co1){
         case 0:
-            exit(EXIT_FAILURE);
+            exit(0);
             break;
         case 1:
-            choixCoFestivalier();
+            choiceCoFestivalGoers();
             break;
         case 2:
-            connexionManager();
+            connectionManager();
             break;
         default:
             printf("Erreur de saisie\n");
-            choixUtilisateur();
+            choiceUser();
             break;
     }
 }
 
 int main (){
-    choixUtilisateur();
+    choiceUser();
     return 0;
 }

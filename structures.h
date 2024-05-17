@@ -43,9 +43,9 @@
         char* nom[100];
         int arange;
         int brange;
-        int prixa;
-        int prixb;
-        int prixc;
+        float prixa;
+        float prixb;
+        float prixc;
     // malloc les sièges
     } Salle; 
 

@@ -3,6 +3,7 @@
 
     #include "structures.h"
     #include "couleur.h"
+    #include "interface.h"
     
     Siege constructSiege(int cat, int price, int f);
     void affiche_siege(char* color, Siege s);
