@@ -320,10 +320,7 @@ void numberRoom(){
 }
 
 void interfaceManager (){
-    int choiceAction;
-    printf("Bonjour Admin 👋\nQue souhaitez vous faire ?\n0 pour se déconnecter\n1 pour créer une/des salle\n");
-    printf("2 pour créer un concert\n3 pour créer un festival\n4 pour obtenir un rapport sur un concert\n");
-    scanf("%d", &choiceAction);
+    int choiceAction = better_scan("Bonjour Admin 👋\nQue souhaitez vous faire ?\n0 pour se déconnecter\n1 pour créer une/des salle\n2 pour créer un concert\n3 pour créer un festival\n4 pour obtenir un rapport sur un concert\n");
     switch(choiceAction){
         case 0:
             choiceUser();

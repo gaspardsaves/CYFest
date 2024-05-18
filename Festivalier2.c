@@ -20,7 +20,7 @@ int better_scan(char * message){
     {   
         printf("%s", message);
         ret_var = scanf("%d", &value);
-        while(getchar()!='\n'){} // Ligne facultative de sécurisation
+        while(getchar()!='\n'){} // clean buffer
     }
     return value;
 

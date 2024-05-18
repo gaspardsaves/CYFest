@@ -7,10 +7,10 @@
 
     int checkIdFest (char idco[30], char** tabid[]);
     int checkPasswordFest (int idco, char passwordco[30], char** tabpassword[30]);
-    void connexionFestivalier ();
-    void choixCoFestivalier ();
-    void connexionManager();
-    void choiceUser();
+    void connectionFestivalGoers (int* userCount);
+    void choiceCoFestivalGoers (int* userCount);
+    void connectionManager(int* userCount);
+    void choiceUser(int* userCount);
     int main();
 
 #endif

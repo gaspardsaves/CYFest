@@ -4,129 +4,79 @@
 #include "structures.h"
 #include "smartrobusnest.h"
 #include "manager.h"
-//#include "festivalgoers.h"
+#include "festivalgoers.h"
 
-/*unsigned better_scanUn(char * message){
-    int ret_var = 0;
-    unsigned value = 1;
-  while (ret_var != 1 || value < 0)
-    {   
-        printf("%s", message);
-        ret_var = scanf("%d", &value);
-        while(getchar()!='\n'){} // Ligne facultative de sécurisation
-    }
-    return value;
-}
-
-int better_scan(char * message){
-    int ret_var = 0;
-    int value = 1;
-  while (ret_var != 1 || value < 0)
-    {   
-        printf("%s", message);
-        ret_var = scanf("%d", &value);
-        while(getchar()!='\n'){} // Ligne facultative de sécurisation
-    }
-    return value;
-}*/
-
-/*int checkIdFest (char idco[30], char* tabid[]){
-    int retour = strcmp(idco, tabid);
-    if (retour==0) {
-        printf("Identifiant correct\n");
-        return 1;
-    }
-    else {
-        printf("Cet identifiant n'existe pas\n");
-        return -1;
-    }
-}
-
-int checkPasswordFest (int idco, char passwordco[30], ){
-    int retour = strcmp(passwordco,);
-    if(retour==NULL){
-        printf("Mot de passe correct\n");
-        return 1;
-    }
-    else {
-        printf("Erreur de saisie\n");
-        return -1;
-    }
-}*/
-
-/*void connectionFestivalgoers (){
-    char passwordco[30];
-    char idco[30];
+//*
+void connectionFestivalGoers (int* userCount){
+    char passwordco[31];
     printf("\033[31mVous pouvez revenir en arrière à chaque étape ou interrompre le programme en saisissant 0\033[00m\n");
-    printf("Heureux de vous revoir\nSaisir votre identifiant");
-    scanf("%s", idco);
+    int idco = better_scan("Heureux de vous revoir\nSaisir votre identifiant");
     if (idco==0){
-        choiceCoFestivalGoers();
+        choiceCoFestivalGoers(userCount);
     }
-    //int retour1 = checkIdFest(idco, tabid);
-    //if (retour1==-1){
-        //connexionFestivalier();
-    //}
+    int retour1 = checkIdFest(tabFest, userCount, idco);
+    if (retour1==-1){
+        connectionFestivalGoers(userCount);
+    }
     printf("Saisir votre mot de passe\n");
     scanf("%s",passwordco);
     if (passwordco==0){
-        choiceCoFestivalGoers();
+        choiceCoFestivalGoers(userCount);
     }
-    //Voir pour bidouillage du double tableau idem pour identifiant
-    //int retour2 = checkPasswordFest (idco, passwordco, tabpassword); 
-    //if (retour2==1) {
-        //interfaceFestivalier(idco);
-    //}
+    int retour2 = checkPasswordFest (tabFest, userCount, passwordco); 
+    if (retour2==1) {
+        interfaceFestivalGoers(idco);
+    }
     else {
         printf("Erreur de connexion, merci de réassayer\n");
-        choiceCoFestivalGoers();
+        choiceCoFestivalGoers(userCount);
     }
-}*/
+}
+//*/
 
-void choiceCoFestivalGoers () {
+void choiceCoFestivalGoers (int* userCount) {
     unsigned co2=-3;
     printf("\033[31mVous pouvez revenir en arrière à chaque étape ou interrompre le programme en saisissant 0\033[00m\n");
     co2=better_scanUn("Vous avez choisi festivalier.\nQuelle est votre situation ?\n1 pour créer un compte\n2 pour se connecter\n");
     switch(co2){
         case 0:
-            choiceUser();
+            choiceUser(userCount);
             break;
         case 1:
             printf("ok pour creation compte festivalier\n");
-            //constrCompteFestivalier();
+            //accountCreationFestivalGoers(int* userCount);
             break;
         case 2:
             printf("okprêtpourconnexionfetivalier\n");
-            //connectionFestivalGoers();
+            //connectionFestivalGoers(int* userCount);
             break;
         default:
             printf("Erreur de saisie\n");
-            choiceCoFestivalGoers();
+            choiceCoFestivalGoers(userCount);
         break;
     }
 }
 
-void connectionManager(){
+void connectionManager(int* userCount){
     int codemanag;
     printf("\033[31mVous pouvez revenir en arrière à chaque étape ou interrompre le programme en saisissant 0\033[00m\n");
     codemanag=better_scan("Vous avez choisi manager\nSaisir le code\n");
         switch(codemanag){
-        case 0:
-            choiceUser();
+            case 0:
+                choiceUser(userCount);
+                break;
+            case 2000:
+                printf("Code bon\n");
+                interfaceManager(userCount);
+                break;
+            default:
+                printf("\033[33mErreur de saisie\033[00m\n");
+                connectionManager(userCount);
             break;
-        case 2000:
-            printf("Code bon\n");
-            interfaceManager();
-            break;
-        default:
-            printf("\033[33mErreur de saisie\033[00m\n");
-            connectionManager();
-            break;
-    }
-
+        }
 }
 
-void choiceUser (){
+void choiceUser (int* userCount){
     unsigned co1=-3;
     printf("\033[31mVous pouvez revenir en arrière à chaque étape ou interrompre le programme en saisissant 0\033[00m\n");
     co1=better_scanUn("Choisir votre interface de connexion :\n1 pour Festivalier\n2 pour Manager\n");
@@ -135,19 +85,29 @@ void choiceUser (){
             exit(0);
             break;
         case 1:
-            choiceCoFestivalGoers();
+            choiceCoFestivalGoers(userCount);
             break;
         case 2:
-            connectionManager();
+            connectionManager(userCount);
             break;
         default:
             printf("Erreur de saisie\n");
-            choiceUser();
+            choiceUser(userCount);
             break;
     }
 }
 
 int main (){
-    choiceUser();
+    srand(time(NULL));
+    //int nbrUser = openBackupfile();
+    //IL FAUT REOUVRIR L'ENSEMBLE DES FICHIERS ICI
+    //EN APPELANT DES FONCTIONS DE BACKUPFILE ET TOUT 
+    //STOCKER DANS DES POINTEURS QU'ON VA TRIMBALER
+    //DANS LA SUITE DU PROGRAMME
+
+    //ne pas toucher les lignes qui suivent, elles me permettent de tester la partie festivalier
+    int nbrUser = 0;
+    int* userCount = &nbrUser;
+    choiceUser(userCount);
     return 0;
 }
