@@ -8,16 +8,16 @@
 #include "interface.h"
 
 //User array openned with the backupfiles
-Utilisateur* constrTabFestivalGoers(int* userCount){
-    Utilisateur* tabFest = malloc(sizeof(Utilisateur)*(*userCount));
+Utilisateur* constrTabFestivalGoers(int* userCount) {
+    Utilisateur* tabFest = malloc(sizeof(Utilisateur) * (*userCount));
     verifmalloc(tabFest);
     return tabFest;
 }
 
 //Connection required
 //*/
-int checkIdFest (Utilisateur* tabFest, int* userCount, int idco){
-    for (int i = 0; i<(*userCount); i++){
+int checkIdFest(Utilisateur* tabFest, int* userCount, int idco) {
+    for (int i = 0; i < (*userCount); i++) {
         if (tabFest[i].id == idco) {
             printf("Identifiant correct\n");
             return 1;
@@ -27,29 +27,30 @@ int checkIdFest (Utilisateur* tabFest, int* userCount, int idco){
     return -1;
 }
 
-int checkPasswordFest (Utilisateur* tabFest, int* userCount, char* passwordco){
-    for (int i = 0; i <(*userCount); i++) {
-        if(strcmp(tabFest[i].password, passwordco)==0){
+int checkPasswordFest(Utilisateur* tabFest, int* userCount, char* passwordco) {
+    for (int i = 0; i < (*userCount); i++) {
+        if (strcmp(tabFest[i].password, passwordco) == 0) {
             printf("Mot de passe correct\n");
-        return 1;
+            return 1;
         }
     }
     printf("Erreur de saisie\n");
     return -1;
-    }
+}
 //*/
 
-void generateUniqueId(Utilisateur* tabFest, int* genId, int* userCount){
+void generateUniqueId(Utilisateur* tabFest, int* genId, int* userCount) {
     bool unique;
     do {
-        unique=true;
-        *genId = rand()%100000+1000; // Generate ID
-        for(int i=0; i<(*userCount); i++){ //Check if it is already used
-            if(tabFest[i].id==*genId){
+        unique = true;
+        *genId = rand()%90001+1000; // Generate ID between 1000 and 100000
+        for (int i = 0; i < (*userCount); i++) { // Check if it is already used
+            if (tabFest[i].id == *genId) {
                 unique = false;
+                break;
             }
         }
-    } while (unique!=1); //generate id until he is unique
+    } while (!unique); // generate id until it is unique
 }
 
 /*
@@ -91,14 +92,18 @@ void accountCreationFestivalGoers(int* userCount, Utilisateur* tabFest){
     Utilisateur newUser;
     printf("Saisir votre mot de passe (30 caractères maximum)\n");
     fgets(tempoPassword, sizeof(tempoPassword), stdin);
-    tempoPassword[strcspn(tempoPassword, "\n")]='\0';
-    newUser.password=malloc(strlen(tempoPassword)+1);
+    tempoPassword[strcspn(tempoPassword, "\n")] = '\0';
+    newUser.password= malloc(strlen(tempoPassword) + 1);
     verifmalloc(newUser.password);
+    strcpy(newUser.password, tempoPassword);
     generateUniqueId(tabFest, genId, userCount);
-    tabFest[*userCount]=newUser;
+    newUser.id = *genId;
+    tabFest[(*userCount)]=newUser;
     (*userCount)++;
-    printf("Votre identifiant est %d\nVotre mot de passe est %s\n", newUser.id, newUser.password);
-    printf("Notez les biens, ils vous permettent de vous connectez et d'accéder à vos réservations\n");
+    printf("Votre identifiant est %d\n", newUser.id);
+    printf("Votre mot de passe est %s\n", newUser.password);
+    printf("Votre compte est créé, notez bien vos identifiants, ils vous permettent de vous connectez et d'accéder à vos réservations\n");
+    choiceUser (userCount, tabFest);
 }
 
 /*

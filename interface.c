@@ -8,30 +8,25 @@
 #include "festivalgoers.h"
 
 //*
-void connectionFestivalGoers (int* userCount, Utilisateur* tabFest){
+void connectionFestivalGoers(int* userCount, Utilisateur* tabFest) {
     char passwordco[30];
-    printf("\033[31mVous pouvez revenir en arrière à chaque étape ou interrompre le programme en saisissant 0\033[00m\n");
     int idco = better_scan("Heureux de vous revoir\nSaisir votre identifiant\n");
-    if (idco==0){
-        choiceCoFestivalGoers(userCount, tabFest);
-    }
     int retour1 = checkIdFest(tabFest, userCount, idco);
-    if (retour1==-1){
-        connectionFestivalGoers(userCount, tabFest);
+    if (retour1 == -1) {
+        exit(1);
     }
+
     printf("Saisir votre mot de passe\n");
     fgets(passwordco, sizeof(passwordco), stdin);
     passwordco[strcspn(passwordco, "\n")] = '\0';
-    if (passwordco==0){
-        choiceCoFestivalGoers(userCount,tabFest);
-    }
-    int retour2 = checkPasswordFest (tabFest, userCount, &passwordco[30]); 
-    if (retour2==1) {
+
+    int retour2 = checkPasswordFest(tabFest, userCount, passwordco);
+    if (retour2 == 1) {
+        printf("Connexion réussie\n");
         interfaceFestivalGoers(idco, userCount, tabFest);
-    }
-    else {
-        printf("Erreur de connexion, merci de réassayer\n");
-        choiceCoFestivalGoers(userCount, tabFest);
+    } else {
+        printf("Erreur de connexion, merci de réessayer\n");
+        exit(1);
     }
 }
 //*/
@@ -45,11 +40,9 @@ void choiceCoFestivalGoers (int* userCount, Utilisateur* tabFest) {
             choiceUser(userCount, tabFest);
             break;
         case 1:
-            printf("ok pour creation compte festivalier\n");
             accountCreationFestivalGoers(userCount, tabFest);
             break;
         case 2:
-            printf("okprêtpourconnexionfetivalier\n");
             connectionFestivalGoers(userCount, tabFest);
             break;
         default:
