@@ -5,36 +5,59 @@
 #include <stdbool.h>
 #include "structures.h"
 #include "smartrobusnest.h"
+#include "interface.h"
 
-#define ID 100000
-
-Utilisateur* constrTabFestivalGoers(int userCount){
-    Utilisateur* tabFest = malloc(sizeof(Utilisateur)*userCount);
+//User array openned with the backupfiles
+Utilisateur* constrTabFestivalGoers(int* userCount){
+    Utilisateur* tabFest = malloc(sizeof(Utilisateur)*(*userCount));
     verifmalloc(tabFest);
     return tabFest;
 }
 
-void generateUniqueId(Utilisateur* tabFest, int* genId, int userCount){
-    srand(time(NULL));
+//Connection required
+//*/
+int checkIdFest (Utilisateur* tabFest, int* userCount, int idco){
+    for (int i = 0; i<(*userCount); i++){
+        if (tabFest[i].id == idco) {
+            printf("Identifiant correct\n");
+            return 1;
+        }
+    }
+    printf("Cet identifiant n'existe pas\n");
+    return -1;
+}
+
+int checkPasswordFest (Utilisateur* tabFest, int* userCount, char* passwordco){
+    for (int i = 0; i <(*userCount); i++) {
+        if(strcmp(tabFest[i].password, passwordco)==0){
+            printf("Mot de passe correct\n");
+        return 1;
+        }
+    }
+    printf("Erreur de saisie\n");
+    return -1;
+    }
+//*/
+
+void generateUniqueId(Utilisateur* tabFest, int* genId, int* userCount){
     bool unique;
     do {
         unique=true;
-        *genId = rand()%100000; // Generate ID
-        for(int i=0; i<userCount; i++){
+        *genId = rand()%100000+1000; // Generate ID
+        for(int i=0; i<(*userCount); i++){ //Check if it is already used
             if(tabFest[i].id==*genId){
                 unique = false;
             }
         }
-    } while (unique!=1);  
+    } while (unique!=1); //generate id until he is unique
 }
 
-
+/*
 void user_creator(User* tab, int* userCount) {
     if (*userCount >= USERMAX) {
         printf("User limit reached\n");
         return;
     }
-
     User newUser;
     char buffer[100];
     printf("Enter your password: ");
@@ -59,28 +82,26 @@ void user_creator(User* tab, int* userCount) {
     printf("Respectively, your ID and your password are: %d %s\n", *newUser.id, newUser.password);
     (*userCount)++;
 }
+//*/
 
-void accountCreationFestivalGoers(int* tabFest, int* userCount){
+void accountCreationFestivalGoers(int* userCount, Utilisateur* tabFest){
     char tempoPassword[30];
+    int id=-1;
+    int* genId=&id;
     Utilisateur newUser;
     printf("Saisir votre mot de passe (30 caractères maximum)\n");
     fgets(tempoPassword, sizeof(tempoPassword), stdin);
     tempoPassword[strcspn(tempoPassword, "\n")]='\0';
-    newUser.password=malloc(strlen(tempoPassword)+1)
-
-
-
-
-    
-
-
-
+    newUser.password=malloc(strlen(tempoPassword)+1);
+    verifmalloc(newUser.password);
+    generateUniqueId(tabFest, genId, userCount);
+    tabFest[*userCount]=newUser;
+    (*userCount)++;
+    printf("Votre identifiant est %d\nVotre mot de passe est %s\n", newUser.id, newUser.password);
+    printf("Notez les biens, ils vous permettent de vous connectez et d'accéder à vos réservations\n");
 }
 
-
-
-
-
+/*
 bool user_login(User* tab, int userCount) {
     int Id;
     char Password[100];
@@ -100,64 +121,39 @@ bool user_login(User* tab, int userCount) {
     printf("Invalid ID or password.\n");
     return false;
 }
-
-//*/
-int checkIdFest (Utilisateur* tabFest, int userCount, int idco){
-    for (int i = 0; i<userCount; i++){
-        if (tabFest[i].id == idco) {
-            printf("Identifiant correct\n");
-            return 1;
-        }
-    }
-    printf("Cet identifiant n'existe pas\n");
-    return -1;
-}
-
-int checkPasswordFest (Utilisateur* tabFest, int userCount, char passwordco){
-    for (int i = 0; i < userCount; i++) {
-        if(strcmp(tabFest[i].password, passwordco)==0){
-            printf("Mot de passe correct\n");
-        return 1;
-        }
-    }
-    printf("Erreur de saisie\n");
-    return -1;
-    }
 //*/
 
-
-void displayUsers(Utilisateur* tabFest, int userCount) {
+//Display if the manager wants to see the differents ID and passwords
+void displayUsers(Utilisateur* tabFest, int* userCount) {
     printf("Liste des festivaliers:\n");
-    for (int i = 0; i < userCount; i++) {
+    for (int i=0; i<(*userCount); i++) {
         printf("Festivaliers %d:\n", i + 1);
         printf("  ID: %d\n", tabFest[i].id);
         printf("  Mot de passe: %s\n\n", tabFest[i].password);
     }
 }
 
-
-
-void interfaceFestivalGoers(int id){
+//Interface
+void interfaceFestivalGoers(int id, int* userCount, Utilisateur* tabFest){
     int choiceAction = better_scan("Bonjour 👋\nQue souhaitez vous faire ?\n0 pour se déconnecter\n1 pour voir vos réservations\n2 pour réserver un concert\n");
     switch (choiceAction) {
     case 0:
-        choiceUser();
+        choiceUser(userCount, tabFest);
         break;
     case 1:
-        myReservations();
+        //myReservations();
         break;
     case 3:
-        reservation();
+        //reservation();
         break;
     default:
         printf("Erreur de saisie\n");
-        interfaceFestivalGoers();
+        interfaceFestivalGoers(id, userCount, tabFest);
         break;
     }
 }
 
-//printf("\033[31mVous pouvez revenir en arrière à chaque étape ou interrompre le programme en saisissant 0\033[00m\n");
-
+/*
 int main() {
     srand(time(NULL));
     int userCount = 0;  // Initialize userCount
@@ -166,19 +162,18 @@ int main() {
     for(int i=0; i<USERMAX; i++){
     account_check(users, &userCount);
     }
-
     display_users(users, userCount);
 
+
+    //printf("\033[31mVous pouvez revenir en arrière à chaque étape ou interrompre le programme en saisissant 0\033[00m\n");
     // Clean memory
-    //*
+    /*
     for (int i = 0; i < userCount; i++) {
         free(users[i].id);
         free(users[i].password);
     }
     free(users);
-    return 0;
     //*/
-}
 
 
 

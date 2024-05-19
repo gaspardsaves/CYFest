@@ -13,7 +13,7 @@
     Concert creerconcert(Tabdesalle t);
     Salle* creetabSalle(int n);
     Salle* creationPlusieursSalles(int numberRoom);
-    void numberRoom();
-    void interfaceManager();
+    void numberRoom(int* userCount, Utilisateur* tabFest);
+    void interfaceManager (int* userCount, Utilisateur* tabFest);
 
 #endif

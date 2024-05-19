@@ -284,14 +284,14 @@ Salle LireSallefichier(Salle* s2){
     return *s2;
 }
 
-void numberRoom(){
+void numberRoom(int* userCount, Utilisateur* tabFest){
     int numberRoom;
     printf("\033[31mVous pouvez revenir en arrière à chaque étape ou interrompre en saisissant 0\033[00m\n");
     printf("Combien de salles souhaitez-vous créer (10 maximum)?\n");
     scanf("%d", &numberRoom);
         switch(numberRoom){
         case 0:
-            interfaceManager();
+            interfaceManager(userCount, tabFest);
             break;
         case 1:
             constructSalle();
@@ -309,31 +309,26 @@ void numberRoom(){
             break;
         default:
             printf("Erreur de saisie\n");
-            interfaceManager();
+            interfaceManager(userCount, tabFest);
             break;
     }
-
-
-
-
-
 }
 
-void interfaceManager (){
+void interfaceManager (int* userCount, Utilisateur* tabFest){
     int choiceAction = better_scan("Bonjour Admin 👋\nQue souhaitez vous faire ?\n0 pour se déconnecter\n1 pour créer une/des salle\n2 pour créer un concert\n3 pour créer un festival\n4 pour obtenir un rapport sur un concert\n");
     switch(choiceAction){
         case 0:
-            choiceUser();
+            choiceUser(userCount, tabFest);
             break;
         case 1:
-            numberRoom();
+            numberRoom(userCount, tabFest);
             break;
         case 2:
             //creerconcert(tabdesalle);
             break;
         default:
             printf("Erreur de saisie\n");
-            interfaceManager();
+            interfaceManager(userCount, tabFest);
             break;
     }
 }

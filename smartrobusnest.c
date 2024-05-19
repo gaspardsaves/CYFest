@@ -5,7 +5,6 @@
 void verifmalloc(void* p){
     if (p==NULL){
         printf("%d\n", errno);
-        printf("%s\n", ferror(errno));
         exit(EXIT_FAILURE);
     }
 }
