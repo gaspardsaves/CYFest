@@ -53,38 +53,6 @@ void generateUniqueId(Utilisateur* tabFest, int* genId, int* userCount) {
     } while (!unique); // generate id until it is unique
 }
 
-/*
-void user_creator(User* tab, int* userCount) {
-    if (*userCount >= USERMAX) {
-        printf("User limit reached\n");
-        return;
-    }
-    User newUser;
-    char buffer[100];
-    printf("Enter your password: ");
-    fgets(buffer, sizeof(buffer), stdin);// Get password
-    buffer[strcspn(buffer, "\n")] = '\0';
-
-    newUser.password = malloc(strlen(buffer) + 1);// tab password creator
-    if (newUser.password == NULL) {
-        fprintf(stderr, "Memory allocation failed for password\n");
-        exit(EXIT_FAILURE);
-    }
-    strcpy(newUser.password, buffer);
-
-    newUser.id = malloc(sizeof(int));
-    if (newUser.id == NULL) {
-        fprintf(stderr, "Memory allocation failed for ID\n");
-        exit(EXIT_FAILURE);
-    }
-    generate_unique_id(tab, *userCount, newUser.id);// Checking if ID already used and create another one
-
-    tab[*userCount] = newUser;
-    printf("Respectively, your ID and your password are: %d %s\n", *newUser.id, newUser.password);
-    (*userCount)++;
-}
-//*/
-
 void accountCreationFestivalGoers(int* userCount, Utilisateur* tabFest){
     char tempoPassword[30];
     int id=-1;
@@ -105,28 +73,6 @@ void accountCreationFestivalGoers(int* userCount, Utilisateur* tabFest){
     printf("Votre compte est créé, notez bien vos identifiants, ils vous permettent de vous connectez et d'accéder à vos réservations\n");
     choiceUser (userCount, tabFest);
 }
-
-/*
-bool user_login(User* tab, int userCount) {
-    int Id;
-    char Password[100];
-
-    Id=better_scan("Enter your Id: ");
-    printf("Enter your password: ");
-    fgets(Password, sizeof(Password), stdin);
-    Password[strcspn(Password, "\n")] = '\0';  // Remove newline character
-
-    for (int i = 0; i < userCount; i++) {
-        if (*tab[i].id == Id && strcmp(tab[i].password, Password) == 0) {
-            printf("Login successful!\n");
-            return true; // correct ID and password
-            }
-        }
-
-    printf("Invalid ID or password.\n");
-    return false;
-}
-//*/
 
 //Display if the manager wants to see the differents ID and passwords
 void displayUsers(Utilisateur* tabFest, int* userCount) {
@@ -158,20 +104,6 @@ void interfaceFestivalGoers(int id, int* userCount, Utilisateur* tabFest){
     }
 }
 
-/*
-int main() {
-    srand(time(NULL));
-    int userCount = 0;  // Initialize userCount
-    User* users = user_table(&userCount);
-
-    for(int i=0; i<USERMAX; i++){
-    account_check(users, &userCount);
-    }
-    display_users(users, userCount);
-
-
-    //printf("\033[31mVous pouvez revenir en arrière à chaque étape ou interrompre le programme en saisissant 0\033[00m\n");
-    // Clean memory
     /*
     for (int i = 0; i < userCount; i++) {
         free(users[i].id);

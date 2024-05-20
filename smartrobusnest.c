@@ -21,6 +21,18 @@ int better_scan(char * message){
     return value;
 }
 
+float better_scanFloat(char * message){
+    int ret_var = 0;
+    float value = 1;
+  while (ret_var != 1 || value < 0)
+    {   
+        printf("%s", message);
+        ret_var = scanf("%f", &value);
+        while(getchar()!='\n'){} // Ligne facultative de sécurisation
+    }
+    return value;
+}
+
 unsigned better_scanUn(char * message){
     int ret_var = 0;
     unsigned value = 1;

@@ -5,7 +5,7 @@
 #include "structures.h"
 #include "interface.h"
 #include "manager.h"
-
+#include "smartrobusnest.h"
 
 Siege constructSiege(int cat, int price, int f){
     Siege s;
@@ -41,32 +41,25 @@ void affiche_siege(char* color, Siege s){
 
 Date getdate(){
     Date d;
-    printf("Donnez la date exacte du concert \n");
-    printf("L'année\n");
-    scanf("%d", &d.year);
+    d.year=better_scan("L'année\n");
     while(d.year<2024){
-        printf("Mauvaise saisi, recommencer\n");
-        scanf("%d", &d.year);
+        d.year=better_scan("Mauvaise saisie, recommencez\n");
     }
-    printf("Le mois\n");
-    scanf("%d", &d.month);
+    d.month=better_scan("Le mois\n");
     while((d.month<1)||(d.month>12)){
-        printf("Mauvaise saisi, recommencer\n");
-        scanf("%d", &d.month);
+        d.month=better_scan("Mauvaise saisie, recommencez\n");
     }
-    printf("Le jour\n");
-    scanf("%d", &d.day);
-    printf("L'heure\n");
-    scanf("%d", &d.hour);
+    d.day=better_scan("Le jour\n");
+    while((d.day<1)||(d.day>30)){
+        d.day=better_scan("Mauvaise saisie, recommencez\n");
+    }
+    d.hour=better_scan("L'heure\n");
     while((d.hour<0)||(d.hour>23)){
-        printf("Mauvaise saisi, recommencer\n");
-        scanf("%d", &d.hour);
+        d.hour=better_scan("Mauvaise saisie, recommencez\n");
     }
-    printf("La minute\n");
-    scanf("%d", &d.minut);
+    d.minut=better_scan("La minute\n");
     while((d.minut<0)||(d.minut>59)){
-        printf("Mauvaise saisi, recommencer\n");
-        scanf("%d", &d.minut);
+        d.minut=better_scan("Mauvaise saisie, recommencez\n");
     }
     return d;
 }
@@ -75,47 +68,33 @@ Salle constructSalle(){
     Salle s;
     int i = 0;
     int j = 0;
-    printf("Choississez le nombre de rangé\n");
-    scanf("%d", &s.nb_range);
+    s.nb_range=better_scan("Choississez le nombre de rangées\n");
     while(s.nb_range<1){
-        printf("Mauvaise saisi, recommencer\n");
-        scanf("%d", &s.nb_range);
+        s.nb_range=better_scan("Mauvaise saisie, recommencez\n");
     }
-    printf("Choississez le nombre de siege par rangé\n");
-    scanf("%d", &s.nb_siege_range);
+    s.nb_siege_range=better_scan("Choississez le nombre de sieges par rangées\n");
     while(s.nb_siege_range<1){
-        printf("Mauvaise saisi, recommencer\n");
-        scanf("%d", &s.nb_siege_range);
+        s.nb_siege_range=better_scan("Mauvaise saisie, recommencez\n");
     }
-    printf("Combien de catégorie A par range\n");
-    scanf("%d", &s.arange);
+    s.arange=better_scan("Combien de rangées en catégorie A\n");
     while((s.arange<0)&&(s.arange>s.nb_range)){
-        printf("Mauvaise saisi, recommencer\n");
-        scanf("%d", &s.arange);
+        s.arange=better_scan("Mauvaise saisie, recommencez\n");
     }
-    printf("Donnez le prix de la catégorie A\n");
-    scanf("%f", &s.prixa);
+    s.prixa=better_scanFloat("Donnez le prix de la catégorie A\n");
     while(s.prixa<0){
-        printf("Mauvaise saisi, recommencer\n");
-        scanf("%f", &s.prixa);
+        s.prixa=better_scanFloat("Mauvaise saisie, recommencez\n");
     }
-    printf("Combien de catégorie B par range\n");
-    scanf("%d", &s.brange);
+    s.brange=better_scan("Combien de rangées en catégorie B\n");
     while((s.brange<0)||((s.arange+s.brange)>s.nb_range)){
-        printf("Mauvaise saisi, recommencer\n");
-        scanf("%d", &s.brange);
+        s.brange=better_scan("Mauvaise saisie, recommencez\n");
     }
-    printf("Donnez le prix de la catégorie B\n");
-    scanf("%f", &s.prixb);
+    s.prixb=better_scanFloat("Donnez le prix de la catégorie B\n");
     while(s.prixb<0){
-        printf("Mauvaise saisi, recommencer\n");
-        scanf("%f", &s.prixb);
+        s.prixb=better_scanFloat("Mauvaise saisie, recommencez\n");
     }
-    printf("Donnez le prix de la catégorie C\n");
-    scanf("%f", &s.prixc);
+    s.prixc=better_scanFloat("Donnez le prix de la catégorie C\n");
     while(s.prixc<0){
-        printf("Mauvaise saisi, recommencer\n");
-        scanf("%f", &s.prixc);
+        s.prixc=better_scanFloat("Mauvaise saisie, recommencez\n");
     }
     int a = s.arange;
     int b = s.brange;
@@ -176,20 +155,18 @@ void affichesalle(Salle S){
 
 Concert creerconcert(Tabdesalle t){
     Concert c;
-    printf("Quelle est le nom de et le prénom de l'artiste ?\n");
+    printf("Quel est le nom de et le prénom de l'artiste ?\n");
     scanf("%s", c.guest);
-    printf("Donnez la date du début\n");
+    printf("Saississez les éléments demandés sur la date et l'heure de début du concert\n");
     c.horaired = getdate();
-    printf("Donnez la date de fin\n");
+    printf("Saississez les éléments demandés sur la date et l'heure de fin du concert\n");
     c.horaired = getdate();
     int i = 0;
     int b = 0;
     int n = sizeof(t);
     while((i<n)&&(b!=1)){
-        printf("Es que vous voulez cette salle %s\n", *t.tab[i].nom);
-        printf("1 pour oui \n");
-        printf("2 pour non \n");
-        scanf("%d", &b);
+        printf("Voulez-vous affecter le concert à cette salle %s\n", *t.tab[i].nom);
+        b = better_scan("1 pour oui \n2 pour non \n");
         i++;
     }
     if(b){
@@ -241,36 +218,28 @@ Salle ClasseAetFosse(Salle s, int n){
 
 Salle modifsalle(Salle s){
     int b = 0;
-    printf("\nVoulez vous changer le prix de la categorie A ?\n");
-    scanf("%d", &b);
+    b=better_scan("\nVoulez vous changer le prix de la categorie A ?\n");
     if(b==1){
-        printf("Quelle est le nouveau prix de la catégorie A ?\n");
-        scanf("%f", &s.prixa);
+        s.prixa = better_scanFloat("Quel est le nouveau prix de la catégorie A ?\n");
     }
     b=0;
-    printf("\nVoulez vous changer le prix de la categorie B ?\n");
-    scanf("%d", &b);
+    b=better_scan("\nVoulez-vous changer le prix de la categorie B ?\n");
     if(b==1){
-        printf("Quelle est le nouveau prix de la catégorie B ?\n");
-        scanf("%f", &s.prixb);
+        s.prixb = better_scanFloat("Quel est le nouveau prix de la catégorie B ?\n");
     }
     b=0;
-    printf("\nVoulez vous changer le prix de la categorie C ?\n");
-    scanf("%d", &b);
+    b=better_scan("\nVoulez-vous changer le prix de la categorie C ?\n");
     if(b==1){
-        printf("Quelle est le nouveau prix de la catégorie C ?\n");
-        scanf("%f", &s.prixc);
+        s.prixc = better_scanFloat("Quel est le nouveau prix de la catégorie C ?\n");
     }
     b=0;
-    printf("Voulez-vous une fosse \n");
-    printf("1 pour oui \n");
-    printf("2 pour non \n");
-    scanf("%d", &b);
+    b=better_scan("Voulez-vous une fosse ?\n1 pour oui\n2 pour non\n");
     ClasseAetFosse(s, b);
     b=0;
     return s;
 }
 
+/*
 Salle SavePointeurSiege(Salle S){
     S.SaveSiege = malloc(S.nb_range*S.nb_siege_range*sizeof(Salle));
     int n = S.nb_range*S.nb_range;
@@ -322,11 +291,12 @@ void LireSallefichier(Salle* s2){
     *s2 = ReadPointeurSiege(*s2);
     fclose(f1);
 }
+//*/
 
 void numberRoom(int* userCount, Utilisateur* tabFest){
     int numberRoom;
     printf("\033[31mVous pouvez revenir en arrière à chaque étape ou interrompre en saisissant 0\033[00m\n");
-    printf("Combien de salles souhaitez-vous créer (10 maximum)?\n");
+    numberRoom = better_scan("Combien de salles souhaitez-vous créer (10 maximum)?\n");
     scanf("%d", &numberRoom);
         switch(numberRoom){
         case 0:

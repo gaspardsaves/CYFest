@@ -3,9 +3,6 @@
 #include <manager.h>
 #include <string.h> 
 
-
-
-
 Salle* creetabSalle(int n){
   Salle* tab = malloc(n*sizeof(Salle));
   return tab;
@@ -16,8 +13,6 @@ Concert* creetabConcert(int n){
   return tab;
 }
 
-
-
 Salle* creationPlusieursSalles(int numberRoom){
     Salle* S = creetabSalle(numberRoom);
     int i = 0;
@@ -27,8 +22,6 @@ Salle* creationPlusieursSalles(int numberRoom){
     }
     return S;
 }
-
-
 
 int better_scan(char * message){
     int ret_var = 0;
@@ -41,10 +34,7 @@ int better_scan(char * message){
     }
     return value;
 
-}
-
-
-  
+}  
 
 void my_reservation(Festival tab_concert, Utilisateur u) {
   /*Demander quel conceret il veut voir + vérifier si son id est dans la salle + rechercher dans le tableau de la salle l'id de l'utilisateur et afficher le numéro de son/ses siège(s) ou place dans la fosse + affichage 

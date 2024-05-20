@@ -8,4 +8,4 @@
         #include "manager.h"
 
         void getPrintHourDate ();
-        
+#endif
