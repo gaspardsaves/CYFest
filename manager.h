@@ -6,13 +6,16 @@
     #include "interface.h"
     
     Siege constructSiege(int cat, int price, int f);
-    void affiche_siege(char* color, Siege s);
-    Date getdate();
-    Salle constructSalle();
-    void affichesalle(Salle S);
-    Concert creerconcert(Tabdesalle t);
-    Salle* creetabSalle(int n);
-    Salle* creationPlusieursSalles(int numberRoom);
+    void displaySiege(char* color, Siege s);
+    Date getDate();
+    Salle constructRoom();
+    void displayRoom(Salle S);
+    Concert createConcert(Tabdesalle t);
+    Salle* createTabRoom(int n);
+    Concert* createTabConcert(int n);
+    Salle* multiroomCreation(int numberRoom);
+    Salle category_aAndPit(Salle s, int n);
+    Salle modifSalle(Salle s);
     void numberRoom(int* userCount, Utilisateur* tabFest);
     void interfaceManager (int* userCount, Utilisateur* tabFest);
 

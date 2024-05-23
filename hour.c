@@ -29,7 +29,7 @@ void getPrintHourDate () {
 int compareDate(Concert* tab){
     int max = sizeof(tab)/sizeof(Concert);
     for(int i=0; i<max; i++){
-        tab[i].horaired.day==h
+        tab[i].horaired.day==h;
     }
     getPrintHourDate ();
 }

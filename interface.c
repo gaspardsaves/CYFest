@@ -77,6 +77,8 @@ void choiceUser (int* userCount, Utilisateur* tabFest){
     co1=better_scanUn("Choisir votre interface de connexion :\n1 pour Festivalier\n2 pour Manager\n");
     switch(co1){
         case 0:
+            //free tout les tableaux et toute la mémoire alloué
+            //freeTab(userCount, tabFest);
             exit(0);
             break;
         case 1:
@@ -104,6 +106,14 @@ int main (){
     int nbrUser = 0;
     int* userCount = &nbrUser;
     Utilisateur* tabFest = constrTabFestivalGoers(userCount);
+    /*
+    int nbrRoom = 0;
+    int* roomCount = &nbrRoom;
+    Salle* tabRoom=createTabRoom(roomCount);
+    int nbrConcert = 0;
+    int* concertCount = &nbrConcert;
+    Concert* tabConcert=createTabConcert(concertCount);
+    //*/
     choiceUser(userCount, tabFest);
     return 0;
 }

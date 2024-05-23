@@ -17,7 +17,7 @@ Siege constructSiege(int cat, int price, int f){
     return s;
 }
 
-void affiche_siege(char* color, Siege s){
+void displaySiege(char* color, Siege s){
     couleur(color);
     if((s.categorie==1)&&(s.fosse==1)){
         if(s.nombre_personne==0){
@@ -39,7 +39,7 @@ void affiche_siege(char* color, Siege s){
     couleur("0");
 }
 
-Date getdate(){
+Date getDate(){
     Date d;
     d.year=better_scan("L'année\n");
     while(d.year<2024){
@@ -64,10 +64,11 @@ Date getdate(){
     return d;
 }
 
-Salle constructSalle(){
+Salle constructRoom(){
     Salle s;
     int i = 0;
     int j = 0;
+
     s.nb_range=better_scan("Choississez le nombre de rangées\n");
     while(s.nb_range<1){
         s.nb_range=better_scan("Mauvaise saisie, recommencez\n");
@@ -99,8 +100,10 @@ Salle constructSalle(){
     int a = s.arange;
     int b = s.brange;
     s.siege = malloc(s.nb_range*sizeof(Siege));
+    verifpointer(s.siege);
     while(i<s.nb_range){
         s.siege[i] = malloc(s.nb_siege_range*sizeof(Siege));
+        verifpointer(s.siege[i]);
         while(j<s.nb_siege_range){
             if(a>0){
                 s.siege[i][j] = constructSiege(1, s.prixa, 0);
@@ -126,20 +129,20 @@ Salle constructSalle(){
     return s;
 }
 
-void affichesalle(Salle S){
+void displayRoom(Salle S){
     int i = 0;
     int j = 0;
     while(i<S.nb_range){
         while(j<S.nb_siege_range){
             switch (S.siege[i][j].categorie){
                 case 1 :
-                    affiche_siege("32", S.siege[i][j]);
+                    displaySiege("32", S.siege[i][j]);
                     break;
                 case 2 :
-                    affiche_siege("33", S.siege[i][j]);
+                    displaySiege("33", S.siege[i][j]);
                     break;
                 case 3:
-                    affiche_siege("37", S.siege[i][j]);
+                    displaySiege("37", S.siege[i][j]);
                     break;
                 default:
                     break;
@@ -153,14 +156,14 @@ void affichesalle(Salle S){
     }
 }
 
-Concert creerconcert(Tabdesalle t){
+Concert createConcert(Tabdesalle t){
     Concert c;
     printf("Quel est le nom de et le prénom de l'artiste ?\n");
     scanf("%s", c.guest);
     printf("Saississez les éléments demandés sur la date et l'heure de début du concert\n");
-    c.horaired = getdate();
+    c.horaired = getDate();
     printf("Saississez les éléments demandés sur la date et l'heure de fin du concert\n");
-    c.horaired = getdate();
+    c.horaired = getDate();
     int i = 0;
     int b = 0;
     int n = sizeof(t);
@@ -175,21 +178,23 @@ Concert creerconcert(Tabdesalle t){
     return c;
 }
 
-Salle* creetabSalle(int n){
-    Salle* tab = malloc(n*sizeof(Salle));
-    return tab;
+Salle* createTabRoom(int n){
+    Salle* tabRoom = malloc(n*sizeof(Salle));
+    verifpointer(tabRoom);
+    return tabRoom;
 }
 
-Concert* creetabConcert(int n){
-    Concert* tab = malloc(n*sizeof(Concert));
-    return tab;
+Concert* createTabConcert(int n){
+    Concert* tabConcert = malloc(n*sizeof(Concert));
+    verifpointer(tabConcert);
+    return tabConcert;
 }
 
-Salle* creationPlusieursSalles(int numberRoom){
-    Salle* S = creetabSalle(numberRoom);
+Salle* multiroomCreation(int numberRoom){
+    Salle* S = createTabRoom(numberRoom);
     int i = 0;
     while(i<numberRoom){
-        S[i] = constructSalle();
+        S[i] = constructRoom();
         i++;
     }
     return S;
@@ -202,7 +207,7 @@ Salle* creationPlusieursSalles(int numberRoom){
     //return tab;
 //}
 
-Salle ClasseAetFosse(Salle s, int n){
+Salle category_aAndPit(Salle s, int n){
     int i = 0;
     int j = 0;
     while(i<s.arange){
@@ -216,7 +221,7 @@ Salle ClasseAetFosse(Salle s, int n){
     return s;
 }
 
-Salle modifsalle(Salle s){
+Salle modifRoom(Salle s){
     int b = 0;
     b=better_scan("\nVoulez vous changer le prix de la categorie A ?\n");
     if(b==1){
@@ -234,7 +239,7 @@ Salle modifsalle(Salle s){
     }
     b=0;
     b=better_scan("Voulez-vous une fosse ?\n1 pour oui\n2 pour non\n");
-    ClasseAetFosse(s, b);
+    category_aAndPit(s, b);
     b=0;
     return s;
 }
@@ -242,6 +247,7 @@ Salle modifsalle(Salle s){
 /*
 Salle SavePointeurSiege(Salle S){
     S.SaveSiege = malloc(S.nb_range*S.nb_siege_range*sizeof(Salle));
+    verifpointer(S.SaveSiege);
     int n = S.nb_range*S.nb_range;
     int i = 0;
     int j = 0;
@@ -297,13 +303,12 @@ void numberRoom(int* userCount, Utilisateur* tabFest){
     int numberRoom;
     printf("\033[31mVous pouvez revenir en arrière à chaque étape ou interrompre en saisissant 0\033[00m\n");
     numberRoom = better_scan("Combien de salles souhaitez-vous créer (10 maximum)?\n");
-    scanf("%d", &numberRoom);
         switch(numberRoom){
         case 0:
             interfaceManager(userCount, tabFest);
             break;
         case 1:
-            constructSalle();
+            constructRoom();
             break;
         case 2:
         case 3:
@@ -314,7 +319,7 @@ void numberRoom(int* userCount, Utilisateur* tabFest){
         case 8:
         case 9:
         case 10:
-            creationPlusieursSalles(numberRoom);
+            multiroomCreation(numberRoom);
             break;
         default:
             printf("Erreur de saisie\n");
@@ -333,8 +338,11 @@ void interfaceManager (int* userCount, Utilisateur* tabFest){
             numberRoom(userCount, tabFest);
             break;
         case 2:
-            //creerconcert(tabdesalle);
+
+            //createConcert(tabRoom);
             break;
+        case 4:
+            //calculateRatio(tabRoom);
         default:
             printf("Erreur de saisie\n");
             interfaceManager(userCount, tabFest);
