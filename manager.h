@@ -16,7 +16,10 @@
     Salle* multiroomCreation(int numberRoom);
     Salle category_aAndPit(Salle s, int n);
     Salle modifSalle(Salle s);
+    Concert* MultiConcertCreation(int numberConcert, Salle* s);
     void numberRoom(int* userCount, Utilisateur* tabFest);
+    Salle FreeTheSceneAfterConcert(Salle s);
+    Salle ResetScene(Salle s);
     void interfaceManager (int* userCount, Utilisateur* tabFest);
 
 #endif
