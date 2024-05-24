@@ -5,21 +5,19 @@
     #include "color.h"
     #include "interface.h"
     
+    Salle* createTabRoom(int* roomCount);
+    Concert* createTabConcert(int* concertCount);
     Siege constructSiege(int cat, int price, int f);
     void displaySiege(char* color, Siege s);
     Date getDate();
-    Salle constructRoom();
+    void constructRoom(int* userCount, Utilisateur* tabFest, int* roomCount, Salle* tabRoom, int* concertCount, Concert* tabConcert);
     void displayRoom(Salle S);
-    Concert createConcert(Tabdesalle t);
-    Salle* createTabRoom(int n);
-    Concert* createTabConcert(int n);
-    Salle* multiroomCreation(int numberRoom);
+    void createConcert(int* userCount, Utilisateur* tabFest, int* roomCount, Salle* tabRoom, int* concertCount, Concert* tabConcert);
+    void multiConcertCreation(int numberConcert, int* userCount, Utilisateur* tabFest, int* roomCount, Salle* tabRoom, int* concertCount, Concert* tabConcert);
     Salle category_aAndPit(Salle s, int n);
     Salle modifSalle(Salle s);
-    Concert* MultiConcertCreation(int numberConcert, Salle* s);
-    void numberRoom(int* userCount, Utilisateur* tabFest);
     Salle FreeTheSceneAfterConcert(Salle s);
     Salle ResetScene(Salle s);
-    void interfaceManager (int* userCount, Utilisateur* tabFest);
-
+    void numberRoom(int* userCount, Utilisateur* tabFest, int* roomCount, Salle* tabRoom, int* concertCount, Concert* tabConcert);
+    void interfaceManager (int* userCount, Utilisateur* tabFest, int* roomCount, Salle* tabRoom, int* concertCount, Concert* tabConcert);
 #endif

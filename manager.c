@@ -7,6 +7,18 @@
 #include "manager.h"
 #include "smartrobusnest.h"
 
+Salle* createTabRoom(int* roomCount){
+    Salle* tabRoom = malloc((*roomCount)*sizeof(Salle));
+    verifpointer(tabRoom);
+    return tabRoom;
+}
+
+Concert* createTabConcert(int* concertCount){
+    Concert* tabConcert = malloc((*concertCount)*sizeof(Concert));
+    verifpointer(tabConcert);
+    return tabConcert;
+}
+
 Siege constructSiege(int cat, int price, int f){
     Siege s;
     s.etat_siege = 0;
@@ -32,8 +44,8 @@ Salle ResetScene(Salle s){
     return s;
 }
 
-void displaySiege(char* color, Siege s){
-    couleur(color);
+void displaySiege(char* clr, Siege s){
+    color(clr);
     if((s.categorie==1)&&(s.fosse==1)){
         if(!s.etat_siege){
             printf("oo\t");
@@ -51,7 +63,7 @@ void displaySiege(char* color, Siege s){
     else if(!(s.etat_siege)){
         printf("O\t");
     }
-    couleur("0");
+    color("0");
 }
 
 Salle FreeTheSceneAfterConcert(Salle s){
@@ -95,55 +107,61 @@ Date getDate(){
     return d;
 }
 
-Salle constructRoom(){
-    Salle s;
+void constructRoom(int* userCount, Utilisateur* tabFest, int* roomCount, Salle* tabRoom, int* concertCount, Concert* tabConcert){
+    Salle newRoom;
     int i = 0;
     int j = 0;
-    // Il faut que tu mette un gets pour le nom de la salle stp
-    s.nb_range=better_scan("Choississez le nombre de rangées\n");
-    while(s.nb_range<1){
-        s.nb_range=better_scan("Mauvaise saisie, recommencez\n");
+    char tempoNom[50];
+    printf("Quel est le nom de la salle ?\n");
+    fgets(tempoNom, sizeof(tempoNom), stdin);
+    tempoNom[strcspn(tempoNom, "\n")]='\0';
+    newRoom.nom=malloc(strlen(tempoNom)+1);
+    verifpointer(newRoom.nom);
+    strcpy(newRoom.nom, tempoNom);
+    newRoom.nb_range=better_scan("Choississez le nombre de rangées\n");
+    while(newRoom.nb_range<1){
+        newRoom.nb_range=better_scan("Mauvaise saisie, recommencez\n");
     }
-    s.nb_siege_range=better_scan("Choississez le nombre de sieges par rangées\n");
-    while(s.nb_siege_range<1){
-        s.nb_siege_range=better_scan("Mauvaise saisie, recommencez\n");
+    newRoom.nb_siege_range=better_scan("Choississez le nombre de sieges par rangées\n");
+    while(newRoom.nb_siege_range<1){
+        newRoom.nb_siege_range=better_scan("Mauvaise saisie, recommencez\n");
     }
-    s.arange=better_scan("Combien de rangées en catégorie A\n");
-    while((s.arange<0)&&(s.arange>s.nb_range)){
-        s.arange=better_scan("Mauvaise saisie, recommencez\n");
+    newRoom.arange=better_scan("Combien de rangées en catégorie A\n");
+    while((newRoom.arange<0)&&(newRoom.arange>newRoom.nb_range)){
+        newRoom.arange=better_scan("Mauvaise saisie, recommencez\n");
     }
-    s.prixa=better_scanFloat("Donnez le prix de la catégorie A\n");
-    while(s.prixa<0){
-        s.prixa=better_scanFloat("Mauvaise saisie, recommencez\n");
+    newRoom.prixa=better_scanFloat("Donnez le prix de la catégorie A\n");
+    while(newRoom.prixa<0){
+        newRoom.prixa=better_scanFloat("Mauvaise saisie, recommencez\n");
     }
-    s.brange=better_scan("Combien de rangées en catégorie B\n");
-    while((s.brange<0)||((s.arange+s.brange)>s.nb_range)){
-        s.brange=better_scan("Mauvaise saisie, recommencez\n");
+    newRoom.brange=better_scan("Combien de rangées en catégorie B\n");
+    while((newRoom.brange<0)||((newRoom.arange+newRoom.brange)>newRoom.nb_range)){
+        newRoom.brange=better_scan("Mauvaise saisie, recommencez\n");
     }
-    s.prixb=better_scanFloat("Donnez le prix de la catégorie B\n");
-    while(s.prixb<0){
-        s.prixb=better_scanFloat("Mauvaise saisie, recommencez\n");
+    newRoom.prixb=better_scanFloat("Donnez le prix de la catégorie B\n");
+    while(newRoom.prixb<0){
+        newRoom.prixb=better_scanFloat("Mauvaise saisie, recommencez\n");
     }
-    s.prixc=better_scanFloat("Donnez le prix de la catégorie C\n");
-    while(s.prixc<0){
-        s.prixc=better_scanFloat("Mauvaise saisie, recommencez\n");
+    newRoom.prixc=better_scanFloat("Donnez le prix de la catégorie C\n");
+    while(newRoom.prixc<0){
+        newRoom.prixc=better_scanFloat("Mauvaise saisie, recommencez\n");
     }
-    int a = s.arange;
-    int b = s.brange;
-    s.siege = malloc(s.nb_range*sizeof(Siege));
-    verifpointer(s.siege);
-    while(i<s.nb_range){
-        s.siege[i] = malloc(s.nb_siege_range*sizeof(Siege));
-        verifpointer(s.siege[i]);
-        while(j<s.nb_siege_range){
+    int a = newRoom.arange;
+    int b = newRoom.brange;
+    newRoom.siege = malloc(newRoom.nb_range*sizeof(Siege));
+    verifpointer(newRoom.siege);
+    while(i<newRoom.nb_range){
+        newRoom.siege[i] = malloc(newRoom.nb_siege_range*sizeof(Siege));
+        verifpointer(newRoom.siege[i]);
+        while(j<newRoom.nb_siege_range){
             if(a>0){
-                s.siege[i][j] = constructSiege(1, s.prixa, 0);
+                newRoom.siege[i][j] = constructSiege(1, newRoom.prixa, 0);
             }
             else if(b>0){
-                s.siege[i][j] = constructSiege(2, s.prixb, 0);
+                newRoom.siege[i][j] = constructSiege(2, newRoom.prixb, 0);
             }
             else{
-                s.siege[i][j] = constructSiege(3, s.prixc, 0);
+                newRoom.siege[i][j] = constructSiege(3, newRoom.prixc, 0);
             }
             
             j++;
@@ -157,7 +175,11 @@ Salle constructRoom(){
         j=0;
         i++;
     }
-    return s;
+    tabRoom=realloc(tabRoom, sizeof(Salle)*(*roomCount +1));
+    verifpointer(tabRoom);
+    tabRoom[(*roomCount)]=newRoom;
+    (*roomCount)++;
+    interfaceManager(userCount, tabFest, roomCount, tabRoom, concertCount, tabConcert);
 }
 
 void displayRoom(Salle S){
@@ -181,7 +203,7 @@ void displayRoom(Salle S){
                 }
             }
             else{
-                affiche_siege("31", S.siege[i][j]);
+                displaySiege("31", S.siege[i][j]);
             }
         j++;
         }
@@ -189,94 +211,6 @@ void displayRoom(Salle S){
     j=0;
     i++;
     }
-}
-
-Concert createConcert(Concert* tabConcert, Salle* tabRoom){
-    Concert c;
-    printf("Quel est le nom de et le prénom de l'artiste ?\n");
-    scanf("%s", c.guest);
-    printf("Saississez les éléments demandés sur la date et l'heure de début du concert\n");
-    c.horaired = getDate();
-    printf("Saississez les éléments demandés sur la date et l'heure de fin du concert\n");
-    c.horaired = getDate();
-    int i = 0;
-    int b = 0;
-    int j = 0;
-    int n = sizeof(tabRoom);
-    while((i<n)&&(b!=1)){
-        printf("Voulez-vous affecter le concert à cette salle %s\n", tabRoom[i].nom);
-        j=i;
-        b = better_scan("1 pour oui \n2 pour non \n");
-        i++;
-    }
-    if(b==1){
-        tabRoom[j].state = 1;
-        c.salle = tabRoom[j];
-        strcpy(c.salle.nom, tabRoom[j].nom);
-    }
-    displayRoom(c.salle);
-    printf("Voulez-vous changer la salle %s ?\n", c.salle.nom);
-    printf("1 pour oui\n");
-    printf("2 pour non\n");
-    b = better_scan("");
-    if(b==1){
-        c.salle = modifRoom(c.salle);
-        displayRoom(c.salle);
-    }
-    return c;
-}
-
-Salle* createTabRoom(int n){
-    Salle* tabRoom = malloc(n*sizeof(Salle));
-    verifpointer(tabRoom);
-    return tabRoom;
-}
-
-Concert* createTabConcert(int n){
-    Concert* tabConcert = malloc(n*sizeof(Concert));
-    verifpointer(tabConcert);
-    return tabConcert;
-}
-
-Salle* multiroomCreation(int numberRoom){
-    Salle* S = createTabRoom(numberRoom);
-    int i = 0;
-    while(i<numberRoom){
-        S[i] = constructRoom();
-        i++;
-    }
-    return S;
-}
-
-Concert* MultiConcertCreation(int numberConcert, Salle* s){
-    Concert* C = createTabConcert(numberConcert);
-    int i = 0;
-    while(i<numberConcert){
-        C[i] = createConcert(s);
-        i++;
-    }
-    return C; 
-}
-
-//Salle* AjoutDeSalle(Salle* tab){
-    //int n = sizeof(tab);
-    //tab = realloc(tab, sizeof(Salle)*(n+1));
-    //tab[n] = ConstructSalle();
-    //return tab;
-//}
-
-Salle category_aAndPit(Salle s, int n){
-    int i = 0;
-    int j = 0;
-    while(i<s.arange){
-        while(j<s.nb_siege_range){
-            s.siege[i][j].fosse= n;
-            j++;
-        }
-        j=0;
-        i++;
-    }
-    return s;
 }
 
 Salle modifRoom(Salle s){
@@ -299,6 +233,86 @@ Salle modifRoom(Salle s){
     b=better_scan("Voulez-vous une fosse ?\n1 pour oui\n2 pour non\n");
     category_aAndPit(s, b);
     b=0;
+    return s;
+}
+
+//*
+void createConcert(int* userCount, Utilisateur* tabFest, int* roomCount, Salle* tabRoom, int* concertCount, Concert* tabConcert){
+    Concert newConcert;
+    char tempoGuest[50];
+    printf("Quel est le nom de et le prénom de l'artiste ?\n");
+    fgets(tempoGuest, sizeof(tempoGuest), stdin);
+    tempoGuest[strcspn(tempoGuest, "\n")]='\0';
+    newConcert.guest=malloc(strlen(tempoGuest)+1);
+    verifpointer(newConcert.guest);
+    strcpy(newConcert.guest, tempoGuest);
+    printf("Saississez les éléments demandés sur la date et l'heure de début du concert\n");
+    newConcert.horaired = getDate();
+    printf("Saississez les éléments demandés sur la date et l'heure de fin du concert\n");
+    newConcert.horaired = getDate();
+    int i = 0;
+    int b = 0;
+    int j = 0;
+    int n = sizeof(tabRoom);
+    while((i<n)&&(b!=1)){
+        printf("Voulez-vous affecter le concert à cette salle %s\n", tabRoom[i].nom);
+        j=i;
+        b = better_scan("1 pour oui \n2 pour non \n");
+        i++;
+    }
+    if(b==1){
+        tabRoom[j].state = 1;
+        newConcert.salle = tabRoom[j];
+        strcpy(newConcert.salle.nom, tabRoom[j].nom);
+    }
+    displayRoom(newConcert.salle);
+    printf("Voulez-vous changer la salle %s ?\n", newConcert.salle.nom);
+    printf("1 pour oui\n");
+    printf("2 pour non\n");
+    b = better_scan("");
+    if(b==1){
+        newConcert.salle = modifRoom(newConcert.salle);
+        displayRoom(newConcert.salle);
+    }
+    tabConcert=realloc(tabConcert, sizeof(Concert)*(*concertCount +1));
+    verifpointer(tabConcert);
+    tabConcert[(*concertCount)]=newConcert;
+    (*concertCount)++;
+    interfaceManager(userCount, tabFest, roomCount, tabRoom, concertCount, tabConcert);
+}
+//*/
+
+
+void multiConcertCreation(int numberConcert, int* userCount, Utilisateur* tabFest, int* roomCount, Salle* tabRoom, int* concertCount, Concert* tabConcert){
+    for(int i=0; i<numberConcert; i++){
+        createConcert(userCount, tabFest, roomCount, tabRoom, concertCount, tabConcert);
+    }
+}
+
+void multiRoomCreation(int numberRoom, int* userCount, Utilisateur* tabFest, int* roomCount, Salle* tabRoom, int* concertCount, Concert* tabConcert){
+    for(int i=0; i<numberRoom; i++){
+        createConcert(userCount, tabFest, roomCount, tabRoom, concertCount, tabConcert);
+    }
+}
+
+//Salle* AjoutDeSalle(Salle* tab){
+    //int n = sizeof(tab);
+    //tab = realloc(tab, sizeof(Salle)*(n+1));
+    //tab[n] = ConstructSalle();
+    //return tab;
+//}
+
+Salle category_aAndPit(Salle s, int n){
+    int i = 0;
+    int j = 0;
+    while(i<s.arange){
+        while(j<s.nb_siege_range){
+            s.siege[i][j].fosse= n;
+            j++;
+        }
+        j=0;
+        i++;
+    }
     return s;
 }
 
@@ -356,19 +370,18 @@ void LireSallefichier(Salle* s2){
     fclose(f1);
 }
 //*/
-
-void numberRoom(int* userCount, Utilisateur* tabFest){
-    int numberRoom;
-    couleur("31");
+void numberConcert(int* userCount, Utilisateur* tabFest, int* roomCount, Salle* tabRoom, int* concertCount, Concert* tabConcert){
+    int numberConcert;
+    color("31");
     printf("Vous pouvez revenir en arrière à chaque étape ou interrompre le programme en saisissant 0\n");
-    couleur("37");
-    numberRoom = better_scan("Combien de salles souhaitez-vous créer (10 maximum)?\n");
-        switch(numberRoom){
+    color("37");
+    numberConcert = better_scan("Combien de concerts souhaitez-vous créer (10 maximum)?\n");
+        switch(numberConcert){
         case 0:
-            interfaceManager(userCount, tabFest);
+            interfaceManager(userCount, tabFest, roomCount, tabRoom, concertCount, tabConcert);
             break;
         case 1:
-            constructRoom();
+            createConcert(userCount, tabFest, roomCount, tabRoom, concertCount, tabConcert);
             break;
         case 2:
         case 3:
@@ -379,29 +392,61 @@ void numberRoom(int* userCount, Utilisateur* tabFest){
         case 8:
         case 9:
         case 10:
-            multiroomCreation(numberRoom);
+            multiConcertCreation(numberConcert, userCount, tabFest, roomCount, tabRoom, concertCount, tabConcert);
             break;
         default:
             color("33");
             printf("Erreur de saisie\n");
             color("37");
-            interfaceManager(userCount, tabFest);
+            interfaceManager(userCount, tabFest, roomCount, tabRoom, concertCount, tabConcert);
             break;
     }
 }
 
-void interfaceManager (int* userCount, Utilisateur* tabFest){
-    int choiceAction = better_scan("Bonjour Admin 👋\nQue souhaitez vous faire ?\n0 pour se déconnecter\n1 pour créer une/des salle\n2 pour créer un concert\n3 pour créer un festival\n4 pour obtenir un rapport sur un concert\n");
-    switch(choiceAction){
+void numberRoom(int* userCount, Utilisateur* tabFest, int* roomCount, Salle* tabRoom, int* concertCount, Concert* tabConcert){
+    int numberRoom;
+    color("31");
+    printf("Vous pouvez revenir en arrière à chaque étape ou interrompre le programme en saisissant 0\n");
+    color("37");
+    numberRoom = better_scan("Combien de salles souhaitez-vous créer (10 maximum)?\n");
+        switch(numberRoom){
         case 0:
-            choiceUser(userCount, tabFest);
+            interfaceManager(userCount, tabFest, roomCount, tabRoom, concertCount, tabConcert);
             break;
         case 1:
-            numberRoom(userCount, tabFest);
+            constructRoom(userCount, tabFest, roomCount, tabRoom, concertCount, tabConcert);
             break;
         case 2:
+        case 3:
+        case 4:
+        case 5:
+        case 6:
+        case 7:
+        case 8:
+        case 9:
+        case 10:
+            multiRoomCreation(numberRoom, userCount, tabFest, roomCount, tabRoom, concertCount, tabConcert);
+            break;
+        default:
+            color("33");
+            printf("Erreur de saisie\n");
+            color("37");
+            interfaceManager(userCount, tabFest, roomCount, tabRoom, concertCount, tabConcert);
+            break;
+    }
+}
 
-            //createConcert(tabRoom);
+void interfaceManager (int* userCount, Utilisateur* tabFest, int* roomCount, Salle* tabRoom, int* concertCount, Concert* tabConcert){
+    int choiceAction = better_scan("Bonjour Admin 👋\nQue souhaitez vous faire ?\n0 pour se déconnecter\n1 pour créer une/des salle(s)\n2 pour créer un/des concert(s)\n3 pour obtenir un rapport sur un concert\n");
+    switch(choiceAction){
+        case 0:
+            choiceUser(userCount, tabFest, roomCount, tabRoom, concertCount, tabConcert);
+            break;
+        case 1:
+            numberRoom(userCount, tabFest, roomCount, tabRoom, concertCount, tabConcert);
+            break;
+        case 2:
+            numberConcert(userCount, tabFest, roomCount, tabRoom, concertCount, tabConcert);
             break;
         case 4:
             //calculateRatio(tabRoom);
@@ -409,7 +454,7 @@ void interfaceManager (int* userCount, Utilisateur* tabFest){
             color("33");
             printf("Erreur de saisie\n");
             color("37");
-            interfaceManager(userCount, tabFest);
+            interfaceManager(userCount, tabFest, roomCount, tabRoom, concertCount, tabConcert);
             break;
     }
 }

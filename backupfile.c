@@ -1,6 +1,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
+#include<errno.h>
 #include "structures.h"
 #include "backupfile.h"
 
@@ -27,7 +28,7 @@ void freeArray(int* userCount, Utilisateur* tabFest, int* roomCount, Salle* tabR
     free(tabConcert);
 }
 
-void Userfile(User* tab, int* userCount){
+void Userfile(Utilisateur* tab, int* userCount){
 
 FILE* f=NULL;
     f=fopen("UserTable", "w");
@@ -41,17 +42,12 @@ fprintf(stderr, "Erreur : %s\n", strerror(errno));
 fprintf(f, "%d\n", *userCount);
 
 for (int i=0; i<*userCount; i++){
-        fprintf(f, "%d" "%s",*tab[i].id , tab[i].password);
+        fprintf(f, "%d" "%s",tab[i].id , tab[i].password);
 }
 fclose(f);       
 }
 
-
-
-
-
-
-User* readfile(int* userCount){
+Utilisateur* readfile(int* userCount){
     FILE* f=NULL;
     f=fopen("UserTable", "r");
 if (f==NULL){
@@ -61,7 +57,7 @@ fprintf(stderr, "Erreur : %s\n", strerror(errno));
      exit(1);
 }
 fscanf(f, "%d\n", userCount);
-User* tab=user_table(userCount);
+Utilisateur* tab=user_table(userCount);
 
 for (int i=0; i<*userCount; i++){
 tab[i].id=malloc(sizeof(int));
@@ -76,17 +72,7 @@ fclose(f);
 return tab;
 }
 
-
-
-
-
-
-
-
-
-
-
-User* Realloc_table(int* userCount){
+Utilisateur* Realloc_table(int* userCount){
 FILE* f=NULL;
 f=fopen("UserTable", "r" );
 if(f==NULL){
@@ -96,7 +82,7 @@ fprintf(stderr, "Code erreur : %d\n", errno);
 fprintf(stderr, "Erreur : %s\n", strerror(errno));
 }
 
-User* tab=malloc(sizeof(User)*(*userCount));
+Utilisateur* tab=malloc(sizeof(Utilisateur)*(*userCount));
 if(tab==NULL){
     fprintf(stderr, "Memory allocation failed\n");
     exit(EXIT_FAILURE);

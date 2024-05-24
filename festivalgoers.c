@@ -59,7 +59,7 @@ void generateUniqueId(Utilisateur* tabFest, int* genId, int* userCount) {
     } while (!unique); // generate id until it is unique
 }
 
-void accountCreationFestivalGoers(int* userCount, Utilisateur* tabFest){
+void accountCreationFestivalGoers(int* userCount, Utilisateur* tabFest, int* roomCount, Salle* tabRoom, int* concertCount, Concert* tabConcert){
     char tempoPassword[30];
     int id=-1;
     int* genId=&id;
@@ -79,7 +79,7 @@ void accountCreationFestivalGoers(int* userCount, Utilisateur* tabFest){
     printf("Votre identifiant est %d\n", newUser.id);
     printf("Votre mot de passe est %s\n", newUser.password);
     printf("Votre compte est créé, notez bien vos identifiants, ils vous permettent de vous connectez et d'accéder à vos réservations\n");
-    choiceUser (userCount, tabFest);
+    choiceUser (userCount, tabFest, roomCount, tabRoom, concertCount, tabConcert);
 }
 
 //Display if the manager wants to see the differents ID and passwords
@@ -198,11 +198,11 @@ void reserve_seats(Festival tab_concert) {
 */
 
 //Interface
-void interfaceFestivalGoers(int id, int* userCount, Utilisateur* tabFest) {
+void interfaceFestivalGoers(int idco, int* userCount, Utilisateur* tabFest, int* roomCount, Salle* tabRoom, int* concertCount, Concert* tabConcert) {
     int choiceAction = better_scan("Bonjour 👋\nQue souhaitez vous faire ?\n0 pour se déconnecter\n1 pour voir vos réservations\n2 pour réserver un concert\n");
     switch (choiceAction){
       case 0:
-        choiceUser(userCount, tabFest);
+        choiceUser(userCount, tabFest, roomCount, tabRoom, concertCount, tabConcert);
         break;
       case 1:
         //myReservations();
@@ -214,7 +214,7 @@ void interfaceFestivalGoers(int id, int* userCount, Utilisateur* tabFest) {
         color("33");
         printf("Erreur de saisie\n");
         color("37");
-        interfaceFestivalGoers(id, userCount, tabFest);
+        interfaceFestivalGoers(idco, userCount, tabFest, roomCount, tabRoom, concertCount, tabConcert);
         break;
     }
 }

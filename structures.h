@@ -17,13 +17,7 @@
         char* password;
         int** resa; // double tableau qui contient les concerts et les sièges associés à ces derniers;
         int porte_feuille;
-    }Utilisateur; 
-
-    typedef struct {
-        int admin; //1
-        int id;
-        char* password;
-    }Manager;
+    }Utilisateur;
 
     // Concert                           --------------------------------
     typedef struct {
@@ -36,35 +30,25 @@
     } Siege;
 
     typedef struct {
-        Siege** siege; // double tableau qui va contenir  
+        Siege** siege; // double tableau qui va contenir les sièges 
         int nb_range;
         int nb_siege_range;
-        char nom[100];
+        char* nom;
         int arange;
         int brange;
         float prixa;
         float prixb;
         float prixc;
         int state;
-    // malloc les sièges
     } Salle; 
 
 
     typedef struct {
-        char guest[100];
+        char* guest;
         Date horaired;
         Date horairef;
         Salle salle;
         int state;
     } Concert;
-
-    typedef struct{
-        Salle* tab;
-    } Tabdesalle;
-    
-    typedef struct {
-        Concert concert[10];
-    // Tableau qui contient tout les concerts
-    } Festival;
 
 #endif
