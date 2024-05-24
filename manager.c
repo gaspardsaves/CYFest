@@ -17,16 +17,31 @@ Siege constructSiege(int cat, int price, int f){
     return s;
 }
 
+Salle ResetScene(Salle s){
+    int i = 0;
+    int j = 0;
+    while(i<s.nb_range){
+        while(j<s.nb_siege_range){
+            s.siege[i][j].nombre_personne = 0;
+            s.siege[i][j].etat_siege = 0;
+            j++;
+        }
+        j = 0;
+        i++;
+    }
+    return s;
+}
+
 void displaySiege(char* color, Siege s){
     couleur(color);
     if((s.categorie==1)&&(s.fosse==1)){
-        if(s.nombre_personne==0){
+        if(!s.etat_siege){
             printf("oo\t");
         }
         else if (s.nombre_personne==1){
             printf("xo\t");
         }
-        else if(s.nombre_personne==2){
+        else if((s.nombre_personne==2)||(s.etat_siege)){
             printf("xx\t");
         }
     }
@@ -37,6 +52,22 @@ void displaySiege(char* color, Siege s){
         printf("O\t");
     }
     couleur("0");
+}
+
+Salle FreeTheSceneAfterConcert(Salle s){
+    int i = 0;
+    int j = 0;
+    while(i<s.nb_range){
+        while(j<s.nb_siege_range){
+            if(s.siege[i][j].etat_siege==1){
+                s.siege[i][j].etat_siege = 0;
+            }
+            j++;
+        }
+        j=0;
+        i++;
+    }
+    return s;
 }
 
 Date getDate(){
@@ -68,7 +99,7 @@ Salle constructRoom(){
     Salle s;
     int i = 0;
     int j = 0;
-
+    // Il faut que tu mette un gets pour le nom de la salle stp
     s.nb_range=better_scan("Choississez le nombre de rangées\n");
     while(s.nb_range<1){
         s.nb_range=better_scan("Mauvaise saisie, recommencez\n");
@@ -134,20 +165,24 @@ void displayRoom(Salle S){
     int j = 0;
     while(i<S.nb_range){
         while(j<S.nb_siege_range){
-            switch (S.siege[i][j].categorie){
-                case 1 :
-                    displaySiege("32", S.siege[i][j]);
-                    break;
-                case 2 :
-                    displaySiege("33", S.siege[i][j]);
-                    break;
-                case 3:
-                    displaySiege("37", S.siege[i][j]);
-                    break;
-                default:
-                    break;
+            if (!S.siege[i][j].etat_siege){
+                switch (S.siege[i][j].categorie){
+                    case 1 :
+                        displaySiege("32", S.siege[i][j]);
+                        break;
+                    case 2 :
+                        displaySiege("33", S.siege[i][j]);
+                        break;
+                    case 3:
+                        displaySiege("37", S.siege[i][j]);
+                        break;
+                    default:
+                        break;
+                }
             }
-            
+            else{
+                affiche_siege("31", S.siege[i][j]);
+            }
         j++;
         }
     printf("\n");
@@ -166,14 +201,27 @@ Concert createConcert(Tabdesalle t){
     c.horaired = getDate();
     int i = 0;
     int b = 0;
+    int j = 0;
     int n = sizeof(t);
     while((i<n)&&(b!=1)){
         printf("Voulez-vous affecter le concert à cette salle %s\n", *t.tab[i].nom);
+        j=i;
         b = better_scan("1 pour oui \n2 pour non \n");
         i++;
     }
-    if(b){
+    if(b==1){
+        t[j].state = 1;
         c.salle = t.tab[i];
+        strcpy(c.salle.nom, t[j].nom);
+    }
+    displayRoom(c.salle);
+    printf("Voulez-vous changer la salle %s ?\n", c.salle.nom);
+    printf("1 pour oui\n");
+    printf("2 pour non\n");
+    b = better_scan("");
+    if(b==1){
+        c.salle = modifsalle(c.salle);
+        displayRoom(c.salle);
     }
     return c;
 }
@@ -198,6 +246,16 @@ Salle* multiroomCreation(int numberRoom){
         i++;
     }
     return S;
+}
+
+Concert* MultiConcertCreation(int numberConcert, Salle* s){
+    Concert* C = createTabConcert(numberConcert);
+    int i = 0;
+    while(i<numberConcert){
+        C[i] = createConcert(s);
+        i++;
+    }
+    return C; 
 }
 
 //Salle* AjoutDeSalle(Salle* tab){
