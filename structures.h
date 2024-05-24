@@ -1,6 +1,5 @@
 #ifndef STRUCTURES
     #define STRUCTURES
-
     #include <stddef.h>
 
     typedef struct{
@@ -40,7 +39,7 @@
         Siege** siege; // double tableau qui va contenir  
         int nb_range;
         int nb_siege_range;
-        char* nom[100];
+        char nom[100];
         int arange;
         int brange;
         float prixa;

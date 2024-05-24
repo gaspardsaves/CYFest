@@ -25,7 +25,9 @@ int checkIdFest(Utilisateur* tabFest, int* userCount, int idco) {
             return 1;
         }
     }
+    color("33");
     printf("Cet identifiant n'existe pas\n");
+    color("37");
     return -1;
 }
 
@@ -36,7 +38,9 @@ int checkPasswordFest(Utilisateur* tabFest, int* userCount, char* passwordco) {
             return 1;
         }
     }
+    color("33");
     printf("Erreur de saisie\n");
+    color("37");
     return -1;
 }
 //*/
@@ -207,7 +211,9 @@ void interfaceFestivalGoers(int id, int* userCount, Utilisateur* tabFest) {
         //reservation();
         break;
       default:
+        color("33");
         printf("Erreur de saisie\n");
+        color("37");
         interfaceFestivalGoers(id, userCount, tabFest);
         break;
     }

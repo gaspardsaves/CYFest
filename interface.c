@@ -16,7 +16,6 @@ void connectionFestivalGoers(int* userCount, Utilisateur* tabFest) {
     if (retour1 == -1) {
         exit(1);
     }
-
     printf("Saisir votre mot de passe\n");
     fgets(passwordco, sizeof(passwordco), stdin);
     passwordco[strcspn(passwordco, "\n")] = '\0';
@@ -26,7 +25,9 @@ void connectionFestivalGoers(int* userCount, Utilisateur* tabFest) {
         printf("Connexion réussie\n");
         interfaceFestivalGoers(idco, userCount, tabFest);
     } else {
+        color("33");
         printf("Erreur de connexion, merci de réessayer\n");
+        color("37");
         exit(1);
     }
 }
@@ -34,7 +35,9 @@ void connectionFestivalGoers(int* userCount, Utilisateur* tabFest) {
 
 void choiceCoFestivalGoers (int* userCount, Utilisateur* tabFest) {
     unsigned co2=-3;
-    printf("\033[31mVous pouvez revenir en arrière à chaque étape ou interrompre le programme en saisissant 0\033[00m\n");
+    couleur("31");
+    printf("Vous pouvez revenir en arrière à chaque étape ou interrompre le programme en saisissant 0\n");
+    couleur("37");
     co2=better_scanUn("Vous avez choisi festivalier.\nQuelle est votre situation ?\n1 pour créer un compte\n2 pour se connecter\n");
     switch(co2){
         case 0:
@@ -47,7 +50,9 @@ void choiceCoFestivalGoers (int* userCount, Utilisateur* tabFest) {
             connectionFestivalGoers(userCount, tabFest);
             break;
         default:
+            color("33");
             printf("Erreur de saisie\n");
+            color("37");
             choiceCoFestivalGoers(userCount, tabFest);
         break;
     }
@@ -55,7 +60,9 @@ void choiceCoFestivalGoers (int* userCount, Utilisateur* tabFest) {
 
 void connectionManager(int* userCount, Utilisateur* tabFest){
     int codemanag;
-    printf("\033[31mVous pouvez revenir en arrière à chaque étape ou interrompre le programme en saisissant 0\033[00m\n");
+    couleur("31");
+    printf("Vous pouvez revenir en arrière à chaque étape ou interrompre le programme en saisissant 0\n");
+    couleur("37");
     codemanag=better_scan("Vous avez choisi manager\nSaisir le code\n");
         switch(codemanag){
             case 0:
@@ -66,7 +73,9 @@ void connectionManager(int* userCount, Utilisateur* tabFest){
                 interfaceManager(userCount, tabFest);
                 break;
             default:
-                printf("\033[33mErreur de saisie\033[00m\n");
+                color("33");
+                printf("Erreur de saisie\n");
+                color("37");
                 connectionManager(userCount, tabFest);
             break;
         }
@@ -91,7 +100,9 @@ void choiceUser (int* userCount, Utilisateur* tabFest){
             connectionManager(userCount, tabFest);
             break;
         default:
+            color("33");
             printf("Erreur de saisie\n");
+            color("37");
             choiceUser(userCount, tabFest);
             break;
     }

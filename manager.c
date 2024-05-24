@@ -191,7 +191,7 @@ void displayRoom(Salle S){
     }
 }
 
-Concert createConcert(Tabdesalle t){
+Concert createConcert(Concert* tabConcert, Salle* tabRoom){
     Concert c;
     printf("Quel est le nom de et le prénom de l'artiste ?\n");
     scanf("%s", c.guest);
@@ -202,17 +202,17 @@ Concert createConcert(Tabdesalle t){
     int i = 0;
     int b = 0;
     int j = 0;
-    int n = sizeof(t);
+    int n = sizeof(tabRoom);
     while((i<n)&&(b!=1)){
-        printf("Voulez-vous affecter le concert à cette salle %s\n", *t.tab[i].nom);
+        printf("Voulez-vous affecter le concert à cette salle %s\n", tabRoom[i].nom);
         j=i;
         b = better_scan("1 pour oui \n2 pour non \n");
         i++;
     }
     if(b==1){
-        t[j].state = 1;
-        c.salle = t.tab[i];
-        strcpy(c.salle.nom, t[j].nom);
+        tabRoom[j].state = 1;
+        c.salle = tabRoom[j];
+        strcpy(c.salle.nom, tabRoom[j].nom);
     }
     displayRoom(c.salle);
     printf("Voulez-vous changer la salle %s ?\n", c.salle.nom);
@@ -220,7 +220,7 @@ Concert createConcert(Tabdesalle t){
     printf("2 pour non\n");
     b = better_scan("");
     if(b==1){
-        c.salle = modifsalle(c.salle);
+        c.salle = modifRoom(c.salle);
         displayRoom(c.salle);
     }
     return c;
@@ -359,7 +359,9 @@ void LireSallefichier(Salle* s2){
 
 void numberRoom(int* userCount, Utilisateur* tabFest){
     int numberRoom;
-    printf("\033[31mVous pouvez revenir en arrière à chaque étape ou interrompre en saisissant 0\033[00m\n");
+    couleur("31");
+    printf("Vous pouvez revenir en arrière à chaque étape ou interrompre le programme en saisissant 0\n");
+    couleur("37");
     numberRoom = better_scan("Combien de salles souhaitez-vous créer (10 maximum)?\n");
         switch(numberRoom){
         case 0:
@@ -380,7 +382,9 @@ void numberRoom(int* userCount, Utilisateur* tabFest){
             multiroomCreation(numberRoom);
             break;
         default:
+            color("33");
             printf("Erreur de saisie\n");
+            color("37");
             interfaceManager(userCount, tabFest);
             break;
     }
@@ -402,7 +406,9 @@ void interfaceManager (int* userCount, Utilisateur* tabFest){
         case 4:
             //calculateRatio(tabRoom);
         default:
+            color("33");
             printf("Erreur de saisie\n");
+            color("37");
             interfaceManager(userCount, tabFest);
             break;
     }

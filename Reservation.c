@@ -88,8 +88,6 @@ void reserve_seats(Festival tab_concert) {
   int concert_number = 0;
   int row_number = 0;
   int seat_number = 0;
-
-  
   do {
   concert_number = better_scan("Enter the concert number you want to reserve: ");
   } while (concert_number < 0 || concert_number >= 10);
@@ -144,11 +142,7 @@ switch (question){
 } 
 }
 
-
-
-
-
-  int main(){
+int main(){
     // Bon faut fait venir le tab_concert d'un autre programme crée et qui contient le taleau concert
 Festival tab_concert; 
 
