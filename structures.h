@@ -46,6 +46,7 @@
         float prixa;
         float prixb;
         float prixc;
+        int state;
     // malloc les sièges
     } Salle; 
 
@@ -55,6 +56,7 @@
         Date horaired;
         Date horairef;
         Salle salle;
+        int state;
     } Concert;
 
     typedef struct{
