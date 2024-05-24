@@ -6,10 +6,8 @@
 #include "smartrobusnest.h"
 #include <string.h>
 
-
 //typedef struct {} Heure;
 //typedef struct {} Date;
-
 
 void PrintHourDateNow() {
     int h, min, s, day, month, year;
@@ -24,17 +22,33 @@ void PrintHourDateNow() {
     s = local->tm_sec;       
     day = local->tm_mday;          
     month = local->tm_mon + 1;     
-    year = local->tm_year + 1900; 
-    //Ligne de test
-    //printf("L'heure : %02d:%02d:%02d\n", h, min, s);
-    //printf("La date : %02d/%02d/%d\n", day, month, year);
+    year = local->tm_year + 1900;  
+    printf("L'heure : %02d:%02d:%02d\n", h, min, s);
+    printf("La date : %02d/%02d/%d\n", day, month, year);
 }
 
-/*
-int compareDate(Concert* tab){
-    int max = sizeof(tab)/sizeof(Concert);
-    for(int i=0; i<max; i++){
-        tab[i].horaired.day==h;
+void PrintHourDate (Date d) {  
+    printf("\nL'heure : %02d:%02d\n", d.hour, d.minut);
+    printf("La date : %02d/%02d/%d\n", d.day, d.month, d.year);
+}
+
+int CheckHour(Date d){
+    int h, min, s, day, month, year;
+    int b = 0;
+    time_t now;
+    time(&now);
+    struct tm *local = localtime(&now);
+    h = local->tm_hour + 2;        
+    min = local->tm_min;       
+    s = local->tm_sec;       
+    day = local->tm_mday;          
+    month = local->tm_mon + 1;     
+    year = local->tm_year + 1900; 
+    PrintHourDateNow();
+    printf("%d\n", year);
+    PrintHourDate(d);
+    if(d.year<year){
+        b = 0;
     }
     else if(d.year>year){
         b = 1;
@@ -96,11 +110,10 @@ Concert VerifConcert(Concert C){ //0 if concert finished or 1 if
     return C;
 }
 
-
-Concert* VerifTabConcert(Concert* Cab, int* Concertcount){
+Concert* VerifTabConcert(Concert* Cab, int* concertCount){
     int i = 0;
     int j = 0;
-    while(i<(*Concertcount)){
+    while(i<(*concertCount)){
         Cab[i] = VerifConcert(Cab[i]);
         if(Cab[i].state==-1){
             Cab[i].salle = ResetScene(Cab[i].salle);
@@ -108,12 +121,12 @@ Concert* VerifTabConcert(Concert* Cab, int* Concertcount){
         }
         i++;
     }
-    *Concertcount = (*Concertcount) - j;
+    *concertCount = (*concertCount) - j;
     i = 0;
     int k=0;
     //Principe marche mais je n'arrive pas à realloc stp aide moi celui qui lit ce message
-    Concert* Cab2 = malloc((*Concertcount)*sizeof(Concert));
-    while(i<(*Concertcount)){
+    Concert* Cab2 = malloc((*concertCount)*sizeof(Concert));
+    while(i<(*concertCount)){
         if(Cab[i].state != -1){
             Cab2[k] = Cab[i];
             k++;
@@ -123,9 +136,3 @@ Concert* VerifTabConcert(Concert* Cab, int* Concertcount){
     free(Cab);
     return Cab2;
 }
-
-int main (){
-    getPrintHourDate();
-    return 0;
-}
-//*/

@@ -7,5 +7,10 @@
         #include "structures.h"
         #include "manager.h"
 
-        void getPrintHourDate ();
+        void PrintHourDateNow();
+        void PrintHourDate (Date d);
+        int CheckHour(Date d);
+        Concert VerifConcert(Concert C);
+        Concert* VerifTabConcert(Concert* Cab, int* concertCount);
+
 #endif
