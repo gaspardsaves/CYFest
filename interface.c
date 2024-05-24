@@ -3,6 +3,7 @@
 #include <string.h>
 #include <time.h>
 #include "structures.h"
+#include "color.h"
 #include "smartrobusnest.h"
 #include "manager.h"
 #include "festivalgoers.h"
@@ -73,7 +74,9 @@ void connectionManager(int* userCount, Utilisateur* tabFest){
 
 void choiceUser (int* userCount, Utilisateur* tabFest){
     unsigned co1=-3;
-    printf("\033[31mVous pouvez revenir en arrière à chaque étape ou interrompre le programme en saisissant 0\033[00m\n");
+    couleur("31");
+    printf("Vous pouvez revenir en arrière à chaque étape ou interrompre le programme en saisissant 0\n");
+    couleur("37");
     co1=better_scanUn("Choisir votre interface de connexion :\n1 pour Festivalier\n2 pour Manager\n");
     switch(co1){
         case 0:

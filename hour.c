@@ -24,11 +24,13 @@ void PrintHourDateNow() {
     s = local->tm_sec;       
     day = local->tm_mday;          
     month = local->tm_mon + 1;     
-    year = local->tm_year + 1900;  
-    printf("L'heure : %02d:%02d:%02d\n", h, min, s);
-    printf("La date : %02d/%02d/%d\n", day, month, year);
+    year = local->tm_year + 1900; 
+    //Ligne de test
+    //printf("L'heure : %02d:%02d:%02d\n", h, min, s);
+    //printf("La date : %02d/%02d/%d\n", day, month, year);
 }
 
+<<<<<<< Updated upstream
 void PrintHourDate (Date d) {  
     printf("\nL'heure : %02d:%02d\n", d.hour, d.minut);
     printf("La date : %02d/%02d/%d\n", d.day, d.month, d.year);
@@ -51,6 +53,13 @@ int CheckHour(Date d){
     PrintHourDate(d);
     if(d.year<year){
         b = 0;
+=======
+/*
+int compareDate(Concert* tab){
+    int max = sizeof(tab)/sizeof(Concert);
+    for(int i=0; i<max; i++){
+        tab[i].horaired.day==h;
+>>>>>>> Stashed changes
     }
     else if(d.year>year){
         b = 1;
@@ -139,3 +148,12 @@ Concert* VerifTabConcert(Concert* Cab, int* Concertcount){
     free(Cab);
     return Cab2;
 }
+<<<<<<< Updated upstream
+=======
+
+int main (){
+    getPrintHourDate();
+    return 0;
+}
+//*/
+>>>>>>> Stashed changes

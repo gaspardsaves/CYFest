@@ -2,7 +2,7 @@
     #define MANAGER_H
 
     #include "structures.h"
-    #include "couleur.h"
+    #include "color.h"
     #include "interface.h"
     
     Siege constructSiege(int cat, int price, int f);

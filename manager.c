@@ -1,7 +1,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
-#include "couleur.h"
+#include "color.h"
 #include "structures.h"
 #include "interface.h"
 #include "manager.h"

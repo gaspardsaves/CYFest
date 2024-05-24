@@ -4,7 +4,9 @@
 #include <time.h>
 #include <stdbool.h>
 #include "structures.h"
+#include "color.h"
 #include "smartrobusnest.h"
+#include "hour.h"
 #include "interface.h"
 
 //User array openned with the backupfiles
@@ -87,6 +89,31 @@ void displayUsers(Utilisateur* tabFest, int* userCount) {
 }
 
 /*
+void reserveSeat(int inputConcert, int ){
+  //Eventuellement intégrer la vérification de l'heure
+
+  
+
+
+}
+
+void reservation(int id, Concert* tabConcert, Salle* tabRoom){
+  char inputConcert[50];
+  printf("Quel est le concert que vous souhaitez voir ?\n");
+  fgets(inputConcert, sizeof(inputConcert), stdin);
+  inputConcert[strcspn(inputConcert, '\n')]='\0';
+  int concertFound=-1;
+  for (int i = 0; i < 10; i++) {
+    if (strcmp(tabConcert[i].guest, inputConcert) == 0) {
+      concertFound = i;
+      reserveSeat(inputConcert, );
+
+
+
+  free(inputConcert);
+}
+
+/*
 void my_reservation(Festival tab_concert, Utilisateur u) {
   //Demander quel concert il veut voir + vérifier si son id est dans la salle
   //+ rechercher dans le tableau de la salle l'id de l'utilisateur et afficher 
@@ -164,56 +191,22 @@ void reserve_seats(Festival tab_concert) {
 }
 }
 
-void action_type(Festival tab_concert){
-int question;
-
-  do{
-  question=better_scan("0-my reservation or 1-reserve seats");
-  }
-  while(question!=1&&question!=0);
-
-
-switch (question){
-
-  case 0: my_reservation(tab_concert);
-    break;
-
-  case 1: reserve_seats(tab_concert);
-    break;
-
-  default:
-    break;
-} 
-}
-//
-//
-int main(){
-    // Bon faut fait venir le tab_concert d'un autre programme crée et qui contient le taleau concert
-Festival tab_concert; 
-
-action_type(tab_concert);
-
-// est-ce qu'on débite le montant de la place avec un compte bancaire fictif avec une fonction card_ticket
-
-  // free buffer
-    return 0;
-  }
 */
 
 //Interface
-void interfaceFestivalGoers(int id, int* userCount, Utilisateur* tabFest){
+void interfaceFestivalGoers(int id, int* userCount, Utilisateur* tabFest) {
     int choiceAction = better_scan("Bonjour 👋\nQue souhaitez vous faire ?\n0 pour se déconnecter\n1 pour voir vos réservations\n2 pour réserver un concert\n");
-    switch (choiceAction) {
-    case 0:
+    switch (choiceAction){
+      case 0:
         choiceUser(userCount, tabFest);
         break;
-    case 1:
+      case 1:
         //myReservations();
         break;
-    case 3:
+      case 3:
         //reservation();
         break;
-    default:
+      default:
         printf("Erreur de saisie\n");
         interfaceFestivalGoers(id, userCount, tabFest);
         break;
