@@ -76,7 +76,7 @@ void SaveScene(Salle* s) {
    
     fwrite(&s->nb_range, sizeof(int), 1, f1);
     fwrite(&s->nb_siege_range, sizeof(int), 1, f1);
-    fwrite(s->nom, sizeof(char), 100, f1); // Écrire directement depuis le tableau statique
+    fwrite(s->nom, sizeof(char), 100, f1); 
     fwrite(&s->arange, sizeof(int), 1, f1);
     fwrite(&s->brange, sizeof(int), 1, f1);
     fwrite(&s->prixa, sizeof(float), 1, f1);
@@ -104,7 +104,7 @@ void ReadScene(Salle* s) {
  
     fread(&s->nb_range, sizeof(int), 1, f1);
     fread(&s->nb_siege_range, sizeof(int), 1, f1);
-    fread(s->nom, sizeof(char), 100, f1); // Lire directement dans le tableau statique
+    fread(s->nom, sizeof(char), 100, f1); 
     fread(&s->arange, sizeof(int), 1, f1);
     fread(&s->brange, sizeof(int), 1, f1);
     fread(&s->prixa, sizeof(float), 1, f1);
