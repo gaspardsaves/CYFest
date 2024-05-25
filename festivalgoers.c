@@ -32,9 +32,9 @@ int checkIdFest(Utilisateur* tabFest, int* userCount, int idco) {
     return -1;
 }
 
-int checkPasswordFest(Utilisateur* tabFest, int* userCount, char* passwordco) {
+int checkPasswordFest(Utilisateur* tabFest, int* userCount, char* passwordco, int idco) {
     for (int i = 0; i < (*userCount); i++) {
-        if (tabFest[i].password != NULL && strcmp(tabFest[i].password, passwordco) == 0) {
+        if (tabFest[i].password != NULL && tabFest[i].id == idco && strcmp(tabFest[i].password, passwordco) == 0) {
             printf("Mot de passe correct\n");
             return 1;
         }

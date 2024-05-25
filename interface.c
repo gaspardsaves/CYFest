@@ -22,7 +22,7 @@ void connectionFestivalGoers(int* userCount, Utilisateur* tabFest, int* roomCoun
     printf("Saisir votre mot de passe\n");
     fgets(passwordco, sizeof(passwordco), stdin);
     passwordco[strcspn(passwordco, "\n")] = '\0';
-    int retour2 = checkPasswordFest(tabFest, userCount, passwordco);
+    int retour2 = checkPasswordFest(tabFest, userCount, passwordco, idco);
     if (retour2 == 1) {
         printf("Connexion réussie\n");
         interfaceFestivalGoers(idco, userCount, tabFest, roomCount, tabRoom, concertCount, tabConcert);
