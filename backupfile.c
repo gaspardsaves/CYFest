@@ -9,17 +9,17 @@
 void freeArray(int* userCount, Utilisateur* tabFest, int* roomCount, Salle* tabRoom, int* concertCount, Concert* tabConcert){
     for (int i = 0; i < *userCount; i++) {
         free(tabFest[i].password);
-        free(tabFest[i].id);
+        //free(tabFest[i].id);
     }
     free(tabFest);
     //*/
     for (int j = 0; j < *roomCount; j++) {
         free(tabRoom[j].siege);
-        free(tabRoom[j].nb_range);
-        free(tabRoom[j].nb_siege_range);
+        //free(tabRoom[j].nb_range);
+        //free(tabRoom[j].nb_siege_range);
         free(tabRoom[j].nom);
-        free(tabRoom[j].arange);
-        free(tabRoom[j].brange);
+        //free(tabRoom[j].arange);
+        //free(tabRoom[j].brange);
     }
     free(tabRoom);
     for (int k = 0; k < *concertCount; k++) {
@@ -28,6 +28,7 @@ void freeArray(int* userCount, Utilisateur* tabFest, int* roomCount, Salle* tabR
     free(tabConcert);
 }
 
+/*
 void Userfile(Utilisateur* tab, int* userCount){
 
 FILE* f=NULL;
@@ -116,3 +117,4 @@ fclose(f);
 return tab;
     
 }
+//*/

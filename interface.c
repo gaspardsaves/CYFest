@@ -17,7 +17,7 @@ void connectionFestivalGoers(int* userCount, Utilisateur* tabFest, int* roomCoun
     }
     int retour1 = checkIdFest(tabFest, userCount, idco);
     if (retour1 == -1) {
-        exit(1);
+        return;
     }
     printf("Saisir votre mot de passe\n");
     fgets(passwordco, sizeof(passwordco), stdin);
@@ -31,7 +31,7 @@ void connectionFestivalGoers(int* userCount, Utilisateur* tabFest, int* roomCoun
         color("33");
         printf("Erreur de connexion, merci de réessayer\n");
         color("37");
-        void choiceUser (int* userCount, Utilisateur* tabFest, int* roomCount, Salle* tabRoom, int* concertCount, Concert* tabConcert);
+        choiceUser (userCount, tabFest, roomCount, tabRoom, concertCount, tabConcert);
     }
 }
 //*/
@@ -92,8 +92,7 @@ void choiceUser (int* userCount, Utilisateur* tabFest, int* roomCount, Salle* ta
     co1=better_scanUn("Choisir votre interface de connexion :\n1 pour Festivalier\n2 pour Manager\n");
     switch(co1){
         case 0:
-            //free tout les tableaux et toute la mémoire alloué
-            //freeTab(userCount, tabFest);
+            //freeArray(userCount, tabFest, roomCount, tabRoom, concertCount, tabConcert);
             exit(0);
             break;
         case 1:

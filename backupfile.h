@@ -3,6 +3,6 @@
     #include <stddef.h>
     #include "structures.h"
 
-void freeTab(int* userCount, Utilisateur* tabFest);
+void freeArray(int* userCount, Utilisateur* tabFest, int* roomCount, Salle* tabRoom, int* concertCount, Concert* tabConcert);
     
 #endif

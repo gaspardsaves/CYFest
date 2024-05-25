@@ -1,5 +1,5 @@
 all: execdef
-interface.o: interface.c interface.h smartrobusnest.h structures.h color.h
+interface.o: interface.c interface.h smartrobusnest.h structures.h color.h manager.h festivalgoers.h
 	gcc -c interface.c -o interface.o
 manager.o: manager.c manager.h smartrobusnest.h structures.h color.h
 	gcc -c manager.c -o manager.o

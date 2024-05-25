@@ -13,6 +13,12 @@
 Utilisateur* constrTabFestivalGoers(int* userCount) {
     Utilisateur* tabFest = malloc(sizeof(Utilisateur) * (*userCount));
     verifpointer(tabFest);
+    for (int i = 0; i < *userCount; i++) {
+        tabFest[i].id = -1;
+        tabFest[i].password = NULL;
+        tabFest[i].resa = NULL;
+        tabFest[i].porte_feuille = 0;
+    }
     return tabFest;
 }
 
@@ -67,9 +73,9 @@ void accountCreationFestivalGoers(int* userCount, Utilisateur* tabFest, int* roo
     printf("Saisir votre mot de passe (30 caractères maximum)\n");
     fgets(tempoPassword, sizeof(tempoPassword), stdin);
     tempoPassword[strcspn(tempoPassword, "\n")] = '\0';
-    newUser.password= malloc(strlen(tempoPassword) + 1);
+    newUser.password= strdup(tempoPassword);
     verifpointer(newUser.password);
-    strcpy(newUser.password, tempoPassword);
+    //strcpy(newUser.password, tempoPassword);
     generateUniqueId(tabFest, genId, userCount);
     newUser.id = *genId;
     tabFest = realloc(tabFest, sizeof(Utilisateur) * (*userCount + 1));
