@@ -47,7 +47,7 @@ void choiceCoFestivalGoers (int* userCount, Utilisateur* tabFest, int* roomCount
             choiceUser(userCount, tabFest, roomCount, tabRoom, concertCount, tabConcert);
             break;
         case 1:
-            accountCreationFestivalGoers(userCount, tabFest, roomCount, tabRoom, concertCount, tabConcert);
+            accountCreationFestivalGoers(userCount, &tabFest, roomCount, tabRoom, concertCount, tabConcert);
             break;
         case 2:
             connectionFestivalGoers(userCount, tabFest, roomCount, tabRoom, concertCount, tabConcert);

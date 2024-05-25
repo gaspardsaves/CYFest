@@ -29,6 +29,61 @@ void freeArray(int* userCount, Utilisateur* tabFest, int* roomCount, Salle* tabR
 }
 
 /*
+Salle SavePointeurSiege(Salle S){
+    S.SaveSiege = malloc(S.nb_range*S.nb_siege_range*sizeof(Salle));
+    verifpointer(S.SaveSiege);
+    int n = S.nb_range*S.nb_range;
+    int i = 0;
+    int j = 0;
+    int k = 0;
+    while(i<n){
+        S.SaveSiege[i] = S.siege[k][j]; 
+        i++;
+        k++;
+        j++;
+        if(k==S.nb_range){
+            k=0;
+        }
+        if(j==S.nb_siege_range){
+            j=0;
+        }
+    }
+    return S;
+}
+
+void SauvegardeSalleFichier(Salle* s){
+    FILE* f1 = fopen("SaveScene.bin", "wb");
+    *s = SavePointeurSiege(*s);
+    fwrite(s, sizeof(Salle), 1, f1);
+    int i = 0;
+    int n = s->nb_siege_range*s->nb_range;
+    while(i<n){
+        fwrite(&s->SaveSiege[i], sizeof(Siege), 1, f1);
+        i++;
+    }
+    
+    fclose(f1);
+}
+
+void LireSallefichier(Salle* s2){
+    if(s2==NULL){
+        printf("Erreur");
+        exit(EXIT_FAILURE);
+    }
+    FILE* f1 = fopen("SaveScene.bin", "rb");
+    fread(s2, sizeof(Salle),1,f1);
+    int i = 0;
+    int n = s2->nb_siege_range*s2->nb_range;
+    while(i<n){
+        fread(&s2->SaveSiege[i], sizeof(Siege), 1, f1);
+        i++;
+    }
+    *s2 = ReadPointeurSiege(*s2);
+    fclose(f1);
+}
+//*/
+
+/*
 void Userfile(Utilisateur* tab, int* userCount){
 
 FILE* f=NULL;

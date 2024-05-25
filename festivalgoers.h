@@ -8,7 +8,7 @@
     int checkIdFest (Utilisateur* tabFest, int* userCount, int idco);
     int checkPasswordFest (Utilisateur* tabFest, int* userCount, char *passwordco);
     void generateUniqueId(Utilisateur* tabFest, int* genId, int* userCount);
-    void accountCreationFestivalGoers(int* userCount, Utilisateur* tabFest, int* roomCount, Salle* tabRoom, int* concertCount, Concert* tabConcert);
+    void accountCreationFestivalGoers(int* userCount, Utilisateur** tabFest, int* roomCount, Salle* tabRoom, int* concertCount, Concert* tabConcert);
     void displayUsers(Utilisateur* tabFest, int* userCount);
     void interfaceFestivalGoers(int idco, int* userCount, Utilisateur* tabFest, int* roomCount, Salle* tabRoom, int* concertCount, Concert* tabConcert);
     

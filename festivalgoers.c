@@ -6,6 +6,7 @@
 #include "structures.h"
 #include "color.h"
 #include "smartrobusnest.h"
+#include "manager.h"
 #include "hour.h"
 #include "interface.h"
 
@@ -13,12 +14,6 @@
 Utilisateur* constrTabFestivalGoers(int* userCount) {
     Utilisateur* tabFest = malloc(sizeof(Utilisateur) * (*userCount));
     verifpointer(tabFest);
-    for (int i = 0; i < *userCount; i++) {
-        tabFest[i].id = -1;
-        tabFest[i].password = NULL;
-        tabFest[i].resa = NULL;
-        tabFest[i].porte_feuille = 0;
-    }
     return tabFest;
 }
 
@@ -26,7 +21,7 @@ Utilisateur* constrTabFestivalGoers(int* userCount) {
 //*/
 int checkIdFest(Utilisateur* tabFest, int* userCount, int idco) {
     for (int i = 0; i < (*userCount); i++) {
-        if (tabFest[i].id == idco) {
+        if (tabFest[i].password != NULL && tabFest[i].id == idco) {
             printf("Identifiant correct\n");
             return 1;
         }
@@ -39,7 +34,7 @@ int checkIdFest(Utilisateur* tabFest, int* userCount, int idco) {
 
 int checkPasswordFest(Utilisateur* tabFest, int* userCount, char* passwordco) {
     for (int i = 0; i < (*userCount); i++) {
-        if (strcmp(tabFest[i].password, passwordco) == 0) {
+        if (tabFest[i].password != NULL && strcmp(tabFest[i].password, passwordco) == 0) {
             printf("Mot de passe correct\n");
             return 1;
         }
@@ -65,7 +60,7 @@ void generateUniqueId(Utilisateur* tabFest, int* genId, int* userCount) {
     } while (!unique); // generate id until it is unique
 }
 
-void accountCreationFestivalGoers(int* userCount, Utilisateur* tabFest, int* roomCount, Salle* tabRoom, int* concertCount, Concert* tabConcert){
+void accountCreationFestivalGoers(int* userCount, Utilisateur** tabFest, int* roomCount, Salle* tabRoom, int* concertCount, Concert* tabConcert){
     char tempoPassword[30];
     int id=-1;
     int* genId=&id;
@@ -73,19 +68,19 @@ void accountCreationFestivalGoers(int* userCount, Utilisateur* tabFest, int* roo
     printf("Saisir votre mot de passe (30 caractères maximum)\n");
     fgets(tempoPassword, sizeof(tempoPassword), stdin);
     tempoPassword[strcspn(tempoPassword, "\n")] = '\0';
-    newUser.password= strdup(tempoPassword);
+    newUser.password= malloc(strlen(tempoPassword) + 1);
     verifpointer(newUser.password);
-    //strcpy(newUser.password, tempoPassword);
-    generateUniqueId(tabFest, genId, userCount);
+    strcpy(newUser.password, tempoPassword);
+    generateUniqueId(*tabFest, genId, userCount);
     newUser.id = *genId;
-    tabFest = realloc(tabFest, sizeof(Utilisateur) * (*userCount + 1));
-    verifpointer(tabFest);
-    tabFest[(*userCount)]=newUser;
+    *tabFest = realloc(*tabFest, sizeof(Utilisateur) * (*userCount+1));
+    verifpointer(*tabFest);
+    (*tabFest)[(*userCount)]=newUser;
     (*userCount)++;
     printf("Votre identifiant est %d\n", newUser.id);
     printf("Votre mot de passe est %s\n", newUser.password);
     printf("Votre compte est créé, notez bien vos identifiants, ils vous permettent de vous connectez et d'accéder à vos réservations\n");
-    choiceUser (userCount, tabFest, roomCount, tabRoom, concertCount, tabConcert);
+    choiceUser (userCount, *tabFest, roomCount, tabRoom, concertCount, tabConcert);
 }
 
 //Display if the manager wants to see the differents ID and passwords
@@ -99,14 +94,27 @@ void displayUsers(Utilisateur* tabFest, int* userCount) {
 }
 
 /*
-void reserveSeat(int inputConcert, int ){
+void reserveSeat(int concertFound, Concert* tabConcert, Salle* tabRoom){
   //Eventuellement intégrer la vérification de l'heure
-
-  
+  int rowNumber = 0;
+  int seatNumber = 0;
+  displayRoom(tabConcert[concertFound].salle);
+  do {
+    rowNumber = better_scan("Entrez la rangée du siège que vous souhaitez réserver\n");
+  } while (rowNumber < 0 || rowNumber > tabConcert[concertFound].salle.nb_range);
+  do {
+    seatNumber = better_scan("Entrez le numéro du siège que vous souhaitez réserver\n");
+  } while (seatNumber < 0 || seatNumber > tabConcert[concertFound].salle.nb_siege_range);
+  if (tabConcert[concertFound].salle.siege[rowNumber][seatNumber].etat_siege == 1) {
+    color("33");
+    printf("Ce siège est déjà réservé\n");
+    color("37");
+    reserve_seats(concertFound, tabConcert, tabRoom);
+  }
 
 
 }
-
+/*
 void reservation(int id, Concert* tabConcert, Salle* tabRoom){
   char inputConcert[50];
   printf("Quel est le concert que vous souhaitez voir ?\n");
@@ -116,14 +124,12 @@ void reservation(int id, Concert* tabConcert, Salle* tabRoom){
   for (int i = 0; i < 10; i++) {
     if (strcmp(tabConcert[i].guest, inputConcert) == 0) {
       concertFound = i;
-      reserveSeat(inputConcert, );
-
-
-
+      reserveSeat(concertFound, tabConcert, tabRoom);
+    }
   free(inputConcert);
+  }
 }
-
-/*
+//*
 void my_reservation(Festival tab_concert, Utilisateur u) {
   //Demander quel concert il veut voir + vérifier si son id est dans la salle
   //+ rechercher dans le tableau de la salle l'id de l'utilisateur et afficher 
@@ -166,41 +172,6 @@ void my_reservation(Festival tab_concert, Utilisateur u) {
    printf("No concert found with the name %s\n", buffer);
 }
 }
-
-void reserve_seats(Festival tab_concert) {
-  // Demander quel concert il veut réserver + appel du tableau de la salle et l'afficher, demander à l'utilisateur la/ les sièges qu'il veut réserver + faire le débit avec le compte fictif bancaire et printf facture envoyé
-  int concert_number = 0;
-  int row_number = 0;
-  int seat_number = 0;
-  do {
-  concert_number = better_scan("Enter the concert number you want to reserve: ");
-  } while (concert_number < 0 || concert_number >= 10);
-
-  affichesalle(tab_concert.concert[concert_number].salle);
-
-  do {
-   row_number = better_scan("Enter the row number you want: ");
-  } while (row_number < 0 || row_number >tab_concert.concert[concert_number].salle.nb_range);
-
-    
-  do {
-  seat_number = better_scan("Enter the seat number you want: ");
-  } while (seat_number < 0 || seat_number > tab_concert.concert[concert_number].salle.nb_siege_range);
-
-
-  if (tab_concert.concert[concert_number].salle.siege[row_number][seat_number].etat_siege == 1) {
-  printf("Seat already reserved.\n");
-    // On refait le fonction ? Plus simple je pense
-  reserve_seats(tab_concert);
-  } 
-  else {
-  tab_concert.concert[concert_number].salle.siege[row_number][seat_number].etat_siege = 1;
-  printf("Seat %d in row %d for concert %d reserved successfully.\n", seat_number, row_number, concert_number);
-  printf("Payment processed. Invoice sent to you.\n");// On peut enelever mais c'est sympa
-
-}
-}
-
 */
 
 //Interface
