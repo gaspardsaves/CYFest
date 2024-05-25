@@ -1,18 +1,18 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
-#include<errno.h>
+#include <errno.h>
 #include "structures.h"
 #include "backupfile.h"
-#include "couleur.h"
+#include "color.h"
 #include "structures.h"
 #include "manager.h"
 #include "smartrobusnest.h"
 
 
 //Free memory allocation
-void freeArray(int* userCount, Utilisateur* tabFest, int* roomCount, Salle* tabRoom, int* concertCount, Concert* tabConcert){
-    for (int i = 0; i < *userCount; i++) {
+void freeArray(int* UtilisateurCount, Utilisateur* tabFest, int* roomCount, Salle* tabRoom, int* concertCount, Concert* tabConcert){
+    for (int i = 0; i < *UtilisateurCount; i++) {
         free(tabFest[i].password);
         //free(tabFest[i].id);
     }
@@ -33,12 +33,8 @@ void freeArray(int* userCount, Utilisateur* tabFest, int* roomCount, Salle* tabR
     free(tabConcert);
 }
 
-
-
-
-
-
-
+//NOUVEAU CODE SAUVEGARDE BINAIRE
+/*
 void SaveSaveSit(Salle* s) {
     FILE* f = fopen("SaveSit.bin", "wb");
     if (f == NULL) {
@@ -198,61 +194,100 @@ int main(){
 
   return 0;
 }
+//*/
+
+//SAUVEGARDE UTILISATEUR
+/*
+void Utilisateurfile(Utilisateur* tab, int* UtilisateurCount){
+
+FILE* f=NULL;
+    f=fopen("UtilisateurTable", "w");
+    if(f==NULL){
+fprintf(stderr, "On ne peut pas écrire sur le fichier\n");
+fprintf(stderr, "Code erreur : %d\n", errno);
+fprintf(stderr, "Erreur : %s\n", strerror(errno));
+ return;
+}
+
+fprintf(f, "%d\n", *UtilisateurCount);
+
+for (int i=0; i<*UtilisateurCount; i++){
+        fprintf(f, "%d" "%s",*tab[i].id , tab[i].password);
+}
+fclose(f);       
+}
+
+Utilisateur* readfile(int* UtilisateurCount){
+    FILE* f=NULL;
+    f=fopen("UtilisateurTable", "r");
+if (f==NULL){
+fprintf(stderr, "On ne peut pas écrire sur le fichier\n");
+fprintf(stderr, "Code erreur : %d\n", errno);
+fprintf(stderr, "Erreur : %s\n", strerror(errno));
+     exit(1);
+}
+fscanf(f, "%d\n", UtilisateurCount);
+Utilisateur* tab=Utilisateur_table(UtilisateurCount);
+
+for (int i=0; i<*UtilisateurCount; i++){
+tab[i].id=malloc(sizeof(int));
+tab[i].password=malloc(50);
 
 
+fscanf(f,"%d", tab[i].id);
+fgets(tab[i].password, 50, f);
+tab[i].password[strcspn(tab[i].password, "\n")] = '\0';
+}
+fclose(f);
+return tab;
+}
 
+Utilisateur* Realloc_table(int* UtilisateurCount){
+FILE* f=NULL;
+f=fopen("UtilisateurTable", "r" );
+if(f==NULL){
 
+fprintf(stderr, "On ne peut pas écrire sur le fichier\n");
+fprintf(stderr, "Code erreur : %d\n", errno);
+fprintf(stderr, "Erreur : %s\n", strerror(errno));
+}
 
+Utilisateur* tab=malloc(sizeof(Utilisateur)*(*UtilisateurCount));
+if(tab==NULL){
+    fprintf(stderr, "Memory allocation failed\n");
+    exit(EXIT_FAILURE);
+}
 
+    fscanf(f, "%d\n", UtilisateurCount);
 
+    for(int i=0; i<*UtilisateurCount; i++){
 
+        tab[i].id=malloc(sizeof(int));
+if(tab[i].id==NULL){
+fprintf(stderr, "Erreur d'allocation mémoire pour l'id\n");
+fprintf(stderr, "Code erreur : %d\n", errno);
+fprintf(stderr, "Erreur : %s\n", strerror(errno));
+exit(EXIT_FAILURE);
+}
+fscanf(f,"%d\n", tab[i].id);// get the id in the new tab from UtilisateurTable
 
+tab[i].password=malloc(50);
+if(tab[i].password==NULL){
+fprintf(stderr, "Erreur d'allocation mémoire pour l'id\n");
+fprintf(stderr, "Code erreur : %d\n", errno);
+fprintf(stderr, "Erreur : %s\n", strerror(errno));
+exit(EXIT_FAILURE);
+}
+fgets(tab[i].password, 50, f); // get the password in the new tab from UtilisateurTable
+tab[i].password[strcspn(tab[i].password, "\n")] = '\0';  // Remove newline character
+}
 
+fclose(f);
+return tab; 
+}
+//*/
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+//ANCIEN CODE DE SAUVEGARDE DISFONCTIONNEL
 /*
 Salle SavePointeurSiege(Salle S){
     S.SaveSiege = malloc(S.nb_range*S.nb_siege_range*sizeof(Salle));
@@ -309,10 +344,10 @@ void LireSallefichier(Salle* s2){
 //*/
 
 /*
-void Userfile(Utilisateur* tab, int* userCount){
+void Utilisateurfile(Utilisateur* tab, int* UtilisateurCount){
 
 FILE* f=NULL;
-    f=fopen("UserTable", "w");
+    f=fopen("UtilisateurTable", "w");
     if(f==NULL){
 fprintf(stderr, "On ne peut pas écrire sur le fichier\n");
 fprintf(stderr, "Code erreur : %d\n", errno);
@@ -320,27 +355,27 @@ fprintf(stderr, "Erreur : %s\n", strerror(errno));
  return;
 }
 
-fprintf(f, "%d\n", *userCount);
+fprintf(f, "%d\n", *UtilisateurCount);
 
-for (int i=0; i<*userCount; i++){
+for (int i=0; i<*UtilisateurCount; i++){
         fprintf(f, "%d" "%s",tab[i].id , tab[i].password);
 }
 fclose(f);       
 }
 
-Utilisateur* readfile(int* userCount){
+Utilisateur* readfile(int* UtilisateurCount){
     FILE* f=NULL;
-    f=fopen("UserTable", "r");
+    f=fopen("UtilisateurTable", "r");
 if (f==NULL){
 fprintf(stderr, "On ne peut pas écrire sur le fichier\n");
 fprintf(stderr, "Code erreur : %d\n", errno);
 fprintf(stderr, "Erreur : %s\n", strerror(errno));
      exit(1);
 }
-fscanf(f, "%d\n", userCount);
-Utilisateur* tab=user_table(userCount);
+fscanf(f, "%d\n", UtilisateurCount);
+Utilisateur* tab=Utilisateur_table(UtilisateurCount);
 
-for (int i=0; i<*userCount; i++){
+for (int i=0; i<*UtilisateurCount; i++){
 tab[i].id=malloc(sizeof(int));
 tab[i].password=malloc(50);
 
@@ -353,9 +388,9 @@ fclose(f);
 return tab;
 }
 
-Utilisateur* Realloc_table(int* userCount){
+Utilisateur* Realloc_table(int* UtilisateurCount){
 FILE* f=NULL;
-f=fopen("UserTable", "r" );
+f=fopen("UtilisateurTable", "r" );
 if(f==NULL){
 
 fprintf(stderr, "On ne peut pas écrire sur le fichier\n");
@@ -363,15 +398,15 @@ fprintf(stderr, "Code erreur : %d\n", errno);
 fprintf(stderr, "Erreur : %s\n", strerror(errno));
 }
 
-Utilisateur* tab=malloc(sizeof(Utilisateur)*(*userCount));
+Utilisateur* tab=malloc(sizeof(Utilisateur)*(*UtilisateurCount));
 if(tab==NULL){
     fprintf(stderr, "Memory allocation failed\n");
     exit(EXIT_FAILURE);
 }
 
-    fscanf(f, "%d\n", userCount);
+    fscanf(f, "%d\n", UtilisateurCount);
 
-    for(int i=0; i<*userCount; i++){
+    for(int i=0; i<*UtilisateurCount; i++){
 
         tab[i].id=malloc(sizeof(int));
 if(tab[i].id==NULL){
@@ -380,7 +415,7 @@ fprintf(stderr, "Code erreur : %d\n", errno);
 fprintf(stderr, "Erreur : %s\n", strerror(errno));
 exit(EXIT_FAILURE);
 }
-fscanf(f,"%d\n", tab[i].id);// get the id in the new tab from UserTable
+fscanf(f,"%d\n", tab[i].id);// get the id in the new tab from UtilisateurTable
 
 tab[i].password=malloc(50);
 if(tab[i].password==NULL){
@@ -389,7 +424,7 @@ fprintf(stderr, "Code erreur : %d\n", errno);
 fprintf(stderr, "Erreur : %s\n", strerror(errno));
 exit(EXIT_FAILURE);
 }
-fgets(tab[i].password, 50, f); // get the password in the new tab from UserTable
+fgets(tab[i].password, 50, f); // get the password in the new tab from UtilisateurTable
 tab[i].password[strcspn(tab[i].password, "\n")] = '\0';  // Remove newline character
 }
 

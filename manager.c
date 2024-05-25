@@ -262,7 +262,7 @@ void createConcert(int* userCount, Utilisateur* tabFest, int* roomCount, Salle* 
     if(b==1){
         tabRoom[j].state = 1;
         newConcert.salle = tabRoom[j];
-        strcpy(newConcert.salle.nom, tabRoom[j].nom);
+        //strcpy(newConcert.salle.nom, tabRoom[j].nom);
     }
     else {
         printf("Aucune salle sélectionnée pour le concert.\n");
@@ -347,18 +347,18 @@ void RatioSeat(Salle s){
 void SalesRevenue(Salle s){
     int i = 0;
     int j = 0;
-    float SalesRevenue = 0;
+    float salesRevenue = 0;
     while(i<s.nb_range){
         while(j<s.nb_siege_range){
             if(s.siege[i][j].etat_siege==1){
-                SalesRevenue = SalesRevenue + s.siege[i][j].prix;
+                salesRevenue = salesRevenue + s.siege[i][j].prix;
             }
             j++;
         }
         j=0;
         i++;
     }
-    printf("Le chiffre d'affaire potentiel sur ce concert est %f\n");
+    printf("Le chiffre d'affaire potentiel sur ce concert est %f\n", salesRevenue);
 }
 
 void numberConcert(int* userCount, Utilisateur* tabFest, int* roomCount, Salle* tabRoom, int* concertCount, Concert* tabConcert){

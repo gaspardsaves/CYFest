@@ -12,7 +12,7 @@
 void connectionFestivalGoers(int* userCount, Utilisateur* tabFest, int* roomCount, Salle* tabRoom, int* concertCount, Concert* tabConcert) {
     char passwordco[30];
     int idco = better_scan("Heureux de vous revoir\nSaisir votre identifiant\n");
-    if (idco=0) {
+    if (idco==0) {
         choiceCoFestivalGoers(userCount, tabFest, roomCount, tabRoom, concertCount, tabConcert);
     }
     int retour1 = checkIdFest(tabFest, userCount, idco);
