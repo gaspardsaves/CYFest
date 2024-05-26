@@ -28,7 +28,7 @@ void arrayFree(int* UtilisateurCount, Utilisateur* tabFest, int* roomCount, Sall
 }
 
 //NOUVEAU CODE SAUVEGARDE BINAIRE
-//*/
+/*/
 void SaveSaveSit(Salle* s) {
     
     FILE* f = fopen("SaveSit.bin", "wb");

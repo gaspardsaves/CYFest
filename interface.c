@@ -6,6 +6,7 @@
 #include "color.h"
 #include "smartrobusnest.h"
 #include "backupfile.h"
+#include "hour.h"
 #include "manager.h"
 #include "festivalgoers.h"
 
@@ -148,12 +149,12 @@ int main (){
     int nbrUser = 0;
     int* userCount = &nbrUser;
     Utilisateur* tabFest = constrTabFestivalGoers(userCount);
-    //*
+    // Initialize room count and room array
     int nbrRoom = 0;
     int* roomCount = &nbrRoom;
     Salle* tabRoom=createTabRoom(roomCount);
 
-    // Initialize concert count and room array
+    // Initialize concert count and concert array
     int nbrConcert = 0;
     int* concertCount = &nbrConcert;
     Concert* tabConcert=createTabConcert(concertCount);

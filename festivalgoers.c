@@ -108,8 +108,8 @@ void displayUsers(Utilisateur* tabFest, int* userCount) {
     }
 }
 
-/*
-void reserveSeat(int concertFound, int id,  Salle* tabRoom, int* concertCount, Concert* tabConcert){
+//*
+void reserveSeat(int concertFound, int id, int* userCount, Utilisateur* tabFest, int* roomCount, Salle* tabRoom, int* concertCount, Concert* tabConcert){
   //Eventuellement intégrer la vérification de l'heure
   int rowNumber = 0;
   int seatNumber = 0;
@@ -128,7 +128,7 @@ void reserveSeat(int concertFound, int id,  Salle* tabRoom, int* concertCount, C
     color("33");
     printf("Ce siège est déjà réservé\n");
     color("37");
-    reserve_seats(concertFound, tabConcert, tabRoom);// Call the function to reserve another seat
+    reserveSeat(concertFound, id, userCount, tabFest, roomCount, tabRoom, concertCount, tabConcert);// Call the function to reserve another seat
   }
   else {
     tabConcert[concertFound].salle.siege[rowNumber][seatNumber].etat_siege=1;
@@ -137,28 +137,35 @@ void reserveSeat(int concertFound, int id,  Salle* tabRoom, int* concertCount, C
     printf("Siège %d de la colonne %d du concert %s reservé avec succès\n", seatNumber, rowNumber, tabConcert[concertFound].guest);
     //printf("Paiement effectué, billets envoyés.\n");
   }
+  interfaceFestivalGoers(id, userCount, tabFest, roomCount, tabRoom, concertCount, tabConcert);
 }
 
-void reservation(int id, Salle* tabRoom, int* concertCount, Concert* tabConcert){
+void reservation(int id, int* userCount, Utilisateur* tabFest, int* roomCount, Salle* tabRoom, int* concertCount, Concert* tabConcert){
   char inputConcert[50];
-  printf("Saisir le nom du concert que vous souhaitez voir ?\n");
+  printf("Voici la liste des concerts :");
   for(int j=0; j<(*concertCount); j++){
       printf("%s\n", tabConcert[j].guest);
   }
+  printf("Saisir le nom du concert que vous souhaitez voir\n");
   // The user to enter the name of the concert he wish to see
   fgets(inputConcert, sizeof(inputConcert), stdin);
-  inputConcert[strcspn(inputConcert, '\n')]='\0'; // Remove the newline character from the input
+  inputConcert[strcspn(inputConcert, "\n")]='\0'; // Remove the newline character from the input
   int concertFound=-1;
   // Looking for the concert in the list of concerts
-  for (int i = 0; i < 10; i++) {
+  for (int i = 0; i < (*concertCount); i++) {
     if (strcmp(tabConcert[i].guest, inputConcert) == 0) { // Compare input with concert names
       concertFound = i;
-      reserveSeat(concertFound, id, tabRoom, concertCount, tabConcert);
+      reserveSeat(concertFound, id, userCount, tabFest, roomCount, tabRoom, concertCount, tabConcert);
     }
-  free(inputConcert);
   }
 }
 
+/*
+void myReservation () {
+  char buffer[50];
+  
+}
+//*/
 
 /*
 void my_reservation(Festival tab_concert, Utilisateur u) {
@@ -224,7 +231,7 @@ void interfaceFestivalGoers(int idco, int* userCount, Utilisateur* tabFest, int*
         break;
       case 2:
         // If the user chooses 2, handle booking a concert
-        //reservation(idco, tabRoom, concertCount, tabConcert);
+        reservation(idco, userCount, tabFest, roomCount, tabRoom, concertCount, tabConcert);
         break;
       default:
         // If the user enters an invalid choice, display the error message down below

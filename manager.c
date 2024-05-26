@@ -181,6 +181,7 @@ void constructRoom(int* userCount, Utilisateur* tabFest, int* roomCount, Salle**
     (*roomCount)++;
 }
 
+/*
 void displayRoom(Salle S){
     int i = 0;
     int j = 0;
@@ -210,6 +211,73 @@ void displayRoom(Salle S){
     j=0;
     i++;
     }
+}
+//*/
+
+void displayRoom(Salle S){
+    int i = 0;
+    int j = 0;
+    printf("Plan de la salle %s\n", S.nom);
+    printf(" \t");
+    while(i<S.nb_siege_range){
+        printf("C%d\t", i+1);
+        i++;
+    }
+    printf("\n");
+    i = 0;
+    while(i<S.nb_range){
+        printf("R%d\t", i+1);
+        while(j<S.nb_siege_range){
+            if(!S.siege[i][j].etat_siege){
+                switch (S.siege[i][j].categorie){
+                    case 1 :
+                        displaySiege("32", S.siege[i][j]);
+                        break;
+                    case 2 :
+                        displaySiege("33", S.siege[i][j]);
+                        break;
+                    case 3:
+                        displaySiege("37", S.siege[i][j]);
+                        break;
+                    default:
+                        break;
+            
+                }
+            }
+            else{
+                displaySiege("31", S.siege[i][j]);
+            }
+        j++;
+        }
+    printf("\n");
+    j=0;
+    i++;
+    }
+    printf("\nLégende:\n");
+    color("32");
+    printf("O ");
+    color("0");
+    printf("- Catégorie ");
+    if(S.siege[0][0].fosse){
+        printf("Fosse ");
+    }
+    else if(!S.siege[0][0].fosse){
+        printf("A ");
+    }
+    printf("(%f€)\n", S.prixa);
+    color("33");
+    printf("O ");
+    color("0");
+    printf("- Catégorie B (%f€)\n", S.prixb);
+    color("33");
+    printf("O ");
+    color("0");
+    printf("- Catégorie C (%f€)\n", S.prixb);
+    color("31");
+    printf("X ");
+    color("37");
+    printf("- Siège réservé\n");
+    printf("\n");
 }
 
 Salle modifRoom(Salle s){
