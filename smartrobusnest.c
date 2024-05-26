@@ -3,6 +3,8 @@
 #include <string.h>
 #include <errno.h>
 
+
+//  Verify is the pointeur is not NULL
 void verifpointer(void* p){
     if (p==NULL){
         printf("%d\n", errno);
@@ -11,6 +13,7 @@ void verifpointer(void* p){
     }
 }
 
+// Check if a file is opened successfully 
 void checkOpenFile(FILE* f){
     if (f==NULL){
         printf("%d\n", errno);
@@ -19,6 +22,7 @@ void checkOpenFile(FILE* f){
     }
 }
 
+// Check if a wrinting to a file is successful
 void checkWritingFile(int writeReturn){
     if (writeReturn==EOF){
         printf("%d\n", errno);
@@ -27,6 +31,7 @@ void checkWritingFile(int writeReturn){
     }
 }
 
+// Check if a file is closed succesfully 
 void checkCloseFile(int closeReturn){
     if (closeReturn==EOF){
         printf("%d\n", errno);
@@ -35,6 +40,7 @@ void checkCloseFile(int closeReturn){
     }
 }
 
+// Safely scan an integer value
 int better_scan(char * message){
     int ret_var = 0;
     int value = 1;
@@ -42,11 +48,12 @@ int better_scan(char * message){
     {   
         printf("%s", message);
         ret_var = scanf("%d", &value);
-        while(getchar()!='\n'){} // Ligne facultative de sécurisation
+        while(getchar()!='\n'){} // Clear the input buffer
     }
     return value;
 }
 
+// Safely scan a float value
 float better_scanFloat(char * message){
     int ret_var = 0;
     float value = 1;
@@ -54,11 +61,12 @@ float better_scanFloat(char * message){
     {   
         printf("%s", message);
         ret_var = scanf("%f", &value);
-        while(getchar()!='\n'){} // Ligne facultative de sécurisation
+        while(getchar()!='\n'){} // Clear the input buffer
     }
     return value;
 }
 
+// Safely scan an unsigned (integer) value
 unsigned better_scanUn(char * message){
     int ret_var = 0;
     unsigned value = 1;
@@ -66,7 +74,7 @@ unsigned better_scanUn(char * message){
     {   
         printf("%s", message);
         ret_var = scanf("%d", &value);
-        while(getchar()!='\n'){} // Ligne facultative de sécurisation
+        while(getchar()!='\n'){} // Clear the input buffer
     }
     return value;
 }
