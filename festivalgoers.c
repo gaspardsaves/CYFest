@@ -118,10 +118,12 @@ void reserveSeat(int concertFound, int id, int* userCount, Utilisateur* tabFest,
   // The user enter the row number of the seat he wish to reserve
   do {
     rowNumber = better_scan("Entrez la rangée du siège que vous souhaitez réserver\n");
+    rowNumber--;
   } while (rowNumber < 0 || rowNumber > tabConcert[concertFound].salle.nb_range);
   // The user to enter the seat number he wish to reserve
   do {
     seatNumber = better_scan("Entrez le numéro du siège que vous souhaitez réserver\n");
+    seatNumber--;
   } while (seatNumber < 0 || seatNumber > tabConcert[concertFound].salle.nb_siege_range);
   // Checking if the seat is already reserved
   if (tabConcert[concertFound].salle.siege[rowNumber][seatNumber].etat_siege == 1) {
@@ -142,7 +144,7 @@ void reserveSeat(int concertFound, int id, int* userCount, Utilisateur* tabFest,
 
 void reservation(int id, int* userCount, Utilisateur* tabFest, int* roomCount, Salle* tabRoom, int* concertCount, Concert* tabConcert){
   char inputConcert[50];
-  printf("Voici la liste des concerts :");
+  printf("Voici la liste des concerts :\n");
   for(int j=0; j<(*concertCount); j++){
       printf("%s\n", tabConcert[j].guest);
   }
@@ -158,6 +160,10 @@ void reservation(int id, int* userCount, Utilisateur* tabFest, int* roomCount, S
       reserveSeat(concertFound, id, userCount, tabFest, roomCount, tabRoom, concertCount, tabConcert);
     }
   }
+  color("33");
+  printf("Erreur de saisie, salle introuvable\n");
+  color("37");
+  interfaceFestivalGoers(id, userCount, tabFest, roomCount, tabRoom, concertCount, tabConcert);
 }
 
 /*
@@ -217,8 +223,10 @@ printf("The program is checking reservation(s) for user %d in concert %s:\n", u.
 
 //Interface
 void interfaceFestivalGoers(int idco, int* userCount, Utilisateur* tabFest, int* roomCount, Salle* tabRoom, int* concertCount, Concert* tabConcert) {
-    int choiceAction = better_scan("Bonjour 👋\nQue souhaitez vous faire ?\n0 pour se déconnecter\n1 pour voir vos réservations\n2 pour réserver un concert\n");
-
+    color("35");
+    printf("\nBonjour 👋\n");
+    color("37");
+    int choiceAction = better_scan("Que souhaitez vous faire ?\n0 pour se déconnecter\n1 pour voir vos réservations\n2 pour réserver un concert\n");
     // Handle the user's choice 
     switch (choiceAction){
       case 0:

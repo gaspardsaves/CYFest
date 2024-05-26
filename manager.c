@@ -392,7 +392,7 @@ Salle category_aAndPit(Salle s, int n){
 
 
 
-void RatioSeat(Salle s){
+void ratioSeat(Salle s){
     int i = 0;
     int j = 0;
     int Reservation = 0;
@@ -407,10 +407,10 @@ void RatioSeat(Salle s){
         i++;
     }
     double n = s.nb_range*s.nb_siege_range;
-    printf("\n%f pourcent(s) des sièges sont occupés dans cette salle\n", (Reservation/n)*100);
+    printf("\n%f pourcent(s) des sièges de cette salle sont occupés\n", (Reservation/n)*100);
 }
 
-void SalesRevenue(Salle s){
+void salesRevenue(Salle s){
     int i = 0;
     int j = 0;
     float salesRevenue = 0;
@@ -424,7 +424,31 @@ void SalesRevenue(Salle s){
         j=0;
         i++;
     }
-    printf("Le chiffre d'affaire potentiel sur ce concert est %f\n", salesRevenue);
+    printf("Le chiffre d'affaire potentiel sur ce concert est %f €\n", salesRevenue);
+}
+
+void reportOnRoom(int* userCount, Utilisateur* tabFest, int* roomCount, Salle* tabRoom, int* concertCount, Concert* tabConcert){
+    char inputReportConcert[50];
+    printf("Voici la liste des salles affectés à un concerts\n");
+    for(int i=0; i<(*concertCount); i++){
+        printf("%s\n", tabConcert[i].salle.nom);
+    }
+    printf("Saisir le nom de la salle pour laquelle vous souhaitez obtenir un rapport\n");
+    fgets(inputReportConcert, sizeof(inputReportConcert), stdin);
+    inputReportConcert[strcspn(inputReportConcert, "\n")]='\0';
+    for (int j = 0; j < (*concertCount); j++) {
+        if (strcmp(tabConcert[j].salle.nom, inputReportConcert) == 0) { // Compare input with concert names
+            ratioSeat(tabConcert[j].salle);
+            salesRevenue(tabConcert[j].salle);
+        }
+        else{
+            color("33");
+            printf("Erreur de saisie, salle introuvable\n");
+            color("37");
+        }
+    }
+    interfaceManager(userCount, tabFest, roomCount, tabRoom, concertCount, tabConcert);
+
 }
 
 void displayRoomConcert(int* userCount, Utilisateur* tabFest, int* roomCount, Salle* tabRoom, int* concertCount, Concert* tabConcert){
@@ -439,6 +463,11 @@ void displayRoomConcert(int* userCount, Utilisateur* tabFest, int* roomCount, Sa
     for (int j = 0; j < (*concertCount); j++) {
         if (strcmp(tabConcert[j].salle.nom, inputConcertRoom) == 0) { // Compare input with concert names
             displayRoom(tabConcert[j].salle);
+        }
+        else{
+            color("33");
+            printf("Erreur de saisie, salle introuvable\n");
+            color("37");
         }
     }
     interfaceManager(userCount, tabFest, roomCount, tabRoom, concertCount, tabConcert);
@@ -508,7 +537,10 @@ void numberRoom(int* userCount, Utilisateur* tabFest, int* roomCount, Salle* tab
 }
 
 void interfaceManager (int* userCount, Utilisateur* tabFest, int* roomCount, Salle* tabRoom, int* concertCount, Concert* tabConcert){
-    int choiceAction = better_scan("Bonjour Admin 👋\nQue souhaitez vous faire ?\n0 pour se déconnecter\n1 pour créer une/des salle(s)\n2 pour créer un/des concert(s)\n3 pour obtenir un rapport sur un concert\n4 pour afficher la salle d'un concert\n");
+    color("35");
+    printf("\nBonjour Admin 👋\n");
+    color("37");
+    int choiceAction = better_scan("Que souhaitez vous faire ?\n0 pour se déconnecter\n1 pour créer une/des salle(s)\n2 pour créer un/des concert(s)\n3 pour obtenir un rapport sur un concert\n4 pour afficher la salle d'un concert\n");
     switch(choiceAction){
         case 0:
             choiceUser(userCount, tabFest, roomCount, tabRoom, concertCount, tabConcert);
@@ -520,7 +552,7 @@ void interfaceManager (int* userCount, Utilisateur* tabFest, int* roomCount, Sal
             numberConcert(userCount, tabFest, roomCount, tabRoom, concertCount, tabConcert);
             break;
         case 3:
-            //reportOnRoom(tabRoom);
+            reportOnRoom(userCount, tabFest, roomCount, tabRoom, concertCount, tabConcert);
         case 4:
             displayRoomConcert(userCount, tabFest, roomCount, tabRoom, concertCount, tabConcert);
             break;
