@@ -17,7 +17,7 @@ void connectionFestivalGoers(int* userCount, Utilisateur* tabFest, int* roomCoun
     }
     int retour1 = checkIdFest(tabFest, userCount, idco);
     if (retour1 == -1) {
-        return;
+        choiceUser (userCount, tabFest, roomCount, tabRoom, concertCount, tabConcert);
     }
     printf("Saisir votre mot de passe\n");
     fgets(passwordco, sizeof(passwordco), stdin);

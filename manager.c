@@ -107,7 +107,7 @@ Date getDate(){
     return d;
 }
 
-void constructRoom(int* userCount, Utilisateur* tabFest, int* roomCount, Salle* tabRoom, int* concertCount, Concert* tabConcert){
+void constructRoom(int* userCount, Utilisateur* tabFest, int* roomCount, Salle** tabRoom, int* concertCount, Concert* tabConcert){
     Salle newRoom;
     int i = 0;
     int j = 0;
@@ -175,11 +175,10 @@ void constructRoom(int* userCount, Utilisateur* tabFest, int* roomCount, Salle* 
         j=0;
         i++;
     }
-    tabRoom=realloc(tabRoom, sizeof(Salle)*(*roomCount +1));
-    verifpointer(tabRoom);
-    tabRoom[(*roomCount)]=newRoom;
+    (*tabRoom)=realloc((*tabRoom), sizeof(Salle)*(*roomCount +1));
+    verifpointer(*tabRoom);
+    (*tabRoom)[(*roomCount)]=newRoom;
     (*roomCount)++;
-    free(newRoom.nom);
 }
 
 void displayRoom(Salle S){
@@ -237,7 +236,7 @@ Salle modifRoom(Salle s){
 }
 
 //*
-void createConcert(int* userCount, Utilisateur* tabFest, int* roomCount, Salle* tabRoom, int* concertCount, Concert* tabConcert){
+void createConcert(int* userCount, Utilisateur* tabFest, int* roomCount, Salle* tabRoom, int* concertCount, Concert** tabConcert){
     Concert newConcert;
     char tempoGuest[50];
     printf("Quel est le nom de et le prénom de l'artiste ?\n");
@@ -280,27 +279,26 @@ void createConcert(int* userCount, Utilisateur* tabFest, int* roomCount, Salle* 
         newConcert.salle = modifRoom(newConcert.salle);
         displayRoom(newConcert.salle);
     }
-    tabConcert=realloc(tabConcert, sizeof(Concert)*(*concertCount +1));
-    verifpointer(tabConcert);
-    tabConcert[(*concertCount)]=newConcert;
+    (*tabConcert)=realloc((*tabConcert), sizeof(Concert)*(*concertCount +1));
+    verifpointer(*tabConcert);
+    (*tabConcert)[(*concertCount)]=newConcert;
     (*concertCount)++;
-    free(newConcert.guest);
 }
 //*/
 
 
-void multiConcertCreation(int numberConcert, int* userCount, Utilisateur* tabFest, int* roomCount, Salle* tabRoom, int* concertCount, Concert* tabConcert){
+void multiConcertCreation(int numberConcert, int* userCount, Utilisateur* tabFest, int* roomCount, Salle* tabRoom, int* concertCount, Concert** tabConcert){
     for(int i=0; i<numberConcert; i++){
         createConcert(userCount, tabFest, roomCount, tabRoom, concertCount, tabConcert);
     }
-    interfaceManager(userCount, tabFest, roomCount, tabRoom, concertCount, tabConcert);
+    interfaceManager(userCount, tabFest, roomCount, tabRoom, concertCount, *tabConcert);
 }
 
-void multiRoomCreation(int numberRoom, int* userCount, Utilisateur* tabFest, int* roomCount, Salle* tabRoom, int* concertCount, Concert* tabConcert){
+void multiRoomCreation(int numberRoom, int* userCount, Utilisateur* tabFest, int* roomCount, Salle** tabRoom, int* concertCount, Concert* tabConcert){
     for(int i=0; i<numberRoom; i++){
         constructRoom(userCount, tabFest, roomCount, tabRoom, concertCount, tabConcert);
     }
-    interfaceManager(userCount, tabFest, roomCount, tabRoom, concertCount, tabConcert);
+    interfaceManager(userCount, tabFest, roomCount, *tabRoom, concertCount, tabConcert);
 }
 
 //Salle* AjoutDeSalle(Salle* tab){
@@ -381,7 +379,7 @@ void numberConcert(int* userCount, Utilisateur* tabFest, int* roomCount, Salle* 
         case 8:
         case 9:
         case 10:
-            multiConcertCreation(numberConcert, userCount, tabFest, roomCount, tabRoom, concertCount, tabConcert);
+            multiConcertCreation(numberConcert, userCount, tabFest, roomCount, tabRoom, concertCount, &tabConcert);
             break;
         default:
             color("33");
@@ -412,7 +410,7 @@ void numberRoom(int* userCount, Utilisateur* tabFest, int* roomCount, Salle* tab
         case 8:
         case 9:
         case 10:
-            multiRoomCreation(numberRoom, userCount, tabFest, roomCount, tabRoom, concertCount, tabConcert);
+            multiRoomCreation(numberRoom, userCount, tabFest, roomCount, &tabRoom, concertCount, tabConcert);
             break;
         default:
             color("33");
