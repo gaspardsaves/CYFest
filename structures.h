@@ -40,6 +40,7 @@
         float prixb;
         float prixc;
         int state;
+        Siege* saveSit;
     } Salle; 
 
 

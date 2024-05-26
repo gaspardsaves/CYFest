@@ -27,7 +27,7 @@ void checkWritingFile(int writeReturn){
     if (writeReturn==EOF){
         printf("%d\n", errno);
         fprintf(stderr, "Erreur lors de l'écriture d'une ligne\n");
-        exit(2);
+        exit(3);
     }
 }
 
@@ -36,7 +36,7 @@ void checkCloseFile(int closeReturn){
     if (closeReturn==EOF){
         printf("%d\n", errno);
         fprintf(stderr, "Erreur lors de la fermeture d'un flux\n");
-        exit(3);
+        exit(4);
     }
 }
 

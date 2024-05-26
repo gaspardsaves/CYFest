@@ -114,7 +114,7 @@ void reserveSeat(int concertFound, int id, int* userCount, Utilisateur* tabFest,
   int rowNumber = 0;
   int seatNumber = 0;
   // Display the seating arrangement of the concert
-  displayRoom(tabConcert[concertFound].salle);
+  dRoom(tabConcert[concertFound].salle);
   // The user enter the row number of the seat he wish to reserve
   do {
     rowNumber = better_scan("Entrez la rangée du siège que vous souhaitez réserver\n");
@@ -136,7 +136,7 @@ void reserveSeat(int concertFound, int id, int* userCount, Utilisateur* tabFest,
     tabConcert[concertFound].salle.siege[rowNumber][seatNumber].etat_siege=1;
     tabConcert[concertFound].salle.siege[rowNumber][seatNumber].id[1]=1;
     //Add resa à tab resa en récupérant l'adresse du siège
-    printf("Siège %d de la colonne %d du concert %s reservé avec succès\n", seatNumber, rowNumber, tabConcert[concertFound].guest);
+    printf("Siège %d de la colonne %d du concert %s reservé avec succès\n", seatNumber+1, rowNumber+1, tabConcert[concertFound].guest);
     //printf("Paiement effectué, billets envoyés.\n");
   }
   interfaceFestivalGoers(id, userCount, tabFest, roomCount, tabRoom, concertCount, tabConcert);
@@ -172,7 +172,6 @@ void myReservation () {
   
 }
 //*/
-
 /*
 void my_reservation(Festival tab_concert, Utilisateur u) {
   //Demander quel concert il veut voir + vérifier si son id est dans la salle
@@ -226,17 +225,17 @@ void interfaceFestivalGoers(int idco, int* userCount, Utilisateur* tabFest, int*
     color("35");
     printf("\nBonjour 👋\n");
     color("37");
-    int choiceAction = better_scan("Que souhaitez vous faire ?\n0 pour se déconnecter\n1 pour voir vos réservations\n2 pour réserver un concert\n");
+    int choiceAction = better_scan("Que souhaitez vous faire ?\n0 pour se déconnecter\n2 pour réserver un concert\n");
     // Handle the user's choice 
     switch (choiceAction){
       case 0:
         // If the user chooses 0, call the choiceUser function to handle user choices
         choiceUser(userCount, tabFest, roomCount, tabRoom, concertCount, tabConcert);
         break;
-      case 1:
+      //case 1:
         // If the user chooses 1, handle viewing reservations
         //myReservations();
-        break;
+        //break;
       case 2:
         // If the user chooses 2, handle booking a concert
         reservation(idco, userCount, tabFest, roomCount, tabRoom, concertCount, tabConcert);

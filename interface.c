@@ -10,7 +10,6 @@
 #include "manager.h"
 #include "festivalgoers.h"
 
-//*
 void connectionFestivalGoers(int* userCount, Utilisateur* tabFest, int* roomCount, Salle* tabRoom, int* concertCount, Concert* tabConcert) {
     char passwordco[30];
     
@@ -44,7 +43,6 @@ void connectionFestivalGoers(int* userCount, Utilisateur* tabFest, int* roomCoun
         choiceUser (userCount, tabFest, roomCount, tabRoom, concertCount, tabConcert);
     }
 }
-//*/
 
 void choiceCoFestivalGoers (int* userCount, Utilisateur* tabFest, int* roomCount, Salle* tabRoom, int* concertCount, Concert* tabConcert) {
     unsigned co2=-3;
@@ -107,6 +105,7 @@ void connectionManager(int* userCount, Utilisateur* tabFest, int* roomCount, Sal
 
 void choiceUser (int* userCount, Utilisateur* tabFest, int* roomCount, Salle* tabRoom, int* concertCount, Concert* tabConcert){
     unsigned co1=-3;
+    tabConcert=verifTabConcert(tabConcert, concertCount);
     color("31");
     printf("Vous pouvez revenir en arrière à chaque étape ou interrompre le programme en saisissant 0\n");
     color("37");
@@ -115,6 +114,11 @@ void choiceUser (int* userCount, Utilisateur* tabFest, int* roomCount, Salle* ta
     switch(co1){
         case 0:
             // Users chooses 0 to exit
+            for(int i=0; i<(*roomCount); i++){
+                tabRoom[i]=SavePointeurSiege(tabRoom[i]);
+                SaveScene(&(tabRoom[i]));
+            }
+            SaveCounter(userCount, roomCount, concertCount);
             arrayFree(userCount, tabFest, roomCount, tabRoom, concertCount, tabConcert);
             exit(0);
             break;
@@ -138,27 +142,27 @@ void choiceUser (int* userCount, Utilisateur* tabFest, int* roomCount, Salle* ta
 
 int main (){
     srand(time(NULL));
-    //int nbrUser = openBackupfile();
-    //IL FAUT REOUVRIR L'ENSEMBLE DES FICHIERS ICI
-    //EN APPELANT DES FONCTIONS DE BACKUPFILE ET TOUT 
-    //STOCKER DANS DES POINTEURS QU'ON VA TRIMBALER
-    //DANS LA SUITE DU PROGRAMME
-
-    //ne pas toucher les lignes qui suivent, elles me permettent de tester la partie festivalier
     // Initialize user count and user array
+    // Initialize room count and room array
+    // Initialize concert count and concert array
     int nbrUser = 0;
     int* userCount = &nbrUser;
-    Utilisateur* tabFest = constrTabFestivalGoers(userCount);
-    // Initialize room count and room array
     int nbrRoom = 0;
     int* roomCount = &nbrRoom;
-    Salle* tabRoom=createTabRoom(roomCount);
-
-    // Initialize concert count and concert array
     int nbrConcert = 0;
     int* concertCount = &nbrConcert;
+    ReadCounter(userCount, roomCount, concertCount);
+    Utilisateur* tabFest = constrTabFestivalGoers(userCount);
+    Salle* tabRoom=createTabRoom(roomCount);
+    for(int i=0; i<(*roomCount); i++){
+        ReadScene(&(tabRoom[i]));
+        tabRoom[i]=ReadPointeurSiege(tabRoom[i]);
+    }
     Concert* tabConcert=createTabConcert(concertCount);
-    //*/
+    // Verify the hour
+    for(int i=0; i<(*roomCount); i++){
+        dRoom((tabRoom[i]));
+    }
     // Start user interface
     choiceUser(userCount, tabFest, roomCount, tabRoom, concertCount, tabConcert);
     return 0;

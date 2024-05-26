@@ -35,9 +35,12 @@ Siege constructSiege(int cat, int price, int f){
     // Set the seat price
     s.fosse = f;
     // Set whether the seat is in the pit
+    //s.nombre_personne=0;
+    // Set the number of people
     return s;
 }
 
+/*
 Salle ResetScene(Salle s){
     int i = 0;
     int j = 0;
@@ -55,6 +58,7 @@ Salle ResetScene(Salle s){
     }
     return s;
 }
+//*/
 
 void displaySiege(char* clr, Siege s){
     color(clr);// Set the color
@@ -78,7 +82,7 @@ void displaySiege(char* clr, Siege s){
     color("0");// Reset color
 }
 
-Salle FreeTheSceneAfterConcert(Salle s){
+Salle freeTheSceneAfterConcert(Salle s){
     int i = 0;
     int j = 0;
     // Loop through all rows
@@ -213,6 +217,7 @@ void constructRoom(int* userCount, Utilisateur* tabFest, int* roomCount, Salle**
     (*roomCount)++;
 }
 
+/*
 // Function to display a room
 void displayRoom(Salle S){
     int i = 0;
@@ -284,6 +289,38 @@ void displayRoom(Salle S){
     color("37");
     printf("- Siège réservé\n");
     printf("\n");
+}
+//*/
+
+void dRoom(Salle S){
+    int i = 0;
+    int j = 0;
+    while(i<S.nb_range){
+        while(j<S.nb_siege_range){
+            if (!S.siege[i][j].etat_siege){
+                switch (S.siege[i][j].categorie){
+                    case 1 :
+                        displaySiege("32", S.siege[i][j]);
+                        break;
+                    case 2 :
+                        displaySiege("33", S.siege[i][j]);
+                        break;
+                    case 3:
+                        displaySiege("37", S.siege[i][j]);
+                        break;
+                    default:
+                        break;
+                }
+            }
+            else{
+                displaySiege("31", S.siege[i][j]);
+            }
+        j++;
+        }
+    printf("\n");
+    j=0;
+    i++;
+    }
 }
 
 // Function to modify room details
@@ -357,7 +394,7 @@ void createConcert(int* userCount, Utilisateur* tabFest, int* roomCount, Salle* 
         return;
     }
     // Display the selected room
-    displayRoom(newConcert.salle);
+    dRoom(newConcert.salle);
     // Prompt to modify the selected room
     printf("Voulez-vous modifier la salle %s ?\n", newConcert.salle.nom);
     printf("1 pour oui\n");
@@ -366,7 +403,7 @@ void createConcert(int* userCount, Utilisateur* tabFest, int* roomCount, Salle* 
     // If yes, modify the room and display it again
     if(b==1){
         newConcert.salle = modifRoom(newConcert.salle);
-        displayRoom(newConcert.salle);
+        dRoom(newConcert.salle);
     }
     // Add the new concert to the array of concerts
     (*tabConcert)=realloc((*tabConcert), sizeof(Concert)*(*concertCount +1));
@@ -457,17 +494,17 @@ void salesRevenue(Salle s){
 void reportOnRoom(int* userCount, Utilisateur* tabFest, int* roomCount, Salle* tabRoom, int* concertCount, Concert* tabConcert){
     char inputReportConcert[50];
     // Display the list of rooms assigned to concerts
-    printf("Voici la liste des salles affectés à un concerts\n");
+    printf("Voici la liste des concerts\n");
     for(int i=0; i<(*concertCount); i++){
-        printf("%s\n", tabConcert[i].salle.nom);
+        printf("%s\n", tabConcert[i].guest);
     }
     // Ask the user to enter the name of the room for which they want to get a report
-    printf("Saisir le nom de la salle pour laquelle vous souhaitez obtenir un rapport\n");
+    printf("Saisir le nom du concert pour lequel vous souhaitez obtenir un rapport\n");
     fgets(inputReportConcert, sizeof(inputReportConcert), stdin);
     inputReportConcert[strcspn(inputReportConcert, "\n")]='\0';
     // Loop through the list of concerts to find the room matching the entered name
     for (int j = 0; j < (*concertCount); j++) {
-        if (strcmp(tabConcert[j].salle.nom, inputReportConcert) == 0) { // Compare input with concert names
+        if (strcmp(tabConcert[j].guest, inputReportConcert) == 0) { // Compare input with concert names
             // Display the seat ratio and sales revenue for the found room
             ratioSeat(tabConcert[j].salle);
             salesRevenue(tabConcert[j].salle);
@@ -499,7 +536,7 @@ void displayRoomConcert(int* userCount, Utilisateur* tabFest, int* roomCount, Sa
     for (int j = 0; j < (*concertCount); j++) {
         if (strcmp(tabConcert[j].salle.nom, inputConcertRoom) == 0) { // Compare input with concert names
             // Display the desired room
-            displayRoom(tabConcert[j].salle);
+            dRoom(tabConcert[j].salle);
         }
         else{
             // Handle invalid input

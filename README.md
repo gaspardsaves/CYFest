@@ -3,6 +3,7 @@ Concernant la compilation :
 - Un exécutable déjà fonctionnel est présent sur le dépôt et s’appelle execdef
 	→ Pour l’exécuter tapez la commande ./execdef
 - Si vous souhaitez compiler vous-même la commande make clean permet d’effacer les exécutables et vous pouvez alors compiler en utilisant la commande make de même que précédemment l’exécutable généré s’appelle execdef et la commande ./execdef permet de l’exécuter
+- Vous pouvez réinitialiser les sauvegardes en supprimant et en recréant les fichiers de sauvegardes en utilisant la commande make cleanfile
 
 2. Pendant l’exécution
 Concernant la navigation dans l’interface :

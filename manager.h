@@ -10,6 +10,8 @@
     Siege constructSiege(int cat, int price, int f);
     void displaySiege(char* color, Siege s);
     Date getDate();
+    Salle ResetScene(Salle s);
+    Salle freeTheSceneAfterConcert(Salle s);
     void constructRoom(int* userCount, Utilisateur* tabFest, int* roomCount, Salle** tabRoom, int* concertCount, Concert* tabConcert);
     void displayRoom(Salle S);
     void createConcert(int* userCount, Utilisateur* tabFest, int* roomCount, Salle* tabRoom, int* concertCount, Concert** tabConcert);
@@ -22,7 +24,7 @@
     Salle category_aAndPit(Salle s, int n);
     Salle modifRoom(Salle s);
     Salle FreeTheSceneAfterConcert(Salle s);
-    Salle ResetScene(Salle s);
+    void dRoom(Salle S);
     void numberRoom(int* userCount, Utilisateur* tabFest, int* roomCount, Salle* tabRoom, int* concertCount, Concert* tabConcert);
     void interfaceManager (int* userCount, Utilisateur* tabFest, int* roomCount, Salle* tabRoom, int* concertCount, Concert* tabConcert);
 #endif

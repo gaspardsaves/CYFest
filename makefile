@@ -17,3 +17,7 @@ execdef: interface.o manager.o festivalgoers.o smartrobusnest.o backupfile.o hou
 clean:
 	rm interface.o manager.o festivalgoers.o smartrobusnest.o backupfile.o hour.o
 	rm execdef
+
+cleanfile:
+	rm Counter.bin Scene.bin SaveSit.bin
+	touch Counter.bin Scene.bin SaveSit.bin

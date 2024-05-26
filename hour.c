@@ -9,7 +9,8 @@
 //typedef struct {} Heure;
 //typedef struct {} Date;
 
-void PrintHourDateNow() {
+//*
+void printHourDateNow() {
     int h, min, s, day, month, year;
     time_t now;
     // Return current time
@@ -17,7 +18,7 @@ void PrintHourDateNow() {
     // Conversion to local time
     //printf("Nous sommes le : %s", ctime(&now));
     struct tm *local = localtime(&now);
-    h = local->tm_hour + 2;        
+    h = local->tm_hour;        
     min = local->tm_min;       
     s = local->tm_sec;       
     day = local->tm_mday;          
@@ -27,26 +28,26 @@ void PrintHourDateNow() {
     printf("La date : %02d/%02d/%d\n", day, month, year);
 }
 
-void PrintHourDate (Date d) {  
+void printHourDate (Date d) {  
     printf("\nL'heure : %02d:%02d\n", d.hour, d.minut);
     printf("La date : %02d/%02d/%d\n", d.day, d.month, d.year);
 }
 
-int CheckHour(Date d){
+int checkHour(Date d){
     int h, min, s, day, month, year;
     int b = 0;
     time_t now;
     time(&now);
     struct tm *local = localtime(&now);
-    h = local->tm_hour + 2;        
+    h = local->tm_hour;        
     min = local->tm_min;       
     s = local->tm_sec;       
     day = local->tm_mday;          
     month = local->tm_mon + 1;     
     year = local->tm_year + 1900; 
-    PrintHourDateNow();
+    printHourDateNow();
     printf("%d\n", year);
-    PrintHourDate(d);
+    printHourDate(d);
     if(d.year<year){
         b = 0;
     }
@@ -88,35 +89,35 @@ int CheckHour(Date d){
             }
         }
     }
-    printf("\n%d\n", b);
+    //printf("\n%d\n", b);
     return b;
 }
 
-Concert VerifConcert(Concert C){ //0 if concert finished or 1 if 
-    int a = CheckHour(C.horaired);
-    int b = CheckHour(C.horairef);
+// Assign a state to the concert 0 if it hasn't started yet, and 1 if the concert has started and -1 if it has finished
+void verifConcert(Concert c){ 
+    int a = checkHour(c.horaired);
+    int b = checkHour(c.horairef);
     if((a==1)&&(b==1)){
-        printf("\nPas encore commencé\n");
-        C.state = 0;
+        printf("Concert pas encore commencé\n");
+        c.state = 0;
     }
     else if((a==0)&&(b==1)){
-        printf("\nDéjà commencé\n");
-        C.state = 1;
+        printf("Concert déjà commencé\n");
+        c.state = 1;
     }
     else if((a==0)&&(b==0)){
-        printf("\nFinis\n");
-        C.state = -1;
+        printf("Concert fini\n");
+        c.state = -1;
     }
-    return C;
 }
 
-Concert* VerifTabConcert(Concert* tabConcert, int* concertCount){
+Concert* verifTabConcert(Concert* tabConcert, int* concertCount){
     int i = 0;
     int j = 0;
     while(i<(*concertCount)){
-        tabConcert[i] = VerifConcert(tabConcert[i]);
+        verifConcert(tabConcert[i]);
         if(tabConcert[i].state==-1){
-            tabConcert[i].salle = ResetScene(tabConcert[i].salle);
+            tabConcert[i].salle = freeTheSceneAfterConcert(tabConcert[i].salle);
             j++;
         }
         i++;
@@ -124,15 +125,14 @@ Concert* VerifTabConcert(Concert* tabConcert, int* concertCount){
     *concertCount = (*concertCount) - j;
     i = 0;
     int k=0;
-    //Principe marche mais je n'arrive pas à realloc stp aide moi celui qui lit ce message
-    Concert* Cab2 = malloc((*concertCount)*sizeof(Concert));
+    Concert* newTabConcert = malloc((*concertCount)*sizeof(Concert));
     while(i<(*concertCount)){
         if(tabConcert[i].state != -1){
-            Cab2[k] = tabConcert[i];
+            newTabConcert[k] = tabConcert[i];
             k++;
         }
         i++;
     }
     free(tabConcert);
-    return Cab2;
+    return newTabConcert;
 }
