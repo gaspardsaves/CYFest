@@ -109,24 +109,20 @@ void displayUsers(Utilisateur* tabFest, int* userCount) {
 }
 
 /*
-void reserveSeat(int concertFound, Concert* tabConcert, Salle* tabRoom){
+void reserveSeat(int concertFound, int id,  Salle* tabRoom, int* concertCount, Concert* tabConcert){
   //Eventuellement intégrer la vérification de l'heure
   int rowNumber = 0;
   int seatNumber = 0;
-  
   // Display the seating arrangement of the concert
   displayRoom(tabConcert[concertFound].salle);
-  
   // The user enter the row number of the seat he wish to reserve
   do {
     rowNumber = better_scan("Entrez la rangée du siège que vous souhaitez réserver\n");
   } while (rowNumber < 0 || rowNumber > tabConcert[concertFound].salle.nb_range);
-
   // The user to enter the seat number he wish to reserve
   do {
     seatNumber = better_scan("Entrez le numéro du siège que vous souhaitez réserver\n");
   } while (seatNumber < 0 || seatNumber > tabConcert[concertFound].salle.nb_siege_range);
-
   // Checking if the seat is already reserved
   if (tabConcert[concertFound].salle.siege[rowNumber][seatNumber].etat_siege == 1) {
     color("33");
@@ -134,29 +130,37 @@ void reserveSeat(int concertFound, Concert* tabConcert, Salle* tabRoom){
     color("37");
     reserve_seats(concertFound, tabConcert, tabRoom);// Call the function to reserve another seat
   }
-
-
+  else {
+    tabConcert[concertFound].salle.siege[rowNumber][seatNumber].etat_siege=1;
+    tabConcert[concertFound].salle.siege[rowNumber][seatNumber].id[1]=1;
+    //Add resa à tab resa en récupérant l'adresse du siège
+    printf("Siège %d de la colonne %d du concert %s reservé avec succès\n", seatNumber, rowNumber, tabConcert[concertFound].guest);
+    //printf("Paiement effectué, billets envoyés.\n");
+  }
 }
-/*
-void reservation(int id, Concert* tabConcert, Salle* tabRoom){
-  char inputConcert[50];
-  printf("Quel est le concert que vous souhaitez voir ?\n");
 
+void reservation(int id, Salle* tabRoom, int* concertCount, Concert* tabConcert){
+  char inputConcert[50];
+  printf("Saisir le nom du concert que vous souhaitez voir ?\n");
+  for(int j=0; j<(*concertCount); j++){
+      printf("%s\n", tabConcert[j].guest);
+  }
   // The user to enter the name of the concert he wish to see
   fgets(inputConcert, sizeof(inputConcert), stdin);
   inputConcert[strcspn(inputConcert, '\n')]='\0'; // Remove the newline character from the input
   int concertFound=-1;
-  
   // Looking for the concert in the list of concerts
   for (int i = 0; i < 10; i++) {
     if (strcmp(tabConcert[i].guest, inputConcert) == 0) { // Compare input with concert names
       concertFound = i;
-      reserveSeat(concertFound, tabConcert, tabRoom);
+      reserveSeat(concertFound, id, tabRoom, concertCount, tabConcert);
     }
   free(inputConcert);
   }
 }
-//*
+
+
+/*
 void my_reservation(Festival tab_concert, Utilisateur u) {
   //Demander quel concert il veut voir + vérifier si son id est dans la salle
   //+ rechercher dans le tableau de la salle l'id de l'utilisateur et afficher 
@@ -218,9 +222,9 @@ void interfaceFestivalGoers(int idco, int* userCount, Utilisateur* tabFest, int*
         // If the user chooses 1, handle viewing reservations
         //myReservations();
         break;
-      case 3:
-        // If the user chooses 3, handle booking a concert
-        //reservation();
+      case 2:
+        // If the user chooses 2, handle booking a concert
+        //reservation(idco, tabRoom, concertCount, tabConcert);
         break;
       default:
         // If the user enters an invalid choice, display the error message down below

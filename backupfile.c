@@ -10,21 +10,15 @@
 #include "smartrobusnest.h"
 
 
-//Free memory allocation
-void freeArray(int* UtilisateurCount, Utilisateur* tabFest, int* roomCount, Salle* tabRoom, int* concertCount, Concert* tabConcert){
+//Free memory allocation before killing the application
+void arrayFree(int* UtilisateurCount, Utilisateur* tabFest, int* roomCount, Salle* tabRoom, int* concertCount, Concert* tabConcert){
     for (int i = 0; i < *UtilisateurCount; i++) {
         free(tabFest[i].password);
-        //free(tabFest[i].id);
     }
     free(tabFest);
-    //*/
     for (int j = 0; j < *roomCount; j++) {
         free(tabRoom[j].siege);
-        //free(tabRoom[j].nb_range);
-        //free(tabRoom[j].nb_siege_range);
         free(tabRoom[j].nom);
-        //free(tabRoom[j].arange);
-        //free(tabRoom[j].brange);
     }
     free(tabRoom);
     for (int k = 0; k < *concertCount; k++) {

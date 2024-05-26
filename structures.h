@@ -26,7 +26,7 @@
         int prix;
         int nombre_personne;
         int fosse; // fosse ou pas f?1:0
-        Utilisateur id[2];
+        int id[2];
     } Siege;
 
     typedef struct {

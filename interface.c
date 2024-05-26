@@ -5,6 +5,7 @@
 #include "structures.h"
 #include "color.h"
 #include "smartrobusnest.h"
+#include "backupfile.h"
 #include "manager.h"
 #include "festivalgoers.h"
 
@@ -92,7 +93,7 @@ void choiceUser (int* userCount, Utilisateur* tabFest, int* roomCount, Salle* ta
     co1=better_scanUn("Choisir votre interface de connexion :\n1 pour Festivalier\n2 pour Manager\n");
     switch(co1){
         case 0:
-            //freeArray(userCount, tabFest, roomCount, tabRoom, concertCount, tabConcert);
+            arrayFree(userCount, tabFest, roomCount, tabRoom, concertCount, tabConcert);
             exit(0);
             break;
         case 1:

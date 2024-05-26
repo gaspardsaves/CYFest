@@ -4,6 +4,7 @@
     #include "structures.h"
     #include "manager.h"
     #include "smartrobusnest.h"
+    #include "backupfile.h"
     #include "festivalgoers.h"
 
     void connectionFestivalGoers (int* userCount, Utilisateur* tabFest, int* roomCount, Salle* tabRoom, int* concertCount, Concert* tabConcert);
