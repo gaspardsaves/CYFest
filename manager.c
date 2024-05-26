@@ -427,6 +427,24 @@ void SalesRevenue(Salle s){
     printf("Le chiffre d'affaire potentiel sur ce concert est %f\n", salesRevenue);
 }
 
+void displayRoomConcert(int* userCount, Utilisateur* tabFest, int* roomCount, Salle* tabRoom, int* concertCount, Concert* tabConcert){
+    char inputConcertRoom[50];
+    printf("Voici la liste des salles affectés à un concerts\n");
+    for(int i=0; i<(*concertCount); i++){
+        printf("%s\n", tabConcert[i].salle.nom);
+    }
+    printf("Saisir le nom de la salle à afficher\n");
+    fgets(inputConcertRoom, sizeof(inputConcertRoom), stdin);
+    inputConcertRoom[strcspn(inputConcertRoom, "\n")]='\0';
+    for (int j = 0; j < (*concertCount); j++) {
+        if (strcmp(tabConcert[j].salle.nom, inputConcertRoom) == 0) { // Compare input with concert names
+            displayRoom(tabConcert[j].salle);
+        }
+    }
+    interfaceManager(userCount, tabFest, roomCount, tabRoom, concertCount, tabConcert);
+
+}
+
 void numberConcert(int* userCount, Utilisateur* tabFest, int* roomCount, Salle* tabRoom, int* concertCount, Concert* tabConcert){
     int numberConcert;
     color("31");
@@ -490,7 +508,7 @@ void numberRoom(int* userCount, Utilisateur* tabFest, int* roomCount, Salle* tab
 }
 
 void interfaceManager (int* userCount, Utilisateur* tabFest, int* roomCount, Salle* tabRoom, int* concertCount, Concert* tabConcert){
-    int choiceAction = better_scan("Bonjour Admin 👋\nQue souhaitez vous faire ?\n0 pour se déconnecter\n1 pour créer une/des salle(s)\n2 pour créer un/des concert(s)\n3 pour obtenir un rapport sur un concert\n");
+    int choiceAction = better_scan("Bonjour Admin 👋\nQue souhaitez vous faire ?\n0 pour se déconnecter\n1 pour créer une/des salle(s)\n2 pour créer un/des concert(s)\n3 pour obtenir un rapport sur un concert\n4 pour afficher la salle d'un concert\n");
     switch(choiceAction){
         case 0:
             choiceUser(userCount, tabFest, roomCount, tabRoom, concertCount, tabConcert);
@@ -503,6 +521,9 @@ void interfaceManager (int* userCount, Utilisateur* tabFest, int* roomCount, Sal
             break;
         case 3:
             //reportOnRoom(tabRoom);
+        case 4:
+            displayRoomConcert(userCount, tabFest, roomCount, tabRoom, concertCount, tabConcert);
+            break;
         default:
             color("33");
             printf("Erreur de saisie\n");
