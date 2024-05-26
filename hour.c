@@ -12,10 +12,10 @@
 void PrintHourDateNow() {
     int h, min, s, day, month, year;
     time_t now;
-    // Renvoie l'heure actuelle
+    // Return current time
     time(&now);
-    // Conversion en heure locale
-    //printf("Aujourd'hui est : %s", ctime(&now));
+    // Conversion to local time
+    //printf("Nous sommes le : %s", ctime(&now));
     struct tm *local = localtime(&now);
     h = local->tm_hour + 2;        
     min = local->tm_min;       
@@ -110,13 +110,13 @@ Concert VerifConcert(Concert C){ //0 if concert finished or 1 if
     return C;
 }
 
-Concert* VerifTabConcert(Concert* Cab, int* concertCount){
+Concert* VerifTabConcert(Concert* tabConcert, int* concertCount){
     int i = 0;
     int j = 0;
     while(i<(*concertCount)){
-        Cab[i] = VerifConcert(Cab[i]);
-        if(Cab[i].state==-1){
-            Cab[i].salle = ResetScene(Cab[i].salle);
+        tabConcert[i] = VerifConcert(tabConcert[i]);
+        if(tabConcert[i].state==-1){
+            tabConcert[i].salle = ResetScene(tabConcert[i].salle);
             j++;
         }
         i++;
@@ -127,12 +127,12 @@ Concert* VerifTabConcert(Concert* Cab, int* concertCount){
     //Principe marche mais je n'arrive pas à realloc stp aide moi celui qui lit ce message
     Concert* Cab2 = malloc((*concertCount)*sizeof(Concert));
     while(i<(*concertCount)){
-        if(Cab[i].state != -1){
-            Cab2[k] = Cab[i];
+        if(tabConcert[i].state != -1){
+            Cab2[k] = tabConcert[i];
             k++;
         }
         i++;
     }
-    free(Cab);
+    free(tabConcert);
     return Cab2;
 }
