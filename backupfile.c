@@ -28,21 +28,31 @@ void arrayFree(int* UtilisateurCount, Utilisateur* tabFest, int* roomCount, Sall
 }
 
 //NOUVEAU CODE SAUVEGARDE BINAIRE
-/*
+//*/
 void SaveSaveSit(Salle* s) {
+    
     FILE* f = fopen("SaveSit.bin", "wb");
+    
+    // Verify the file pointer is not NULL
     if (f == NULL) {
         perror("Erreur dans l'écriture du fichier SaveSit");
         exit(1);
     }
-
+    // Save each seat from the room (state of seat because it represents the seat materially)
     int tot_seat = s->nb_range * s->nb_siege_range;
     fwrite(s->Save_sit, sizeof(Siege), tot_seat, f);
     fclose(f);
 }
 
+
+
+
+
+
 void ReadSaveSit(Salle* s) {
     FILE* f = fopen("SaveSit.bin", "rb");
+    
+    // Verify the file pointer is not NULL
     if (f == NULL) {
         perror("Erreur dans la lecture du fichier SaveSit");
         exit(1);
@@ -50,6 +60,8 @@ void ReadSaveSit(Salle* s) {
 
     int tot_seat = s->nb_range * s->nb_siege_range;
     s->Save_sit = malloc(tot_seat * sizeof(Siege));
+
+    // Verify allocation memory is not NULL
     if (s->Save_sit == NULL) {
         perror("Erreur à l'allocation de la mémoire pour Save_sit");
         exit(1);
@@ -59,18 +71,30 @@ void ReadSaveSit(Salle* s) {
     fclose(f);
 }
 
+
+
+
+
+
 void SaveScene(Salle* s) {
     FILE* f1 = fopen("Scene.bin", "wb");
+
+    // Verify the file pointer is not NULL
     if (f1 == NULL) {
+
         perror("Erreur dans l'écriture du fichier");
         exit(1);
     }
-    printf("Bonne sauvegarde de la scene %s\n", s->nom);
-
    
+
+    // Save details from the room
     fwrite(&s->nb_range, sizeof(int), 1, f1);
     fwrite(&s->nb_siege_range, sizeof(int), 1, f1);
+    
+    // Read directly from the static array
     fwrite(s->nom, sizeof(char), 100, f1); 
+
+    // Save details from the room
     fwrite(&s->arange, sizeof(int), 1, f1);
     fwrite(&s->brange, sizeof(int), 1, f1);
     fwrite(&s->prixa, sizeof(float), 1, f1);
@@ -78,27 +102,38 @@ void SaveScene(Salle* s) {
     fwrite(&s->prixc, sizeof(float), 1, f1);
     fwrite(&s->state, sizeof(int), 1, f1);
 
-  
+    // Save seats
     for (int i = 0; i < s->nb_range; i++) {
         fwrite(s->siege[i], sizeof(Siege), s->nb_siege_range, f1);
     }
     fclose(f1);
-
-    // Sauvegarder Save_sit
+     printf("Bonne sauvegarde de la scene %s\n", s->nom);
+    // Save seats details
     SaveSaveSit(s);
 }
 
+
+
+
+
+
 void ReadScene(Salle* s) {
     FILE* f1 = fopen("Scene.bin", "rb");
+
+    // Verify the file pointer is not NULL
     if (f1 == NULL) {
+        
         perror("Erreur dans la lecture du fichier");
         exit(1);
     }
 
- 
+    // Read details from the room
     fread(&s->nb_range, sizeof(int), 1, f1);
     fread(&s->nb_siege_range, sizeof(int), 1, f1);
+
+    // Read directly from the static array
     fread(s->nom, sizeof(char), 100, f1); 
+    
     fread(&s->arange, sizeof(int), 1, f1);
     fread(&s->brange, sizeof(int), 1, f1);
     fread(&s->prixa, sizeof(float), 1, f1);
@@ -106,28 +141,48 @@ void ReadScene(Salle* s) {
     fread(&s->prixc, sizeof(float), 1, f1);
     fread(&s->state, sizeof(int), 1, f1);
 
-    
+    // Allocate memory for seats
     s->siege = malloc(s->nb_range * sizeof(Siege*));
+
+
     for (int i = 0; i < s->nb_range; i++) {
         s->siege[i] = malloc(s->nb_siege_range * sizeof(Siege));
-        fread(s->siege[i], sizeof(Siege), s->nb_siege_range, f1);
+
+        // Verify allocation memory is not NULL
+        if (s->siege[i] == NULL) {
+            perror("Erreur allocation dynamique du nombre de sièges par rangée");
+            exit(1);
+        }
+    // Read seats details  
+    fread(s->siege[i], sizeof(Siege), s->nb_siege_range, f1);
     }
     fclose(f1);
 
-    
+    // Read Save_sit
     ReadSaveSit(s);
-    printf("ReadScene BIEN effectue\n");
+    printf("ReadScene BIEN effectué\n");
 }
+
+
+
+
 
 Salle SavePointeurSiege(Salle S) {
     int tot_seat = S.nb_range * S.nb_siege_range;
+    
+    // Allocate memory for room
     S.Save_sit = malloc(tot_seat * sizeof(Siege));
+    
+    // Verify allocation memory is not NULL
     if (S.Save_sit == NULL) {
+        
         perror("Erreur à l'allocation de la mémoire pour Save_sit");
         exit(EXIT_FAILURE);
     }
 
     int k = 0;
+
+    // Save details of each seat (state seat=>seat materially)
     for (int i = 0; i < S.nb_range; i++) {
         for (int j = 0; j < S.nb_siege_range; j++) {
             S.Save_sit[k++] = S.siege[i][j];
@@ -137,21 +192,34 @@ Salle SavePointeurSiege(Salle S) {
     return S;
 }
 
+
+
+
+
+
 Salle ReadPointeurSiege(Salle S) {
+    
     S.siege = malloc(S.nb_range * sizeof(Siege*));
+
+
+    // Verify allocation memory is not NULL
     if (S.siege == NULL) {
         perror("Erreur allocation mémoire du nombre de rangées");
         exit(1);
     }
 
     for (int i = 0; i < S.nb_range; i++) {
+        
         S.siege[i] = malloc(S.nb_siege_range * sizeof(Siege));
+
+        // Verify allocation memory is not NULL
         if (S.siege[i] == NULL) {
             perror("Erreur allocation dynamique du nombre de sièges par rangée");
             exit(1);
         }
     }
 
+    // Read details of each seat (state seat=>seat materially)
     int k = 0;
     for (int i = 0; i < S.nb_range; i++) {
         for (int j = 0; j < S.nb_siege_range; j++) {
@@ -159,6 +227,7 @@ Salle ReadPointeurSiege(Salle S) {
         }
     }
 
+   
     printf("ReadPointeurSiege Bien effectué \n");
     printf(" \n");
     printf(" \n");
@@ -166,8 +235,11 @@ Salle ReadPointeurSiege(Salle S) {
     return S;
 }
 
-int main(){
 
+
+
+
+int main(){
 
     Salle s = constructSalle();
     printf("\n");
