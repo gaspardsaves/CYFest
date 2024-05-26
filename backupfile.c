@@ -426,4 +426,21 @@ fclose(f);
 return tab;
     
 }
+
+void SaveCounter(int* CounterRoom, int* CounterConcert, int* CounterUser){
+    FILE* f1 = fopen("Counter.bin", "wb+");
+    fwrite(CounterRoom, sizeof(int), 1, f1);
+    fwrite(CounterConcert, sizeof(int), 1, f1);
+    fwrite(CounterUser, sizeof(int), 1, f1);
+    fclose(f1);
+}
+
+void ReadCounter(int* CounterRoom, int* CounterConcert, int* CounterUser){
+    FILE* f1 = fopen("Counter.bin", "rb+");
+    fread(CounterRoom, sizeof(int), 1, f1);
+    fread(CounterConcert, sizeof(int), 1, f1);
+    fread(CounterUser, sizeof(int), 1, f1);
+    fclose(f1);
+}
+
 //*/
