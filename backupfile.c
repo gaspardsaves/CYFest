@@ -32,12 +32,12 @@ void arrayFree(int* UtilisateurCount, Utilisateur* tabFest, int* roomCount, Sall
 void SaveCounter(int* userCount, int* roomCount, int* concertCount){
     FILE* f1 = fopen("Counter.bin", "wb+");
     checkOpenFile(f1);
-    int write1 = fwrite(userCount, sizeof(int), 1, f1);
-    checkWritingFile(write1);
+    //int write1 = fwrite(userCount, sizeof(int), 1, f1);
+    //checkWritingFile(write1);
     int write2 = fwrite(roomCount, sizeof(int), 1, f1);
     checkWritingFile(write2);
-    int write3 = fwrite(concertCount, sizeof(int), 1, f1);
-    checkWritingFile(write3);
+    //int write3 = fwrite(concertCount, sizeof(int), 1, f1);
+    //checkWritingFile(write3);
     int close = fclose(f1);
     checkCloseFile(close);
 }
@@ -46,9 +46,9 @@ void SaveCounter(int* userCount, int* roomCount, int* concertCount){
 void ReadCounter(int* userCount, int* roomCount, int* concertCount){
     FILE* f1 = fopen("Counter.bin", "rb+");
     checkOpenFile(f1);
-    fread(userCount, sizeof(int), 1, f1);
+    //fread(userCount, sizeof(int), 1, f1);
     fread(roomCount, sizeof(int), 1, f1);
-    fread(concertCount, sizeof(int), 1, f1);
+    //fread(concertCount, sizeof(int), 1, f1);
     int close = fclose(f1);
     checkCloseFile(close);
 }

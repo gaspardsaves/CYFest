@@ -12,7 +12,6 @@
 
 void connectionFestivalGoers(int* userCount, Utilisateur* tabFest, int* roomCount, Salle* tabRoom, int* concertCount, Concert* tabConcert) {
     char passwordco[30];
-    
     // User enters his id
     int idco = better_scan("Heureux de vous revoir\nSaisir votre identifiant\n");
     if (idco==0) {

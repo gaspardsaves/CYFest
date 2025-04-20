@@ -114,7 +114,7 @@ void reserveSeat(int concertFound, int id, int* userCount, Utilisateur* tabFest,
   int rowNumber = 0;
   int seatNumber = 0;
   // Display the seating arrangement of the concert
-  dRoom(tabConcert[concertFound].salle);
+  displayRoom(tabConcert[concertFound].salle);
   // The user enter the row number of the seat he wish to reserve
   do {
     rowNumber = better_scan("Entrez la rangée du siège que vous souhaitez réserver\n");

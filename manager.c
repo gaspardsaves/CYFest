@@ -92,6 +92,10 @@ Salle freeTheSceneAfterConcert(Salle s){
             if(s.siege[i][j].etat_siege==1){
                 // Reset seat state to available
                 s.siege[i][j].etat_siege = 0;
+                s.siege[i][j].nombre_personne=0;
+                for (int k = 0; i < 2; i++){
+                    s.siege[i][j].id[k]=0;
+                }
             }
             j++;
         }
@@ -217,7 +221,7 @@ void constructRoom(int* userCount, Utilisateur* tabFest, int* roomCount, Salle**
     (*roomCount)++;
 }
 
-/*
+//*
 // Function to display a room
 void displayRoom(Salle S){
     int i = 0;
@@ -536,7 +540,7 @@ void displayRoomConcert(int* userCount, Utilisateur* tabFest, int* roomCount, Sa
     for (int j = 0; j < (*concertCount); j++) {
         if (strcmp(tabConcert[j].salle.nom, inputConcertRoom) == 0) { // Compare input with concert names
             // Display the desired room
-            dRoom(tabConcert[j].salle);
+            displayRoom(tabConcert[j].salle);
         }
         else{
             // Handle invalid input
