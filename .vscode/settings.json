@@ -1,7 +1,0 @@
-{
-    "files.associations": {
-        "manager.h": "c",
-        "smartrobusnest.h": "c",
-        "color.h": "c"
-    }
-}
